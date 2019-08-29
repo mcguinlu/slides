@@ -17,7 +17,7 @@ output:
         <div class="progress-bar-container">
           <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
           </div>
-        </div>`
+        </div>
 ---
 
 ```{r setup, include=FALSE}
@@ -229,6 +229,7 @@ server <- function(input, output){
 <hr>
 
 **Then run the app using:**
+
 ``` {r, eval = FALSE}
 runApp("app_directory")
 ```
