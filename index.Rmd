@@ -1,6 +1,9 @@
 ---
-title: "Slide launching page"
+title: "<div align=\"center\">Slide launching page </div>"
 output: html_document
 ---
+<hr>
 
-[Intro to Shiny](https://mcguinlu.github.io/slides/intro-to-shiny/teaching-shiny-slides.html)
+### Shiny
+#### [Intro to Shiny](https://mcguinlu.github.io/slides/intro-to-shiny/teaching-shiny-slides.html) - for the "Introduction to Data Visualisation and Web Applications Using R" short course at the University of Bristol, November 2019.
+
