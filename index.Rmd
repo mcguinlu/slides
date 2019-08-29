@@ -1,0 +1,6 @@
+---
+title: "Slide launching page"
+output: html_document
+---
+
+[Intro to Shiny](https://mcguinlu.github.io/slides/intro-to-shiny/teaching-shiny-slides.html)
