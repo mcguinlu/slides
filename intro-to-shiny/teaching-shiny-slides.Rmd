@@ -63,7 +63,7 @@ class: inverse, middle, center
 # Introduction: <br> Background to `shiny`
 
 ---
-# What is `shiny`?
+# What is .code-background[`shiny`]?
 
 `shiny` is an R package created 
 
@@ -85,6 +85,8 @@ Allows you “*to build beautiful, responsive, and powerful applications with mi
 
 Speculation that it comes from the show *Firefly*, in which “shiny” means “good” or “valuable”.]
 
+--
+
 <br>
 
 .center[
@@ -101,7 +103,7 @@ class: inverse, middle, center
 
 ---
 
-<iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="600" scrolling="no" frameBorder="0"></iframe>
+<iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="650" scrolling="no" frameBorder="0"></iframe>
 
 ---
 
