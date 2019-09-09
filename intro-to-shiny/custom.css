@@ -27,8 +27,27 @@
 }
 
 .code-background{
-  background: #F5F5F5; /* lighter */
-  /*background: #e7e8e2; /* darker */
+  /*background: #F5F5F5; /* lighter */
+  background: #e7e8e2; /* darker */
   border-radius: 3px;
   padding: 4px;
+}
+
+del {
+  color: #E5E5E5;
+  text-decoration: none;
+}
+
+.remark-code-line-highlighted{
+  background: #E5E6E5;
+  color:#B01C2E;
+  font-weight: bold;
+
+}
+
+.remark-code-span-highlighted{
+  color: #E5E6E5;
+  background: #B01C2E;
+  font-weight: bold;
+
 }

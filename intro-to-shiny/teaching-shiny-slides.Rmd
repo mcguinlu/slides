@@ -10,8 +10,8 @@ output:
     lib_dir: libs
     nature:
       highlightStyle: github
-      highlightLines: true
       highlightSpans: true
+      highlightLines: true
       countIncrementalSlides: false
       slideNumberFormat: |
         <div class="progress-bar-container">
@@ -68,10 +68,9 @@ class: inverse, middle, center
 `shiny` is an R package created 
 
 
-
 ---
 
-# Why is it called `shiny`?
+# Why is it called .code-background[`shiny`]?
 
 .pull-left[
 **Likely (but less interesing) reason**
@@ -103,17 +102,23 @@ class: inverse, middle, center
 
 ---
 
-<iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="650" scrolling="no" frameBorder="0"></iframe>
+## Demonstration of a simple .code-background[`shiny`] app
+
+
+<iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="450" scrolling="no" frameBorder="0"></iframe>
+
+
+_Data shown is from the `med` dataset used throughout this course_
 
 ---
 
-## Components of a `shiny` app
+## Components of a .code-background[`shiny`] app
 .pull-left[
 .center[
 ### User interface
 ]
 
-* 
+* This is a test of the infinite mood reader
 * 
 * 
 ]
@@ -123,7 +128,7 @@ class: inverse, middle, center
 ### Server
 ]
 
-* 
+* Performs computational work
 * 
 * 
 
@@ -131,71 +136,143 @@ class: inverse, middle, center
 
 ---
 
-## Option 1: a single file approach
+class: inverse, center, middle
 
-*app.R*
+# Creating your own app: <br> Getting started
+
+---
+
+exclude: false
+
+# Components of a `shiny` app
+
+A `shiny` web app is made up of:
+
+* a _user interface_ (UI) function
+* a _server_ function
+
+--
+
+<br>
+
+.center[This structure can be implemented in two ways:]
+
+.pull-left[
+.center[
+.strong[Option 1]
+
+A single file called app.R
+
+
+
+]
+]
+
+.pull-right[
+.center[
+.strong[Option 2]
+ 
+ Two seperate files called ui.R and server.R
+]
+]
+
+---
+
+# Components of a `shiny` app
+
+A `shiny` web app is made up of:
+
+* a _user interface_ (UI) function
+* a _server_ function
+
+
+
+<br>
+
+NEED TO INSERT IMAGE OF HOW EACH TALKS TO THE OTHER
+
+---
+
+exclude: false
+
+## A single file `shiny` app: *app.R*
+
+.Large[
+__User interface container__
+]
 
 ``` {r, eval = FALSE}
-# USER INTERFACE
-|
-|
-|
+ # USER INTERFACE
+ ui <- fluidPage( #<<
+       . . .
+ ) #<<
+ 
+ 
+ # SERVER
+ |
+ | 
+ |
+ 
+ # RUN THE APP
+ |      
+
+```
 
 
-# SERVER
-|
-| 
-|
+---
 
-# RUN THE APP
-shinyApp(ui = ui, server = server) #<<
+exclude: false
+
+## A single file `shiny` app: *app.R*
+
+
+.Large[
+__Server function__
+]
+
+
+``` {r, eval = FALSE}
+ # USER INTERFACE
+ ui <- fluidPage( 
+       . . .
+ ) 
+ 
+ 
+ # SERVER
+ server <- function(input, output) { #<<
+       . . .
+ } #<<
+ 
+ # RUN THE APP
+ |
 
 ```
 
 ---
 
-## Option 1: a single file approach
+## A single file `shiny` app: *app.R*
 
-*app.R*
+
+.Large[
+__Bringing it all together__
+]
+
 
 ``` {r, eval = FALSE}
-# USER INTERFACE
-ui <- bootstrapPage( #<<
-      . . .
-) #<<
-
-
-# SERVER
-|
-| 
-|
-
-# RUN THE APP
-shinyApp(ui = `ui`, server = server)
-
-```
-
----
-
-## Option 1: a single file approach
-
-*app.R*
-
-``` {r, eval = FALSE}
-# USER INTERFACE
-ui <- bootstrapPage( 
-      . . .
-) 
-
-
-# SERVER
-server <- function(input, output) { #<<
-      . . .
-} #<<
-
-# RUN THE APP
-shinyApp(ui = ui, server = `server`)
-
+ # USER INTERFACE
+ `ui` <- fluidPage(
+       . . .
+ )
+ 
+ 
+ # SERVER
+ `server` <- function(input, output) { 
+       . . .
+ } 
+ 
+ # RUN THE APP
+ shinyApp(ui = `ui`, server = `server`)
+ 
 ```
 
 ---
@@ -214,7 +291,7 @@ Create new folder named "app_directory" with two files:
 The files will contain the relevant functions:
 .pull-left[
 ``` {r, eval = FALSE}
-ui <- bootstrapPage( 
+ui <- fluidPage( 
       . . .
 ) 
 ```
@@ -241,13 +318,37 @@ runApp("app_directory")
 
 class: inverse, center, middle
 
-# Creating your own app: <br> Getting started
+# Creating your own app: <br> User interface
 
 ---
 
-class: inverse, center, middle
+## Code for demo application
 
-# Creating your own app: <br> User interface
+``` {r}
+library(BristolVis)
+library(ggplot2)
+
+# User interface
+ ui <- fluidPage( #<<
+       selectInput(inputId = "fill", #<<
+                   label = "Variable to fill by:", #<<
+                   choices = c("Health" = "health", #<<
+                               "Treatment" = "treatment")), #<<
+       plotOutput("barPlot") #<<
+       ) #<<
+ 
+ # Server
+ server <- function(input, output) {
+    output$barPlot <- renderPlot({
+       ggplot(data = med, aes(fill = get(input$fill))) +
+          geom_histogram(aes(x = status), stat = "count") +
+          labs(fill = "Fill")
+       })
+ }
+
+```
+
+---
 
 ---
 
@@ -262,6 +363,75 @@ class: inverse, center, middle
 
 ---
 
+## Code for demo application
+
+``` {r}
+library(BristolVis)
+library(ggplot2)
+
+# User interface
+ ui <- fluidPage( 
+       selectInput(inputId = "fill", 
+                   label = "Variable to fill by:", 
+                   choices = c("Health" = "health", 
+                               "Treatment" = "treatment")),
+       plotOutput("barPlot") 
+       ) 
+ 
+ # Server
+ server <- function(input, output) { #<<
+    output$barPlot <- renderPlot({ #<<
+       ggplot(data = med, aes(fill = get(input$fill))) + #<<
+          geom_histogram(aes(x = status), stat = "count") + #<<
+          labs(fill = "Fill") #<<
+       }) #<<
+ } #<<
+
+```
+
+---
+
+
+## 
+**Basic function**
+```{r eval=FALSE}
+output$barPlot <- renderPlot({
+       ggplot(data = med, aes(fill = `get(input$fill)`)) +
+          geom_histogram(aes(x = status), stat = "count") +
+          labs(fill = "Fill")
+       })
+
+```
+
+--
+
+**Changes based on value selected by user in UI**
+
+--
+
+.pull-left[
+When *input$histogram_fill = health*:]
+
+```{r eval=FALSE}
+ggplot(med, aes(x=status)) + 
+  geom_bar(aes(fill=`health`))
+```
+
+--
+<br>
+
+.pull-left[
+When *input$fill = gender*:]
+
+```{r eval=FALSE}
+ggplot(med, aes(x=status)) + 
+  geom_bar(aes(fill=`gender`))
+```
+
+
+
+---
+
 class: inverse, center, middle
 
 # Getting more from `shiny`: <br> Execution
@@ -273,9 +443,44 @@ class: inverse, center, middle
 
 ---
 
+class: test
+
+## Fluid page layout
+
+.center[
+
+<img src="figs/fluidpagelayout.png" height = 450>
+
+.pull-right[
+Image by Hadley Wickham
+]
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Getting more from `shiny`: <br> Making shiny sparkle
+
+
+---
+
 class: inverse, center, middle
 
 # Getting more from `shiny`: <br> Reactive programming
+
+---
+
+# Shiny is reactive . . . 
+
+---
+
+# but in a lazy way
+
+Updating the `fill` option doesn't force the title to change:
+
+
 
 ---
 
@@ -295,54 +500,14 @@ class: inverse, center, middle
 **Basic function**
 ```{r eval=FALSE}
 output$histogram <- renderPlot({#<<
-  
-  
+|  
+|  
   })#<<
 
 ```
 
 ---
 
-# Inputs
-**Basic function**
-```{r eval=FALSE}
-output$histogram <- renderPlot({
-  ggplot(med, aes(x=status)) + 
-    geom_bar(aes(fill=`input$histogram_fill`))
-  })
-
-```
---
-**Changes based on value selected by user in UI**
-
---
-.pull-left[
-When *input$histogram_fill = dosage*:]
-
-```{r eval=FALSE}
-ggplot(med, aes(x=status)) + 
-  geom_bar(aes(fill=`dosage`))
-```
-
---
-.pull-left[
-When *input$histogram_fill = health*:]
-
-```{r eval=FALSE}
-ggplot(med, aes(x=status)) + 
-  geom_bar(aes(fill=`health`))
-```
-
---
-.pull-left[
-When *input$histogram_fill = gender*:]
-
-```{r eval=FALSE}
-ggplot(med, aes(x=status)) + 
-  geom_bar(aes(fill=`gender`))
-```
-
----
 
 # Hello Ninja
 

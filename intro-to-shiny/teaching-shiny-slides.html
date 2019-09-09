@@ -83,10 +83,9 @@ class: inverse, middle, center
 `shiny` is an R package created 
 
 
-
 ---
 
-# Why is it called `shiny`?
+# Why is it called .code-background[`shiny`]?
 
 .pull-left[
 **Likely (but less interesing) reason**
@@ -118,17 +117,23 @@ class: inverse, middle, center
 
 ---
 
-&lt;iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="650" scrolling="no" frameBorder="0"&gt;&lt;/iframe&gt;
+## Demonstration of a simple .code-background[`shiny`] app
+
+
+&lt;iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="450" scrolling="no" frameBorder="0"&gt;&lt;/iframe&gt;
+
+
+_Data shown is from the `med` dataset used throughout this course_
 
 ---
 
-## Components of a `shiny` app
+## Components of a .code-background[`shiny`] app
 .pull-left[
 .center[
 ### User interface
 ]
 
-* 
+* This is a test of the infinite mood reader
 * 
 * 
 ]
@@ -138,7 +143,7 @@ class: inverse, middle, center
 ### Server
 ]
 
-* 
+* Performs computational work
 * 
 * 
 
@@ -146,71 +151,143 @@ class: inverse, middle, center
 
 ---
 
-## Option 1: a single file approach
+class: inverse, center, middle
 
-*app.R*
-
-
-```r
-# USER INTERFACE
-|
-|
-|
-
-
-# SERVER
-|
-| 
-|
-
-# RUN THE APP
-*shinyApp(ui = ui, server = server)
-```
+# Creating your own app: &lt;br&gt; Getting started
 
 ---
 
-## Option 1: a single file approach
+exclude: false
 
-*app.R*
+# Components of a `shiny` app
+
+A `shiny` web app is made up of:
+
+* a _user interface_ (UI) function
+* a _server_ function
+
+--
+
+&lt;br&gt;
+
+.center[This structure can be implemented in two ways:]
+
+.pull-left[
+.center[
+.strong[Option 1]
+
+A single file called app.R
 
 
-```r
-# USER INTERFACE
-*ui &lt;- bootstrapPage(
-      . . .
-*) 
 
+]
+]
 
-# SERVER
-|
-| 
-|
-
-# RUN THE APP
-shinyApp(ui = `ui`, server = server)
-```
+.pull-right[
+.center[
+.strong[Option 2]
+ 
+ Two seperate files called ui.R and server.R
+]
+]
 
 ---
 
-## Option 1: a single file approach
+# Components of a `shiny` app
 
-*app.R*
+A `shiny` web app is made up of:
+
+* a _user interface_ (UI) function
+* a _server_ function
+
+
+
+&lt;br&gt;
+
+NEED TO INSERT IMAGE OF HOW EACH TALKS TO THE OTHER
+
+---
+
+exclude: false
+
+## A single file `shiny` app: *app.R*
+
+.Large[
+__User interface container__
+]
 
 
 ```r
-# USER INTERFACE
-ui &lt;- bootstrapPage( 
-      . . .
-) 
+ # USER INTERFACE
+*ui &lt;- fluidPage(
+       . . .
+* )
+ 
+ 
+ # SERVER
+ |
+ | 
+ |
+ 
+ # RUN THE APP
+ |      
+```
 
 
-# SERVER
+---
+
+exclude: false
+
+## A single file `shiny` app: *app.R*
+
+
+.Large[
+__Server function__
+]
+
+
+
+```r
+ # USER INTERFACE
+ ui &lt;- fluidPage( 
+       . . .
+ ) 
+ 
+ 
+ # SERVER
 *server &lt;- function(input, output) {
-      . . .
-*} 
+       . . .
+* }
+ 
+ # RUN THE APP
+ |
+```
 
-# RUN THE APP
-shinyApp(ui = ui, server = `server`)
+---
+
+## A single file `shiny` app: *app.R*
+
+
+.Large[
+__Bringing it all together__
+]
+
+
+
+```r
+ # USER INTERFACE
+ `ui` &lt;- fluidPage(
+       . . .
+ )
+ 
+ 
+ # SERVER
+ `server` &lt;- function(input, output) { 
+       . . .
+ } 
+ 
+ # RUN THE APP
+ shinyApp(ui = `ui`, server = `server`)
 ```
 
 ---
@@ -231,7 +308,7 @@ The files will contain the relevant functions:
 .pull-left[
 
 ```r
-ui &lt;- bootstrapPage( 
+ui &lt;- fluidPage( 
       . . .
 ) 
 ```
@@ -260,13 +337,37 @@ runApp("app_directory")
 
 class: inverse, center, middle
 
-# Creating your own app: &lt;br&gt; Getting started
+# Creating your own app: &lt;br&gt; User interface
 
 ---
 
-class: inverse, center, middle
+## Code for demo application
 
-# Creating your own app: &lt;br&gt; User interface
+
+```r
+library(BristolVis)
+library(ggplot2)
+
+# User interface
+*ui &lt;- fluidPage(
+*      selectInput(inputId = "fill",
+*                  label = "Variable to fill by:",
+*                  choices = c("Health" = "health",
+*                              "Treatment" = "treatment")),
+*      plotOutput("barPlot")
+*      )
+ 
+ # Server
+ server &lt;- function(input, output) {
+    output$barPlot &lt;- renderPlot({
+       ggplot(data = med, aes(fill = get(input$fill))) +
+          geom_histogram(aes(x = status), stat = "count") +
+          labs(fill = "Fill")
+       })
+ }
+```
+
+---
 
 ---
 
@@ -281,6 +382,77 @@ class: inverse, center, middle
 
 ---
 
+## Code for demo application
+
+
+```r
+library(BristolVis)
+library(ggplot2)
+
+# User interface
+ ui &lt;- fluidPage( 
+       selectInput(inputId = "fill", 
+                   label = "Variable to fill by:", 
+                   choices = c("Health" = "health", 
+                               "Treatment" = "treatment")),
+       plotOutput("barPlot") 
+       ) 
+ 
+ # Server
+*server &lt;- function(input, output) {
+*   output$barPlot &lt;- renderPlot({
+*      ggplot(data = med, aes(fill = get(input$fill))) +
+*         geom_histogram(aes(x = status), stat = "count") +
+*         labs(fill = "Fill")
+*      })
+* }
+```
+
+---
+
+
+## 
+**Basic function**
+
+```r
+output$barPlot &lt;- renderPlot({
+       ggplot(data = med, aes(fill = `get(input$fill)`)) +
+          geom_histogram(aes(x = status), stat = "count") +
+          labs(fill = "Fill")
+       })
+```
+
+--
+
+**Changes based on value selected by user in UI**
+
+--
+
+.pull-left[
+When *input$histogram_fill = health*:]
+
+
+```r
+ggplot(med, aes(x=status)) + 
+  geom_bar(aes(fill=`health`))
+```
+
+--
+&lt;br&gt;
+
+.pull-left[
+When *input$fill = gender*:]
+
+
+```r
+ggplot(med, aes(x=status)) + 
+  geom_bar(aes(fill=`gender`))
+```
+
+
+
+---
+
 class: inverse, center, middle
 
 # Getting more from `shiny`: &lt;br&gt; Execution
@@ -292,9 +464,44 @@ class: inverse, center, middle
 
 ---
 
+class: test
+
+## Fluid page layout
+
+.center[
+
+&lt;img src="figs/fluidpagelayout.png" height = 450&gt;
+
+.pull-right[
+Image by Hadley Wickham
+]
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Getting more from `shiny`: &lt;br&gt; Making shiny sparkle
+
+
+---
+
 class: inverse, center, middle
 
 # Getting more from `shiny`: &lt;br&gt; Reactive programming
+
+---
+
+# Shiny is reactive . . . 
+
+---
+
+# but in a lazy way
+
+Updating the `fill` option doesn't force the title to change:
+
+
 
 ---
 
@@ -315,62 +522,19 @@ class: inverse, center, middle
 
 ```r
 *output$histogram &lt;- renderPlot({
-  
-  
+|  
+|  
 * })
 ```
 
 ---
 
-# Inputs
-**Basic function**
-
-```r
-output$histogram &lt;- renderPlot({
-  ggplot(med, aes(x=status)) + 
-    geom_bar(aes(fill=`input$histogram_fill`))
-  })
-```
---
-**Changes based on value selected by user in UI**
-
---
-.pull-left[
-When *input$histogram_fill = dosage*:]
-
-
-```r
-ggplot(med, aes(x=status)) + 
-  geom_bar(aes(fill=`dosage`))
-```
-
---
-.pull-left[
-When *input$histogram_fill = health*:]
-
-
-```r
-ggplot(med, aes(x=status)) + 
-  geom_bar(aes(fill=`health`))
-```
-
---
-.pull-left[
-When *input$histogram_fill = gender*:]
-
-
-```r
-ggplot(med, aes(x=status)) + 
-  geom_bar(aes(fill=`gender`))
-```
-
----
 
 # Hello Ninja
 
 As a presentation ninja, you certainly should not be satisfied by the "Hello World" example. You need to understand more about two things:
 
-<div class="countdown" id="timer_5d67eb0e" style="right:0;bottom:0;" data-audio="true" data-warnwhen="30">
+<div class="countdown" id="timer_5d7668c9" style="right:0;bottom:0;" data-audio="true" data-warnwhen="30">
 <code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">45</span></code>
 </div>
 
@@ -607,8 +771,8 @@ library(leaflet)
 leaflet() %&gt;% addTiles() %&gt;% setView(-93.65, 42.0285, zoom = 17)
 ```
 
-<div id="htmlwidget-8012951b25826e56f882" style="width:100%;height:432px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8012951b25826e56f882">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ecfbf37b1253c3986513" style="width:100%;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ecfbf37b1253c3986513">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -620,8 +784,8 @@ DT::datatable(
 )
 ```
 
-<div id="htmlwidget-c5cb2a5244f34fbb32f8" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c5cb2a5244f34fbb32f8">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-61036d04d91467d2fa7a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-61036d04d91467d2fa7a">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -1019,8 +1183,8 @@ The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihu
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
-"highlightLines": true,
 "highlightSpans": true,
+"highlightLines": true,
 "countIncrementalSlides": false,
 "slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div>"
 });
