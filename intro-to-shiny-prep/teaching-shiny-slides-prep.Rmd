@@ -1,0 +1,56 @@
+---
+title: "Introduction to Shiny"
+subtitle: ""
+author: "Luke McGuinness"
+institute: "Dept of Population Health Sciences, <br> Bristol Medical School"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, hygge, custom.css]
+    lib_dir: libs
+    includes:
+      in_header: repeatSlides.html
+    nature:
+      highlightStyle: github
+      highlightSpans: true
+      highlightLines: true
+
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(countdown)
+library(shiny)
+```
+
+# What you need to do now:
+
+* Open RStudio
+
+* Install `shiny`
+
+``` {r, eval=FALSE}
+  install.packages("shiny")
+  library(shiny)
+```
+
+* Open a new `shiny` file
+
+  * _File -> New File -> Shiny Web App..._
+
+* Pick a name (maybe your own?) and chose the single file option
+
+.center[
+<img src="figs/new-app-form.png" heigh = 200 width = 450>
+]
+
+
+---
+
+# Session plan
+
+1-2 => Lecture
+
+2-2:30 => Coffee
+
+2.30:4 => Practical
