@@ -23,9 +23,12 @@ library(countdown)
 library(shiny)
 ```
 
-# What you need to do now:
+# What you can do now:
+.Large[
 
 * Open RStudio
+
+<br>
 
 * Install `shiny`
 
@@ -34,16 +37,10 @@ library(shiny)
   library(shiny)
 ```
 
-* Open a new `shiny` file
+<br>
 
-  * _File -> New File -> Shiny Web App..._
-
-* Pick a name (maybe your own?) and chose the single file option
-
-.center[
-<img src="figs/new-app-form.png" heigh = 200 width = 450>
+* Have a look at the RStudio .cb[`shiny`] cheatsheet (a copy is included on your USB)
 ]
-
 
 ---
 

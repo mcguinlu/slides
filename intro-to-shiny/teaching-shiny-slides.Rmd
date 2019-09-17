@@ -3,7 +3,7 @@ title: "Introduction to Shiny"
 subtitle: ""
 author: "Luke McGuinness"
 institute: "Dept of Population Health Sciences, <br> Bristol Medical School"
-date: "01/09/2019"
+date: "01/09/2019 <br> <br> Twitter/Github: mcguinlu"
 output:
   xaringan::moon_reader:
     css: [default, hygge, custom.css]
@@ -24,33 +24,35 @@ output:
 options(htmltools.dir.version = FALSE)
 library(countdown)
 library(shiny)
+library(kableExtra)
+library(BristolVis)
 ```
 
 # Overview of this session
 
-- Background to `shiny`
-
---
-
-- Demonstration of a simple `shiny` app
+- Background to .cb[`shiny`]
 
 --
 
 - Creating your own app
 
-  - User interface and control widgets
+  - Set-up
+
+  - User interface & Control widgets
 
   - Outputs
 
-  - Execution
-
 --
 
-- Advanced usage
+- Getting more from .cb[`shiny`]
 
+  - Execution
+    
+  - Customising your app
+  
   - Reactive programming
-
-  - Share/publish your app
+  
+  - Publishing your app
 
 --
 
@@ -60,8 +62,38 @@ library(shiny)
 
 # Public service announcements
 
-I pronounce the letter R oddly:  
+.Large[
+__Workshop plan (note: practical exercises are mixed in)__
 
+
+* 0 => 1 : First part of workshop
+* 1 => 1.5 Coffee
+* 1.5 => 3 : Second part of workshop
+
+]
+<br>
+
+--
+
+.Large[
+__Please ask questions as we go along!__
+]
+<br>
+
+--
+
+.Large[
+__We will be using timers as part of this course:__
+]
+
+`r countdown(minutes =0, seconds=15, warn_when = 10, play_sound=TRUE, right = "34%" )`
+
+---
+
+# Public service announcements
+.Large[
+__I pronounce the letter R oddly:__
+]
 
 .center[
 
@@ -88,12 +120,11 @@ R
 <br>
 <br>
 
-__Please__ ask questions as we go along!
+--
 
-We will be using timers as part of this course:
-
-
-`r countdown(minutes=0.25, warn_when = 10, play_sound=TRUE, right = "34%" )`
+.center[
+<img src="figs/r-joke.png" width="480" height="175" class="border">
+]
 
 ---
 
@@ -128,8 +159,6 @@ Allows you “*to build beautiful, responsive, and powerful applications with mi
 
 Speculation that it comes from the show *Firefly*, in which “shiny” means “good” or “valuable”.]
 
---
-
 <br>
 
 .center[
@@ -143,11 +172,11 @@ Speculation that it comes from the show *Firefly*, in which “shiny” means �
 ## Benefits of .cb[`shiny`] for visualisation
 
 
-<iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="450" scrolling="no" frameBorder="0"></iframe>
+<iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="475" scrolling="no" frameBorder="0"></iframe>
 
-
+.small[
 _Data shown is from the `med` dataset used throughout this course_
-
+]
 
 ---
 
@@ -159,19 +188,21 @@ class: inverse, middle, center
 
 ## Structure of a .cb[`shiny`] app
 
-A .cb[`shiny`] has three components:
+A .cb[`shiny`] app has three components:
 
 * .large[.bold[User interface]]
 
   * Defines the layout of your app
   * Controls what it looks like (themes/fonts/etc)
   
+--
 
 * .large[.bold[Server]]
 
   * Defines the logic needed to build the app
   * Performs computational work 
   
+--
 
 * .large[.bold[Call to the .cb[`shinyApp`] function]]
 
@@ -188,60 +219,48 @@ class: inverse, center, middle
 
 exclude: false
 
-## Setting up a `shiny` app
+## Setting up a .cb[`shiny`] app
 
-
+.Large[
 This _ui/server_ structure can be implemented in two ways:
-
-<br>
+]
 
 --
 
 .pull-left[
+.Large[
 .center[
 .bold[
-.large[
 Option 1
 ]
-]
-
-A single file called app.R
-
-]
-]
-
+A single file called app.R]]]
 --
 
 .pull-right[
+.Large[
 .center[
 .bold[
-.large[
 Option 2
 ]
-]
-
-Two seperate files called ui.R and server.R
-
-]
-]
+Two files: ui.R and server.R]]]
 
 --
-.center[
-.pull-left[
-.red[
-.bolder[^]
+.Large[.center[.pull-left[.red[.bolder[
+<span style='font-size:100px;'>&#8593;</span>  
 
-This is the structure we will use.
+This is the structure  
+we will use.
 ]
 ]
 ]
-
+]
+]
 
 ---
 
 exclude: false
 
-## A single file .cb[`shiny`] app: *app.R*
+## Option 1: single file (*app.R*)
 
 .Large[
 __User interface container__
@@ -268,7 +287,7 @@ ui <- fluidPage(  #<<
 
 exclude: false
 
-## A single file .cb[`shiny`] app: *app.R*
+## Option 1: single file (*app.R*)
 
 
 .Large[
@@ -294,7 +313,7 @@ server <- function(input, output) { #<<
 
 ---
 
-## A single file .cb[`shiny`] app: *app.R*
+## Option 1: single file (*app.R*)
 
 
 .Large[
@@ -320,7 +339,7 @@ shinyApp(ui = ui, server = server) #<<
 
 ---
 
-## Option 2: a two-file approach
+## Option 2: two-file approach
 __Create new folder named "app_directory" with two files:__
 
 ``` {r, eval = FALSE}
@@ -359,9 +378,9 @@ runApp("app_directory")
 
 ???
 
-Single file apps have the advantage of being able to run from the console -> easy to share
+Single file apps have the advantage of being able to run from the console -> easy to share.
 
-Multi file apps can open the ui/server seperately and have them open simultaneously in the editor -> makes it easy to match inputs and outputs
+If using multi-file apps, you can open the ui/server seperately and have them open simultaneously in the editor -> makes it easy to match inputs and outputs
 
 ---
 
@@ -396,19 +415,27 @@ Open the app.R script in Rstudio and then:
 ---
 
 ## .yt[Your Turn: Run your first app]
+.Large[
 
-Open "Example1.R"
+* Install .cb[`shiny`] if you haven't done so already:
+]
 
-Run it:
+```{r,eval=FALSE}
+install.packages("shiny")
+library(shiny)
+```
 
-* from the console, 
-* using the "Run App" button
+.Large[
+* Open "Example1.R" from the USB drive
 
-Identify the three component parts of the app
+* Run it both:
 
+  * from the console, and
+  * using the "Run App" button
 
+]
 
-`r countdown(minutes = 3, play_sound=TRUE, warn_when = 30)` 
+`r countdown(minutes = 5, play_sound=TRUE, warn_when = 30)` 
 
 ---
 
@@ -420,68 +447,16 @@ class: inverse, center, middle
 
 ## Shiny: inputs and outputs
 
+
+The user interface is essentially a place to put stuff. . . 
+
+
+
 Shiny is basically a series of inputs and outputs
 
 * Inputs:  information from user interface => server
 
 * Outputs: information from server => user interface
-
-.center[
-<img src="figs/renderText.png">
-]
-
-.tiny[
-``` {r, eval = FALSE}
-# Define UI for application that draws a histogram
-ui <- fluidPage(
-
-textInput("textin", label = ""),
-textOutput("textout")
-
-)
-
-# Define server logic required to draw a histogram
-server <- function(input, output) {
-
-    output$textout <- renderText({
-        input$textin
-    })
-}
-
-# Run the application 
-shinyApp(ui = ui, server = server)
-
-```
-]
-
----
-
-## .small[Code for demo app]
-
-``` {r, eval = FALSE}
-library(BristolVis)
-library(ggplot2)
-
-ui <- fluidPage(
-   
-      shiny::selectInput(inputId = "fill",
-                         label = "Variable to fill by:",
-                         choices = c("health",
-                                     "treatment")),
-      plotOutput("barPlot")
-)
-
-server <- function(input, output) {
-   output$barPlot <- renderPlot({
-      ggplot(data = med, aes_string(fill = input$fill)) +
-         geom_histogram(aes(x = status), stat = "count") +
-         labs(fill = "Fill")
-      })
-}
-
-shinyApp(ui = ui, server = server)
-
-```
 
 ---
 
@@ -489,11 +464,21 @@ shinyApp(ui = ui, server = server)
 
 Common layout for .cb[`shiny`] apps
 
-Defined as:
+.center[
+
+<img src="figs/sidebarlayout.png" height = 450>
+
+]
+
+
+---
+
+## .cb[`sidebarLayout()`]
+
+Defined in code as:
 
 ``` {r, eval = FALSE}
 sidebarLayout(
-  titlePanel(),
   sidebarPanel(
     # Control widgets
   ),
@@ -503,12 +488,11 @@ sidebarLayout(
 )
 ```
 
-The sidebarPanel is usually used to house the control widgets that capture user input.
 
-The mainPanel is usually used to present the output of the app (text/graph/results).
+Conventions for use:
+* The .cb[`sidebarPanel`] is usually used to house the control widgets that capture user input.
 
-We will follow this convention here.
-
+* The .cb[`mainPanel`] is usually used to present the output of the app (text/graph/results).
 
 ---
 
@@ -563,7 +547,132 @@ selectInput(inputId = "fillby",
 
 ---
 
-# Accessing widget values
+## A note on commas in the user interface
+
+Clarify when and where they are needed
+
+---
+
+## .yt[Your Turn: Design a user interface]
+.large[
+* Open "Example2.R"
+
+* Identify the elements of .cb[`sidebarLayout`]
+
+* Run the app
+
+* Make the following changes:
+  * Change the title of the app to "YYYY"
+  * Add a new selectInput widget to the sidebar, with the options "sex" and "diet"
+  * Add a new textboxInput widget to the sidebar with the label "Plot title"
+  
+* What is the value of .cb[`input$textbox`] when the following is entered in it?  
+_This is a test_    
+
+]
+
+`r countdown(minutes = 5, play_sound=TRUE, warn_when = 30)`
+
+???
+
+Last question is important demonstration of how text is saved to input$<id>
+
+
+---
+
+
+class: inverse, center, middle
+
+# Creating your own app: <br> Reactive outputs
+
+---
+
+## Creating outputs - the basics
+
+.small[
+``` {r, eval = FALSE}
+# Define UI
+ui <- fluidPage(
+  textOutput("textid")
+)
+
+# Define server
+server <- function(input, output) {
+
+    output$textout <- renderText({ #<<
+        "This is the best app ever!" #<<
+    }) #<<
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+```
+]
+
+Two steps:
+
+* Add the code to render the R object to the server function using a .cb[`render*()`] function
+
+---
+
+## Creating outputs - the basics
+
+.small[
+``` {r, eval = FALSE}
+# Define UI 
+ui <- fluidPage(
+  textOutput("textid") #<<
+)
+
+# Define server
+server <- function(input, output) {
+
+    output$textout <- renderText({
+        "This is the best app ever!"
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+```
+]
+
+Two steps:
+
+* Add the code to render the R object to the server function using a .cb[`render*()`] function
+
+* Add the resulting R object to the user interface using the corresponding .cb[`*Output()`] function.
+---
+
+## Rendering the output
+
+Similar to inputs, there are different .cb[`render\*()`]/.cb[`*Output()`] function pairs for different types of output:
+
+
+.center[
+<img src="figs/render.png" width = 650 class="border">
+
+Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+]
+
+---
+
+## Static vs reactive outputs
+
+.Large[
+
+So far, the outputs we have created are not reactive.
+
+Reactive outputs are those that make use of the value of a control widget
+
+]
+
+---
+
+## Accessing widget values
 
 The inputId of the widget is important
 
@@ -582,7 +691,6 @@ server <- function(`input`, output) {
 For the following widget:
 
 ```{r, eval = FALSE}
-# Define
 textInput(inputId = `"textboxinput"`,
           label = "")
 ```
@@ -597,18 +705,6 @@ input$`textboxinput`
 
 shiny stores all userdefined information in a list-like object called "input"
 
-The value from a specific widget can then be accessed using the value of it's inputID:
----
-
-class: inverse, center, middle
-
-# Creating your own app: <br> Rendering outputs
-
----
-
-## Rendering outputs - the basics
-
-
 ---
 
 ## Using the value of the control widgets
@@ -622,6 +718,7 @@ output$barPlot <- renderPlot({
        })
 ```
 ]
+
 <hr>
 
 --
@@ -632,23 +729,111 @@ output$barPlot <- renderPlot({
 When *input$histogram_fill = health*:
 
 ```{r eval=FALSE}
-ggplot(data = med, aes_string(fill = `health`)) +
+ggplot(data = med, aes_string(fill = `"health"`)) +
    geom_histogram(aes(x = status), stat = "count") +
    labs(fill = "Fill")
 ```
 ]
 
 --
+
 .small[
 <br>
 When *input$fill = treatment*:
 
 ```{r eval=FALSE}
-ggplot(data = med, aes_string(fill = `treatment`)) +
+ggplot(data = med, aes_string(fill = `"treatment"`)) +
    geom_histogram(aes(x = status), stat = "count") +
    labs(fill = "Fill")
 ```
 ]
+
+---
+
+## . . . and .cb[`switch`]!
+
+.large[
+In the previous example, we used the aes_string() function to get around the fact that the value of .cb[`input$fill`] was in quotes
+
+The .cb[`switch`] function converts the value of .cb[`input$<id>`] from a .cb[`selectInput()`] box into anything you like. 
+]
+
+```{r, eval=FALSE}
+
+server <- function(input, output) {
+  
+ output$barPlot <- renderPlot({
+    
+    fill <- switch(input$fill, #<<
+                     "treatment" = med$treatment, #<<
+                     "health" = med$health) #<<
+    
+    ggplot(data = med, `aes`(fill = `fill`)) +
+      geom_histogram(aes(x = status), stat = "count") 
+    
+  })
+}
+
+```
+
+---
+
+## A comment on brackets
+
+.Large[
+
+Note the difference between:
+
+```{r, eval=FALSE}
+renderPlot(`{}`) 
+renderPlot()
+```
+
+Whenever you have a function argument that's more than just a single expression, you need to use curly braces
+
+Good practice to use .cb[{}] all the time, so that you don't get parsing errors
+]
+
+
+---
+
+## .yt[Your Turn: Create reactive content]
+
+Introduction to the data
+
+```{r, eval = FALSE}
+install.packages("devtools")
+devtools::install_github("statcourses/BristolVis")
+library(BristolVis)
+```
+
+The dataset we encourage you to use is the .cb[`birthweight`] dataset:
+
+```{r, echo=FALSE, width = 800}
+kable(head(bmi[3:10,]),row.names = FALSE)
+```
+
+---
+
+## .yt[Your Turn: Create reactive content]
+
+* Open "Example3.R"
+
+* Run the code and the app to familarise yourself with it
+
+  
+* Examine the DT:renderDataTable code in the UI/server
+  * Why is the table not being displayed in the app?
+  * Fix the code in the UI so that the table is displayed in the .cb[`mainPanel`]
+
+* Examine the renderPlot code in the UI/server
+  * Update the code so that the fill colour is set by the value of .cb[`input$fill`]
+  * Update the code so that the title of the plot is defined by the value of the input from the .cb[`inputTextbox`] widget
+
+* Re-run the app to ensure that the changes have worked
+
+
+`r countdown(minutes = 10, play_sound=TRUE, warn_when = 30)`
 
 
 ---
@@ -658,32 +843,220 @@ class: inverse, center, middle
 # Getting more from `shiny`: <br> Execution
 
 ---
+
+## Where you put your code is important
+
+
+In "Example3.R", we loaded the .cb[`BristolVis`] and .cb[`ggplot2`] packages using:
+
+```{r,eval=FALSE}
+library(ggplot2)
+library(BristolVis)
+```
+
+Important that this is put outside both the user interface container and the server
+
+---
+
+# How your app is executed
+
+Only ever once, when the app is launched
+
+``` {r, eval = FALSE}
+library(shiny) #<<
+library(BristolVis) #<<
+library(ggplot2) #<<
+
+ui <- fluidPage(
+      selectInput(inputId = "fill",
+                         label = "Variable to fill by:",
+                         choices = c("health","treatment")),
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) {
+   output$barPlot <- renderPlot({
+      ggplot(data = med, aes_string(fill = input$fill)) +
+         geom_histogram(aes(x = status), stat = "count")
+      })
+}
+
+shinyApp(ui = ui, server = server) #<<
+
+```
+
+---
+
+# How your app is executed
+
+Once, each time a new user visits
+
+``` {r, eval = FALSE}
+library(shiny)
+library(BristolVis)
+library(ggplot2)
+
+ui <- fluidPage(
+      selectInput(inputId = "fill",
+                         label = "Variable to fill by:",
+                         choices = c("health","treatment")),
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) { #<<
+   output$barPlot <- renderPlot({ #<<
+      ggplot(data = med, aes_string(fill = input$fill)) + #<<
+         geom_histogram(aes(x = status), stat = "count") #<<
+      }) #<<
+} #<<
+
+shinyApp(ui = ui, server = server)
+
+```
+
+---
+
+# How your app is executed
+
+Each time the value of .cb[`input$fill`] changes
+
+``` {r, eval = FALSE}
+library(shiny)
+library(BristolVis)
+library(ggplot2)
+
+ui <- fluidPage(
+      selectInput(inputId = "fill",
+                         label = "Variable to fill by:",
+                         choices = c("health","treatment")),
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) {
+   output$barPlot <- renderPlot({
+      ggplot(data = med, aes_string(fill = input$fill)) + #<<
+         geom_histogram(aes(x = status), stat = "count") #<<
+      }) #<<
+}
+
+shinyApp(ui = ui, server = server)
+
+```
+
+---
+
 class: inverse, center, middle
 
 # Getting more from `shiny`: <br> Page layout
 
+
 ---
 
-class: test
+## Alternatives to .cb[`sidebarLayout()`]
 
-## Fluid page layout
+.large[__.cb[`fluidRow()`]__]
+```{r,eval=FALSE}
+ui <- fluidPage(
+ fluidRow(column(width= 4),
+          column(width= 2), offset= 3),
+ fluidRow(column(width= 12))
+ ) 
+```
 
 .center[
-
-<img src="figs/fluidpagelayout.png" height = 450>
-
-.pull-right[
-Image by Hadley Wickham
-]
-
+<img src="figs/fluidrow.png" width = 480>
 ]
 
 ---
+
+## Alternatives to .cb[`sidebarLayout()`]
+
+.large[__.cb[`splitLayout()`]__]
+```{r,eval=FALSE}
+ui <- fluidPage(
+ splitLayout( 
+    # object 1,
+    # object 2
+ )
+)  
+```
+.center[
+<img src="figs/splitLayout.png" width = 480>
+]
+
+---
+
+## .cb[`tabpanels`]
+
+```{r,eval=FALSE}
+ui <- navbarPage(title = "Page",
+ tabPanel("tab 1", "contents"),
+ tabPanel("tab 2", "contents"),
+ tabPanel("tab 3", "contents"))
+```
+
+<iframe src="https://mcguinlu.shinyapps.io/robvis/" class="foo" width="1400"  height="300" scrolling="no" frameBorder="0"></iframe>
+
+---
+
 
 class: inverse, center, middle
 
 # Getting more from `shiny`: <br> Making shiny sparkle
 
+---
+
+## A .cb[`shiny`] UI is a HTML document
+
+Can use HTML ___tags___ to add static elements (such as text) to your app.
+
+For example, in the user interface:
+
+``` {r, eval=FALSE}
+ui <- fluidPage(
+  h2("Please complete the options below."), #<<
+  p("This information will be used to update the graph"), #<<
+  selectInput(inputId = "fill",
+              label = "Variable to fill by:",
+              choices = c("health","treatment"))
+)
+```
+<br>
+
+.center[
+<img src="figs/html.png" height = 150 class="border">
+]
+
+---
+
+## Adding HTML ___tags___
+
+.large[
+The most common tags have wrapper functions to make them easier to use:
+]
+
+``` {r, eval=FALSE}
+ui <- fluidPage(         
+ h1("Header 1"),              # header (can be h1-h6)
+ hr(),                        # horizontal rule
+ br(),                        # line break
+ p("Text"),                   # paragraph text
+ p(strong("bold")),           # bold
+ p(em("italic")),             # italics         
+ p(code("code")),             # code highlighting         
+ a(href="", "link"),          # Hyperlink            
+ HTML("<p>Raw html</p>")      # Raw html                
+)    
+```
+
+.large[
+Some tags, e.g. .cb[em()] and .cb[strong()] must be nested within a paragraph tag, .cb[p()]
+
+Similar to the control widgets, all tags are followed by a comma, except for the last element in the user interface container
+
+A full list of tags is available on the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+]
 
 ---
 
@@ -695,15 +1068,128 @@ class: inverse, center, middle
 
 # Shiny is reactive . . . 
 
+As discussed, the code contributing to `output$<id>` in the example below 
+
+
+
+In fact, Shiny will prevent you from calling reactive expressions outside of these functions.
+
+???
+
+
+
 ---
 
-# but in a lazy way
+## . . . but in a lazy way
 
-Updating the `fill` option doesn't force the title to change:
+`r countdown(minutes = 2, play_sound=TRUE, warn_when = 30, top = 0)`
+
+Compare what happens when we change .cb[`input$fill`] in the following:
+
+``` {r, eval = FALSE}
+server <- function(input, output) {
+
+ output$barPlot <- renderPlot({
+      `data` <- head(med, n = `input$slider`) 
+      ggplot(data = `data`, aes_string(fill = `input$fill`)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })
+}
+```
+
+versus:
+
+``` {r, eval = FALSE}
+server <- function(input, output) {
+  `data` <- reactive({
+        head(med, n = `input$slider`) 
+  })
+
+ output$barPlot <- renderPlot({
+    ggplot(data = `data()`, aes_string(fill = `input$fill`)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })
+}
+```
+
+---
+
+## The .cb[`reactive({ })`] function
+
+.large[
+
+The difference: changing the value of .cb[`input$fill`] in the second example does not require the data to be re-calculated:
+
+
+* `renderPlot` calls `data()`
+]
+
+```{r, eval=FALSE}
+data <- `reactive({` head(med, n = input$slider) `})`
+```
+
+.large[
+* `data()` will check that the value of `input$slider` has not changed
+* `data()` will return its saved data ___without___ re-subsetting the _med_ dataset
+* `renderPlot` will re-draw the histogram with the correct fill.  
+]
+
+.center[
+<img src="figs/dependencies.png" width = 300>
+]
+
+???
+Shiny caches the results of .cb[`data()`] and continously validates the value of .cb[`input$slider`] on which it depends. 
+
+You can use this behavior to prevent Shiny from re-running code unnecessarily. 
+
+Important when, for example, loading big datasets from the web -> time consuming if all you want to do is change the title. . . 
+
+---
+
+## Dependencies
+
+
 
 ---
 
 ## .yt[Your Turn: Try a reactive expression]
+
+.Large[
+
+* Open "Example?.R"
+
+* Run the app to see what it does
+
+* Create a reactive expression so that the data does not have to be imported everytime the title is changed
+
+* Re-run your app to ensure that it works as expected
+
+]
+
+---
+
+## .yt[Your Turn: Build an app from scratch]
+Open a new Shiny app (File -> New File -> Shiny Web App. . .)
+
+Develop your app
+  * Use one of the layouts we discussed as part of this workshop
+  
+  * Load `shiny`, `BristolVis` and `ggplot2` packages
+  
+  * Add some text to the app to describe the dataset used
+   
+  * Add at least one widget to the .cb[`sidebarPanel`]
+   
+  * Add a plot to the .cb[`mainPanel`] that makes use of the input from your  widget
+
+Run the app to ensure that it works as expected, and compare your app/code with a neighbour
+
+Remember:
+
+
+
+`r countdown(minutes = 20, play_sound=TRUE, warn_when = 120)`
 
 ---
 
@@ -715,6 +1201,24 @@ class: inverse, center, middle
 
 ## .yt[Your Turn: Publish your app]
 
+.Large[
+* Ensure that your app.R file is contained within its own folder
+
+* Deploy your app online
+  * Go to shinyapps.io
+  * Follow the instructions there
+  * Send the link to your new app, plus a brief description of what it does, to us here:
+  
+.center[bit.ly/TBC
+
+Link to Google form
+]
+
+]
+
+`r countdown(minutes = 8, play_sound=TRUE, warn_when = 120)`
+
+
 ---
 
 class: inverse, center, middle
@@ -723,19 +1227,5 @@ class: inverse, center, middle
 
 ---
 
-# Inputs
-**Basic function**
-```{r eval=FALSE}
-output$histogram <- renderPlot({#<<
-|  
-|  
-  })#<<
-
-```
-
----
-
 ## Images
 Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720
-
-Pirate: 

@@ -4,7 +4,7 @@
     <title>Introduction to Shiny</title>
     <meta charset="utf-8" />
     <meta name="author" content="Luke McGuinness" />
-    <meta name="date" content="2019-09-10" />
+    <meta name="date" content="2019-09-13" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/hygge.css" rel="stylesheet" />
     <script>
@@ -33,16 +33,19 @@ class: center, middle, inverse, title-slide
 # Introduction to Shiny
 ### Luke McGuinness
 ### Dept of Population Health Sciences, <br> Bristol Medical School
-### 2019-09-10
+### 2019-09-13
 
 ---
 
 
 
 
-# What you need to do now:
+# What you can do now:
+.Large[
 
 * Open RStudio
+
+&lt;br&gt;
 
 * Install `shiny`
 
@@ -52,16 +55,10 @@ class: center, middle, inverse, title-slide
   library(shiny)
 ```
 
-* Open a new `shiny` file
+&lt;br&gt;
 
-  * _File -&gt; New File -&gt; Shiny Web App..._
-
-* Pick a name (maybe your own?) and chose the single file option
-
-.center[
-&lt;img src="figs/new-app-form.png" heigh = 200 width = 450&gt;
+* Have a look at the RStudio .cb[`shiny`] cheatsheet (a copy is included on your USB)
 ]
-
 
 ---
 
@@ -118,24 +115,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();
-// adds .remark-code-has-line-highlighted class to <pre> parent elements
-// of code chunks containing highlighted lines with class .remark-code-line-highlighted
-(function(d) {
-  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
-  const preParents = [];
-  const findPreParent = function(line, p = 0) {
-    if (p > 1) return null; // traverse up no further than grandparent
-    const el = line.parentElement;
-    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
-  };
-
-  for (let line of hlines) {
-    let pre = findPreParent(line);
-    if (pre && !preParents.includes(pre)) preParents.push(pre);
-  }
-  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
-})(document);</script>
+})();</script>
 
 <script>
 (function() {
