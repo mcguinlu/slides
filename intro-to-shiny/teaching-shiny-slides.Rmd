@@ -529,7 +529,7 @@ textInput(inputId = "textboxinput",
 ```
 
 .center[
-<img src="figs/inputtext.png", width = 300>
+<img src="figs/inputText.png", width = 300>
 ]
 
 Other elements are specific to the widget you are using:
@@ -593,7 +593,7 @@ class: inverse, center, middle
 ``` {r, eval = FALSE}
 # Define UI
 ui <- fluidPage(
-  textOutput("textid")
+  textOutput("textout")
 )
 
 # Define server
@@ -622,7 +622,7 @@ Two steps:
 ``` {r, eval = FALSE}
 # Define UI 
 ui <- fluidPage(
-  textOutput("textid") #<<
+  textOutput("textout") #<<
 )
 
 # Define server
@@ -889,7 +889,7 @@ shinyApp(ui = ui, server = server) #<<
 
 # How your app is executed
 
-Once, each time a new user visits
+Once each time a new user visits
 
 ``` {r, eval = FALSE}
 library(shiny)
@@ -995,14 +995,12 @@ ui <- navbarPage(title = "Page",
  tabPanel("tab 3", "contents"))
 ```
 
-<iframe src="https://mcguinlu.shinyapps.io/robvis/" class="foo" width="1400"  height="300" scrolling="no" frameBorder="0"></iframe>
-
 ---
 
 
 class: inverse, center, middle
 
-# Getting more from `shiny`: <br> Making shiny sparkle
+# Getting more from `shiny`: <br> Making `shiny` sparkle
 
 ---
 
