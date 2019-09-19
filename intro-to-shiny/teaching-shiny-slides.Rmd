@@ -3,7 +3,7 @@ title: "Introduction to Shiny"
 subtitle: ""
 author: "Luke McGuinness"
 institute: "Dept of Population Health Sciences, <br> Bristol Medical School"
-date: "01/09/2019 <br> <br> Twitter/Github: mcguinlu"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   xaringan::moon_reader:
     css: [default, hygge, custom.css]
@@ -38,7 +38,7 @@ library(BristolVis)
 
   - Set-up
 
-  - User interface & Control widgets
+  - User interface & control widgets
 
   - Outputs
 
@@ -60,15 +60,15 @@ library(BristolVis)
 
 ---
 
-# Public service announcements
+# Public Service Announcements
 
 .Large[
 __Workshop plan (note: practical exercises are mixed in)__
 
 
-* 0 => 1 : First part of workshop
-* 1 => 1.5 Coffee
-* 1.5 => 3 : Second part of workshop
+* 2:00 => 3:00: First part of workshop
+* 3:00 => 3:30: Coffee!
+* 3:30 => 5:00: Second part of workshop
 
 ]
 <br>
@@ -90,7 +90,7 @@ __We will be using timers as part of this course:__
 
 ---
 
-# Public service announcements
+# Public Service Announcements
 .Large[
 __I pronounce the letter R oddly:__
 ]
@@ -135,7 +135,7 @@ class: inverse, middle, center
 ---
 ## What is .cb[`shiny`]?
 
-.cb[`shiny`] is an R package build interactive web applications ("apps") straight from R.
+.cb[`shiny`] is an R package that allows users to build interactive web applications ("apps") straight from R.
 
 <br>
 
@@ -1145,12 +1145,6 @@ Important when, for example, loading big datasets from the web -> time consuming
 
 ---
 
-## Dependencies
-
-
-
----
-
 ## .yt[Your Turn: Try a reactive expression]
 
 .Large[
@@ -1183,9 +1177,6 @@ Develop your app
 
 Run the app to ensure that it works as expected, and compare your app/code with a neighbour
 
-Remember:
-
-
 
 `r countdown(minutes = 20, play_sound=TRUE, warn_when = 120)`
 
@@ -1209,7 +1200,7 @@ class: inverse, center, middle
   
 .center[bit.ly/TBC
 
-Link to Google form
+.red[__Link to Google form__]
 ]
 
 ]
@@ -1221,7 +1212,7 @@ Link to Google form
 
 class: inverse, center, middle
 
-# Tips and tricks
+# Tips and tricks (TBC)
 
 ---
 

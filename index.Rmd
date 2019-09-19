@@ -5,5 +5,14 @@ output: html_document
 <hr>
 
 ### Shiny
-#### [Intro to Shiny](https://mcguinlu.github.io/slides/intro-to-shiny/teaching-shiny-slides.html) - for the "Introduction to Data Visualisation and Web Applications Using R" short course at the University of Bristol, November 2019.
+
+
+
+#### Intro to Shiny
+
+Materials for the "Introduction to Data Visualisation and Web Applications Using R" short course at the University of Bristol, November 2019.
+
+* [Holding slides](https://mcguinlu.github.io/slides/intro-to-shiny-prep/teaching-shiny-slides-prep.html)
+
+* [Presentation](https://mcguinlu.github.io/slides/intro-to-shiny/teaching-shiny-slides.html)
 
