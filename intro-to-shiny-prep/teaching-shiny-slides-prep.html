@@ -4,7 +4,7 @@
     <title>Introduction to Shiny</title>
     <meta charset="utf-8" />
     <meta name="author" content="Luke McGuinness" />
-    <meta name="date" content="2019-09-13" />
+    <meta name="date" content="2019-11-12" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/hygge.css" rel="stylesheet" />
     <script>
@@ -33,7 +33,7 @@ class: center, middle, inverse, title-slide
 # Introduction to Shiny
 ### Luke McGuinness
 ### Dept of Population Health Sciences, <br> Bristol Medical School
-### 2019-09-13
+### 2019-11-12
 
 ---
 
@@ -42,10 +42,6 @@ class: center, middle, inverse, title-slide
 
 # What you can do now:
 .Large[
-
-* Open RStudio
-
-&lt;br&gt;
 
 * Install `shiny`
 
@@ -57,18 +53,32 @@ class: center, middle, inverse, title-slide
 
 &lt;br&gt;
 
-* Have a look at the RStudio .cb[`shiny`] cheatsheet (a copy is included on your USB)
+* Have a look at the RStudio .cb[`shiny`] cheatsheet
+
+&lt;br&gt;
+
+* Open the slides online if you want to follow along:
+
+.center[[bit.ly/bris-shiny-slides](http://bit.ly/bris-shiny-slides)]
+
 ]
 
 ---
 
-# Session plan
+# .center[.Large[Session plan]]
 
-1-2 =&gt; Lecture
+.center[
+&lt;br&gt;
+&lt;br&gt;
 
-2-2:30 =&gt; Coffee
+##  13.30-15.00  =&gt;  Part 1
 
-2.30:4 =&gt; Practical
+##  15.00-15.30  =&gt;  Coffee
+
+##  15.30-16.30  =&gt;  Part 2
+
+
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -115,7 +125,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {

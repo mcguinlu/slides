@@ -26,10 +26,6 @@ library(shiny)
 # What you can do now:
 .Large[
 
-* Open RStudio
-
-<br>
-
 * Install `shiny`
 
 ``` {r, eval=FALSE}
@@ -39,15 +35,29 @@ library(shiny)
 
 <br>
 
-* Have a look at the RStudio .cb[`shiny`] cheatsheet (a copy is included on your USB)
+* Have a look at the RStudio .cb[`shiny`] cheatsheet
+
+<br>
+
+* Open the slides online if you want to follow along:
+
+.center[[bit.ly/bris-shiny-slides](http://bit.ly/bris-shiny-slides)]
+
 ]
 
 ---
 
-# Session plan
+# .center[.Large[Session plan]]
 
-1-2 => Lecture
+.center[
+<br>
+<br>
 
-2-2:30 => Coffee
+##  13.30-15.00  =>  Part 1
 
-2.30:4 => Practical
+##  15.00-15.30  =>  Coffee
+
+##  15.30-16.30  =>  Part 2
+
+
+]
