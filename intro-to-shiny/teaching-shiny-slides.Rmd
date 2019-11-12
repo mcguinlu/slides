@@ -1,9 +1,9 @@
 ---
 title: "Introduction to Shiny"
-subtitle: ""
-author: "Luke McGuinness"
-institute: "Dept of Population Health Sciences, <br> Bristol Medical School"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+subtitle: "Luke McGuinness"
+author: "Twitter: @mcguinlu"
+institute: "Deptartment of Population Health Sciences, <br> Bristol Medical School"
+date: "15th November, 2019"
 output:
   xaringan::moon_reader:
     css: [default, hygge, custom.css]
@@ -54,29 +54,24 @@ library(BristolVis)
   
   - Publishing your app
 
---
-
-- Tips and tricks
-
 ---
 
 # Public Service Announcements
 
 .Large[
-__Workshop plan (note: practical exercises are mixed in)__
-
-
-* 2:00 => 3:00: First part of workshop
-* 3:00 => 3:30: Coffee!
-* 3:30 => 5:00: Second part of workshop
-
+__Workshop plan__
 ]
+.large[
+* Lecture and six short  practicals mixed together
+* There will be a break for coffee in the middle
+]
+
 <br>
 
 --
 
 .Large[
-__Please ask questions as we go along!__
+__Please ask questions as we go along, and feel free to chat/compare code with your neighbours__
 ]
 <br>
 
@@ -92,7 +87,7 @@ __We will be using timers as part of this course:__
 
 # Public Service Announcements
 .Large[
-__I pronounce the letter R oddly:__
+__I pronounce the letter "R" oddly:__
 ]
 
 .center[
@@ -208,6 +203,18 @@ A .cb[`shiny`] app has three components:
 
   * Creates the app from an user interface and server pair
 
+
+---
+
+## Inputs and outputs
+
+Information moves between the UI and the server via inputs and outputs
+
+NB: No computation takes place in UI - only the server can run R functions
+
+.center[
+<img src="figs/uiserver.png" width = 600 height=420>
+]
 
 ---
 
@@ -411,26 +418,67 @@ Open the app.R script in Rstudio and then:
 
 * Use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
 
+---
+
+## .yt[Your Turn: Introducing the data]
+.large[
+The dataset we will use for the practical elements is the .cb[`bmi2`] dataset included with the BristolVis package:
+]
+
+```{r, echo=FALSE, width = 800}
+
+bmi2 <- tibble::tribble(
+  ~id,  ~age,  ~bmi,      ~sex,    ~diet,         ~status,
+   1, 78.2, 29.3,   "Male", "Good", "Unhealthy",
+   2, 48.5,   33, "Female", "Good", "Unhealthy",
+   3, 79.5, 31.5, "Female", "Good", "Unhealthy",
+   4, 78.5, 28.1,   "Male", "Poor",   "Healthy"
+  )
+
+kable(head(bmi2[1:4,]),row.names = FALSE)
+```
+
+.large[
+The data set contains 200 observations across the following six variables:
+
+.pull-left[
+__Continuous variables:__
+
+* id
+* age
+* bmi
+
+]
+
+.pull-right[
+__Categorical variables:__
+
+* sex: Male / Female
+* diet: Good / Moderate / Poor
+* status: Healthy / Unhealthy
+
+]
+]
+
 
 ---
 
 ## .yt[Your Turn: Run your first app]
-.Large[
 
-* Install .cb[`shiny`] if you haven't done so already:
+
+
+.Large[
+* Open the "prac1_shiny" vignette, and copy the code into an empty R file
 ]
 
 ```{r,eval=FALSE}
-install.packages("shiny")
-library(shiny)
+    vignette("prac1_shiny", package = "BristolVis")
 ```
 
 .Large[
-* Open "Example1.R" from the USB drive
-
 * Run it both:
 
-  * from the console, and
+  * from the console (note: you'll have to save it first)
   * using the "Run App" button
 
 ]
@@ -441,22 +489,7 @@ library(shiny)
 
 class: inverse, center, middle
 
-# Creating your own app: <br> User interface
-
----
-
-## Shiny: inputs and outputs
-
-
-The user interface is essentially a place to put stuff. . . 
-
-
-
-Shiny is basically a series of inputs and outputs
-
-* Inputs:  information from user interface => server
-
-* Outputs: information from server => user interface
+# Creating your own app: <br> User interface & <br> control widgets
 
 ---
 
@@ -478,12 +511,14 @@ Common layout for .cb[`shiny`] apps
 Defined in code as:
 
 ``` {r, eval = FALSE}
-sidebarLayout(
-  sidebarPanel(
-    # Control widgets
-  ),
-  mainPanel(
-    # Outputs
+ui <- fluidPage( 
+  sidebarLayout(
+    sidebarPanel(
+      # Control widgets and HTML objects
+    ),
+    mainPanel(
+      # Outputs
+    )
   )
 )
 ```
@@ -496,9 +531,11 @@ Conventions for use:
 
 ---
 
-class: inverse, center, middle
+## Example of the sidebarLayout()
 
-# Creating your own app: <br> Control widgets
+.center[
+<img src="figs/sidebarexample.png" width="1200" height="400" class="border">
+]
 
 ---
 
@@ -549,29 +586,34 @@ selectInput(inputId = "fillby",
 
 ## A note on commas in the user interface
 
-Clarify when and where they are needed
+.Large[
+Remember that the UI containers (e.g. .cb[`mainPanel()`]) are still functions, to which arguments (i.e. widgets) are passed, so normal rules apply when using commas
+]
+
 
 ---
 
 ## .yt[Your Turn: Design a user interface]
-.large[
-* Open "Example2.R"
+* Open the "prac1_shiny" vignette, and copy the code into an empty R file
+
+
+```{r,eval=FALSE}
+  vignette("prac1_shiny", package = "BristolVis")
+```
 
 * Identify the elements of .cb[`sidebarLayout`]
 
 * Run the app
 
 * Make the following changes:
-  * Change the title of the app to "YYYY"
-  * Add a new selectInput widget to the sidebar, with the options "sex" and "diet"
-  * Add a new textboxInput widget to the sidebar with the label "Plot title"
+  * Change the title of the app to "Demo of a shiny app"
+  * Add a new selectInput widget to the sidebar, with the options "sex","diet", and "status"
+  * Add a new textInput widget to the sidebar with the label "Plot title:"
   
 * What is the value of .cb[`input$textbox`] when the following is entered in it?  
 _This is a test_    
 
-]
-
-`r countdown(minutes = 5, play_sound=TRUE, warn_when = 30)`
+`r countdown(minutes = 10, play_sound=TRUE, warn_when = 30)`
 
 ???
 
@@ -612,7 +654,7 @@ shinyApp(ui = ui, server = server)
 
 Two steps:
 
-* Add the code to render the R object to the server function using a .cb[`render*()`] function
+* Add the code to render the object to the server function using a .cb[`render*()`] function
 
 ---
 
@@ -641,9 +683,9 @@ shinyApp(ui = ui, server = server)
 
 Two steps:
 
-* Add the code to render the R object to the server function using a .cb[`render*()`] function
+* Add the code to render the object to the server function using a .cb[`render*()`] function
 
-* Add the resulting R object to the user interface using the corresponding .cb[`*Output()`] function.
+* Add the resulting object to the user interface using the corresponding .cb[`*Output()`] function.
 ---
 
 ## Rendering the output
@@ -664,7 +706,9 @@ Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.c
 
 .Large[
 
-So far, the outputs we have created are not reactive.
+So far, the graphical outputs we have created are not fully reactive
+
+Remember in the last practical, changing the value of the selectInput widget from "sex" to "diet" had no effect
 
 Reactive outputs are those that make use of the value of a control widget
 
@@ -684,6 +728,8 @@ server <- function(`input`, output) {
 }
 
 ```
+
+Reads in a list-like object containing the value of each widget, identified by its inputId
 
 --
 <hr>
@@ -706,6 +752,14 @@ input$`textboxinput`
 shiny stores all userdefined information in a list-like object called "input"
 
 ---
+## Using the value of the control widgets
+
+.center[
+<img src="figs/sidebarexample.png" width="1200" height="400" class="border">
+]
+
+---
+
 
 ## Using the value of the control widgets
 .small[
@@ -713,8 +767,7 @@ shiny stores all userdefined information in a list-like object called "input"
 ```{r eval=FALSE}
 output$barPlot <- renderPlot({
        ggplot(data = med, aes_string(fill = `input$fill`)) +
-          geom_histogram(aes(x = status), stat = "count") +
-          labs(fill = "Fill")
+          geom_histogram(aes(x = status), stat = "count")
        })
 ```
 ]
@@ -726,12 +779,11 @@ output$barPlot <- renderPlot({
 .small[
 **Changes based on value selected by user in UI**
 
-When *input$histogram_fill = health*:
+When *input$fill = health*:
 
 ```{r eval=FALSE}
 ggplot(data = med, aes_string(fill = `"health"`)) +
-   geom_histogram(aes(x = status), stat = "count") +
-   labs(fill = "Fill")
+   geom_histogram(aes(x = status), stat = "count")
 ```
 ]
 
@@ -743,8 +795,7 @@ When *input$fill = treatment*:
 
 ```{r eval=FALSE}
 ggplot(data = med, aes_string(fill = `"treatment"`)) +
-   geom_histogram(aes(x = status), stat = "count") +
-   labs(fill = "Fill")
+   geom_histogram(aes(x = status), stat = "count") 
 ```
 ]
 
@@ -786,12 +837,13 @@ Note the difference between:
 
 ```{r, eval=FALSE}
 renderPlot(`{}`) 
+
 renderPlot()
 ```
 
 Whenever you have a function argument that's more than just a single expression, you need to use curly braces
 
-Good practice to use .cb[{}] all the time, so that you don't get parsing errors
+Good practice to use .cb[{}] all the time, so that you don't get errors
 ]
 
 
@@ -799,35 +851,22 @@ Good practice to use .cb[{}] all the time, so that you don't get parsing errors
 
 ## .yt[Your Turn: Create reactive content]
 
-Introduction to the data
+* Open the "prac2_shiny" vignette, and copy the code into an empty R file
 
-```{r, eval = FALSE}
-install.packages("devtools")
-devtools::install_github("statcourses/BristolVis")
-library(BristolVis)
+```{r,eval=FALSE}
+
+  vignette("prac2_shiny", package = "BristolVis")
+
 ```
 
-The dataset we encourage you to use is the .cb[`birthweight`] dataset:
+* Run the app to familarise yourself with it
 
-```{r, echo=FALSE, width = 800}
-kable(head(bmi[3:10,]),row.names = FALSE)
-```
-
----
-
-## .yt[Your Turn: Create reactive content]
-
-* Open "Example3.R"
-
-* Run the code and the app to familarise yourself with it
-
-  
-* Examine the DT:renderDataTable code in the UI/server
+* Examine the code used to produce the table in the UI/server
   * Why is the table not being displayed in the app?
   * Fix the code in the UI so that the table is displayed in the .cb[`mainPanel`]
 
-* Examine the renderPlot code in the UI/server
-  * Update the code so that the fill colour is set by the value of .cb[`input$fill`]
+* Examine the code used to produce the plot in the UI/server
+  * Update the code so that the colour is set by the value of .cb[`input$pointcolour`]
   * Update the code so that the title of the plot is defined by the value of the input from the .cb[`inputTextbox`] widget
 
 * Re-run the app to ensure that the changes have worked
@@ -846,19 +885,24 @@ class: inverse, center, middle
 
 ## Where you put your code is important
 
+.Large[
 
-In "Example3.R", we loaded the .cb[`BristolVis`] and .cb[`ggplot2`] packages using:
+In "prac2_shiny", we loaded the  .cb[`shiny`], .cb[`BristolVis`] and .cb[`ggplot2`] packages using:
 
 ```{r,eval=FALSE}
+library(shiny)
 library(ggplot2)
 library(BristolVis)
 ```
 
-Important that this is put outside both the user interface container and the server
+Due to the way your app is executed, it is important that this is put outside both the user interface container and the server
+
+If you are .cb[`source()`]-ing additional .cb[`.R`] files, these commands should also go here
+]
 
 ---
 
-# How your app is executed
+# When is your code run?
 
 Only ever once, when the app is launched
 
@@ -887,7 +931,7 @@ shinyApp(ui = ui, server = server) #<<
 
 ---
 
-# How your app is executed
+# When is your code run?
 
 Once each time a new user visits
 
@@ -916,7 +960,7 @@ shinyApp(ui = ui, server = server)
 
 ---
 
-# How your app is executed
+# When is your code run?
 
 Each time the value of .cb[`input$fill`] changes
 
@@ -983,17 +1027,6 @@ ui <- fluidPage(
 .center[
 <img src="figs/splitLayout.png" width = 480>
 ]
-
----
-
-## .cb[`tabpanels`]
-
-```{r,eval=FALSE}
-ui <- navbarPage(title = "Page",
- tabPanel("tab 1", "contents"),
- tabPanel("tab 2", "contents"),
- tabPanel("tab 3", "contents"))
-```
 
 ---
 
@@ -1064,13 +1097,22 @@ class: inverse, center, middle
 
 ---
 
-# Shiny is reactive . . . 
+## Shiny is reactive . . . 
 
-As discussed, the code contributing to `output$<id>` in the example below 
+As discussed, .cb[`output$barplot`] below depends on the value of **both** .cb[`input$slider`] and .cb[`input$fill`]:
 
+``` {r, eval = FALSE}
+server <- function(input, output) {
 
+ output$barPlot <- renderPlot({
+      data <- head(med, n = `input$slider`) 
+      ggplot(data = data, aes_string(fill = `input$fill`)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })
+}
+```
 
-In fact, Shiny will prevent you from calling reactive expressions outside of these functions.
+When either .cb[`input$slider`] and .cb[`input$fill`] changes, all the code contain within the .cb[`renderPlot()`] function will run
 
 ???
 
@@ -1091,8 +1133,7 @@ server <- function(input, output) {
       `data` <- head(med, n = `input$slider`) 
       ggplot(data = `data`, aes_string(fill = `input$fill`)) +
       geom_histogram(aes(x = status), stat = "count")
-  })
-}
+  })}
 ```
 
 versus:
@@ -1106,8 +1147,7 @@ server <- function(input, output) {
  output$barPlot <- renderPlot({
     ggplot(data = `data()`, aes_string(fill = `input$fill`)) +
       geom_histogram(aes(x = status), stat = "count")
-  })
-}
+  })}
 ```
 
 ---
@@ -1145,13 +1185,22 @@ Important when, for example, loading big datasets from the web -> time consuming
 
 ---
 
-## .yt[Your Turn: Try a reactive expression]
+## .yt[Your Turn: Reactive expressions & HTML tags]
+
+.large[
+* Open the "prac3_shiny" vignette, and copy the code into an empty R file
+]
+
+```{r,eval=FALSE}
+  vignette("prac3_shiny", package = "BristolVis")
+```
 
 .Large[
-
-* Open "Example?.R"
-
 * Run the app to see what it does
+
+* Add some text to the end of the sidebar to describe the dataset used 
+
+* Add some text to the mainPanel() e.g. between the plot and the table
 
 * Create a reactive expression so that the data does not have to be imported everytime the title is changed
 
@@ -1164,21 +1213,24 @@ Important when, for example, loading big datasets from the web -> time consuming
 ## .yt[Your Turn: Build an app from scratch]
 Open a new Shiny app (File -> New File -> Shiny Web App. . .)
 
-Develop your app
+Develop an app to create reactive graph 
+
   * Use one of the layouts we discussed as part of this workshop
   
   * Load `shiny`, `BristolVis` and `ggplot2` packages
   
+  * Use one of the other datsets included with the `BristolVis` package
+
   * Add some text to the app to describe the dataset used
    
-  * Add at least one widget to the .cb[`sidebarPanel`]
+  * Add at least one widget to the .cb[`sidebarPanel`] (but feel free to add as many as you like!)
    
-  * Add a plot to the .cb[`mainPanel`] that makes use of the input from your  widget
+  * Add a plot to the .cb[`mainPanel`] that makes use of the input from your widget
 
-Run the app to ensure that it works as expected, and compare your app/code with a neighbour
+Run the app to ensure that it works as expected, and compare your finished app/code with a neighbour
 
 
-`r countdown(minutes = 20, play_sound=TRUE, warn_when = 120)`
+`r countdown(minutes = 30, play_sound=TRUE, warn_when = 120)`
 
 ---
 
@@ -1194,27 +1246,50 @@ class: inverse, center, middle
 * Ensure that your app.R file is contained within its own folder
 
 * Deploy your app online
-  * Go to shinyapps.io
-  * Follow the instructions there
+  * Go to [shinyapps.io](https://www.shinyapps.io/)
+  * Follow the instructions there to publish your app
   * Send the link to your new app, plus a brief description of what it does, to us here:
   
-.center[bit.ly/TBC
-
-.red[__Link to Google form__]
-]
+.center[[forms.gle/vR1MfqsfWNU4GBGj7](https://forms.gle/vR1MfqsfWNU4GBGj7)]
 
 ]
 
-`r countdown(minutes = 8, play_sound=TRUE, warn_when = 120)`
+`r countdown(minutes = 10, play_sound=TRUE, warn_when = 120)`
+
+---
+
+## Wrapping up
+.Large[
+While the apps we built today are quite simple, the possibilities with .cb[`shiny`] are endless:
+<br>
+.pull-left[
+.center[
+[Example 1](https://mcguinlu.shinyapps.io/robvis/)
+]
+]
+.pull-right[
+.center[
+[Example 2](https://committedtotape.shinyapps.io/sixtyninelovesongs/)
+]
+]
+
+<br>
+Please do get in touch if I can be of help:
+
+* Email: [luke.mcguinness@bristol.ac.uk](mailto:luke.mcguinness@bristol.ac.uk)
+* Twitter: [@mcguinlu](https://twitter.com/mcguinlu)
+* GitHub: [@mcguinlu](https://github.com/mcguinlu)
+
+Slides will be always be available at:
+
+.center[[lukemcguinness.com](https://lukemcguinness.com/talk/intro-to-shiny-nov-19/)]
+
+]
+
 
 
 ---
 
-class: inverse, center, middle
-
-# Tips and tricks (TBC)
-
----
 
 ## Images
 Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720
