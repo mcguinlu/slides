@@ -1250,7 +1250,7 @@ class: inverse, center, middle
   * Follow the instructions there to publish your app
   * Send the link to your new app, plus a brief description of what it does, to us here:
   
-.center[[forms.gle/vR1MfqsfWNU4GBGj7](https://forms.gle/vR1MfqsfWNU4GBGj7)]
+.center[[http://bit.ly/bris-shiny-forms](http://bit.ly/bris-shiny-forms)]
 
 ]
 
