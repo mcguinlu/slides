@@ -1,0 +1,63 @@
+.remark-slide-number {
+  position: inherit;
+}
+
+.remark-slide-number .progress-bar-container {
+  position: absolute;
+  bottom: 0;
+  height: 4px;
+  display: block;
+  left: 0;
+  right: 0;
+}
+
+.remark-slide-number .progress-bar {
+  height: 100%;
+  background-color: black;
+}
+
+.inverse {
+  background-color: #B01C2E;
+  color: #000000;
+  text-shadow: 0 0 0 #333;
+}
+
+.yt{
+  color: #B01C2E;
+  font-size: 80%;
+}
+
+.foo {
+  overflow-y: hidden;
+}
+
+.cb{
+  /*background: #F5F5F5; /* lighter */
+  background: #e7e8e2; /* darker */
+}
+
+del {
+  color: #E5E5E5;
+  text-decoration: none;
+}
+
+.col-left {
+  float: left;
+  width: 30%;
+}
+
+.col-center {
+  float: none;
+  width: 30%;
+}
+
+.col-right {
+  float: right;
+  width: 30%;
+}
+
+.border {  
+  border-width: 2px;  
+  border-color: black;   
+  border-style: solid; 
+}

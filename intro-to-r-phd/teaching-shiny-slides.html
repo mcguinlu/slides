@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>How to Wow</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Twitter: @mcguinlu | @Science_Matt" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# How to Wow
+## Luke McGuinness + Matt Lee
+### Twitter: <span class="citation">@mcguinlu</span> | <span class="citation">@Science_Matt</span>
+### Department of Population Health Sciences, <br> Bristol Medical School
+### 24th February, 2020
+
+---
+
+
+
+
+
+
+# Advanced topics
+
+
+## - Plots with `ggplot`
+
+
+--
+
+
+## -  App with `shiny`
+
+
+--
+
+## - Sharing your work as a package
+
+
+---
+
+# Public Service Announcements
+.Large[
+__I pronounce the letter "R" oddly:__
+]
+
+.center[
+
+.col-left[
+&lt;img src="figs/oar.png" width =150 height =150&gt;  
+R  
+("oar")
+]
+
+.col-right[
+&lt;img src="figs/pirate.jpg" width =150 height =150&gt;   
+R  
+("arr")
+]
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+.col-center[.Large[.bold[means]]]
+]
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+---
+
+class: inverse, middle, center
+
+# Pretty plots: &lt;br&gt; Intro to `ggplot2`
+
+---
+
+# .cb[ggplot2]
+
+.Large[
+
+Allows you to create highly customisable publication-ready plots
+
+
+```r
+install.packages("ggplot2")
+library("ggplot2")
+```
+
+Key points:
+
+* .bold[aesthetic]: what you want to graph (e.g. x, y, colours, etc)
+
+* .bold[geom]: how you want to graph it (e.g. scatterplot, histogram)
+
+* .bold[options]: optional titles, themes, etc.
+
+]
+
+---
+
+## .yt[The `bmi2` dataset]
+.large[
+The dataset used for following graphics is the .cb[`bmi2`] dataset included with the BristolVis package:
+]
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; id &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; age &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; bmi &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; sex &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; diet &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; status &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 48.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 79.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Poor &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Healthy &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+.large[
+The data set contains 200 observations across the following six variables:
+
+.pull-left[
+__Continuous variables:__
+
+* id
+* age
+* bmi
+
+]
+
+.pull-right[
+__Categorical variables:__
+
+* sex: Male / Female
+* diet: Good / Moderate / Poor
+* status: Healthy / Unhealthy
+
+]
+]
+
+---
+
+
+
+
+
+
+
+
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+*ggplot(data = dta)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_1-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+*aes(x = age)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_2-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+*aes(y = bmi)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_3-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+*geom_point()
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_4-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+*aes(colour = sex)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_5-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+*geom_smooth(method = "lm", se = F)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_6-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+*scale_color_manual(values =
+*                    c("blue", "purple"))
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_8-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+scale_color_manual(values = 
+                     c("blue", "purple")) +
+*ylim(c(15, 35))
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_9-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+scale_color_manual(values = 
+                     c("blue", "purple")) +
+ylim(c(15, 35)) +
+*labs(colour = "")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_10-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+scale_color_manual(values = 
+                     c("blue", "purple")) +
+ylim(c(15, 35)) +
+labs(colour = "") +
+*labs(title = "BMI by Age")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_11-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+scale_color_manual(values = 
+                     c("blue", "purple")) +
+ylim(c(15, 35)) +
+labs(colour = "") +
+labs(title = "BMI by Age") +
+*labs(subtitle = "Colour indicates sex")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_12-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+scale_color_manual(values = 
+                     c("blue", "purple")) +
+ylim(c(15, 35)) +
+labs(colour = "") +
+labs(title = "BMI by Age") +
+labs(subtitle = "Colour indicates sex") +
+*theme_bw()
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_13-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+scale_color_manual(values = 
+                     c("blue", "purple")) +
+ylim(c(15, 35)) +
+labs(colour = "") +
+labs(title = "BMI by Age") +
+labs(subtitle = "Colour indicates sex") +
+theme_bw() +
+*theme_void()
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_14-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+scale_color_manual(values = 
+                     c("blue", "purple")) +
+ylim(c(15, 35)) +
+labs(colour = "") +
+labs(title = "BMI by Age") +
+labs(subtitle = "Colour indicates sex") +
+theme_bw() +
+theme_void() +
+*theme_classic()
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_15-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+scale_color_manual(values = 
+                     c("blue", "purple")) +
+ylim(c(15, 35)) +
+labs(colour = "") +
+labs(title = "BMI by Age") +
+labs(subtitle = "Colour indicates sex") +
+theme_bw() +
+theme_void() +
+theme_classic() +
+*theme_economist()
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_16-1.png" width="100%" /&gt;
+]]
+
+---
+
+
+
+
+
+
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+*ggplot(data = dta)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_1-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+*aes(x = status)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_2-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+*geom_histogram(stat = "count")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_3-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+*aes(fill = diet)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_4-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+*labs(fill = "")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_5-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+labs(fill = "") +
+*labs(title = "Number of people by status")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_6-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+labs(fill = "") +
+labs(title = "Number of people by status") +
+*labs(subtitle = "Colour indicates diet")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_7-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+labs(fill = "") +
+labs(title = "Number of people by status") +
+labs(subtitle = "Colour indicates diet") +
+*xlab("Status")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_8-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+labs(fill = "") +
+labs(title = "Number of people by status") +
+labs(subtitle = "Colour indicates diet") +
+xlab("Status") +
+*ylab("Number of people")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_9-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+labs(fill = "") +
+labs(title = "Number of people by status") +
+labs(subtitle = "Colour indicates diet") +
+xlab("Status") +
+ylab("Number of people") +
+*theme(axis.title=element_text(colour="red"))
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_10-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+labs(fill = "") +
+labs(title = "Number of people by status") +
+labs(subtitle = "Colour indicates diet") +
+xlab("Status") +
+ylab("Number of people") +
+theme(axis.title=element_text(colour="red"))+
+*theme(legend.position = "bottom")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_11-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+labs(fill = "") +
+labs(title = "Number of people by status") +
+labs(subtitle = "Colour indicates diet") +
+xlab("Status") +
+ylab("Number of people") +
+theme(axis.title=element_text(colour="red"))+
+theme(legend.position = "bottom") +
+*theme(panel.grid = element_blank())
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_12-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+labs(fill = "") +
+labs(title = "Number of people by status") +
+labs(subtitle = "Colour indicates diet") +
+xlab("Status") +
+ylab("Number of people") +
+theme(axis.title=element_text(colour="red"))+
+theme(legend.position = "bottom") +
+theme(panel.grid = element_blank()) +
+*theme(panel.background=element_rect(fill="black"))
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_13-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = status) +
+geom_histogram(stat = "count") +
+aes(fill = diet) +
+labs(fill = "") +
+labs(title = "Number of people by status") +
+labs(subtitle = "Colour indicates diet") +
+xlab("Status") +
+ylab("Number of people") +
+theme(axis.title=element_text(colour="red"))+
+theme(legend.position = "bottom") +
+theme(panel.grid = element_blank()) +
+theme(panel.background=element_rect(fill="black")) +
+*theme(legend.position = "top")
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_14-1.png" width="100%" /&gt;
+]]
+
+
+
+
+
+
+
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+*ggplot(data = dta)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_1-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+*aes(x = age)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_2-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+*aes(y = bmi)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_3-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+*geom_point()
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_4-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+*aes(colour = sex)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_5-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+*geom_smooth(method = "lm", se = F)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_6-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+*facet_grid(diet ~ .)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_7-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = dta) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+aes(colour = sex) +
+geom_smooth(method = "lm", se = F) +
+facet_grid(diet ~ .) +
+*facet_grid(. ~ diet)
+```
+]]
+.pull-right[.content.center[
+&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_8-1.png" width="100%" /&gt;
+]]
+
+---
+
+
+---
+
+# Virtually endless customisability
+
+.Large[
+
+Plots on previous slides are only a taster
+
+Can make any plot you can think up
+
+Key resource is the `ggplot2` cheatsheet
+
+]
+
+---
+
+
+class: inverse, middle, center
+
+# Making R accessible: &lt;br&gt; Intro to `shiny`
+
+---
+
+## What is .cb[`shiny`]?
+.Large[
+.cb[`shiny`] is an R package that allows users to build interactive web applications ("apps") straight from R.
+
+.pull-left[
+"Apps" are webpages that users can interact with to: 
+
+* Explore data
+
+* Perform analyses
+
+* Create plots
+]
+]
+
+.pull-right[
+&lt;br&gt;
+.center[
+&lt;img src="figs/shiny.png" width = 225 height=250&gt;
+]
+]
+
+---
+
+## Demo of a basic .cb[`shiny`] app
+
+&lt;iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="475" scrolling="no" frameBorder="0"&gt;&lt;/iframe&gt;
+
+---
+
+class: inverse, middle, center
+
+# Introduction: &lt;br&gt; Structure of a `shiny` R file
+
+---
+
+## Structure of a .cb[`shiny`] app
+
+.Large[
+
+A .cb[`shiny`] app is a special type of `R` file that has three component:
+
+* .Large[.bold[User interface]]]
+  
+--
+
+* .Large[.Large[.bold[Server]]]
+
+--
+
+* .Large[.Large[.bold[Call to the .cb[`shinyApp`] function]]]
+
+
+???
+
+User interface
+  * Defines the layout of your app
+  * Controls what it looks like (themes/fonts/etc)
+
+Server
+  * Defines the logic needed to build the app
+  * Performs computational work 
+
+---
+
+## How it works
+
+.Large[.bold[Using webpage rather than command line to instruct R]]
+
+.center[
+&lt;img src="figs/uiserver.png" width = 600 height=420&gt;
+]
+
+---
+
+exclude: false
+
+## Option 1: single file (*app.R*)
+
+.Large[
+__User interface container__
+]
+
+
+```r
+# USER INTERFACE
+*ui &lt;- fluidPage(
+      . . .
+*) 
+
+
+# SERVER
+|
+| 
+|
+
+# RUN THE APP
+|      
+```
+
+
+---
+
+exclude: false
+
+## Option 1: single file (*app.R*)
+
+
+.Large[
+__Server function__
+]
+
+
+```r
+# USER INTERFACE
+ui &lt;- fluidPage( 
+      . . .
+) 
+
+
+# SERVER
+*server &lt;- function(input, output) {
+      . . .
+*} 
+
+# RUN THE APP
+|
+```
+
+---
+
+## Option 1: single file (*app.R*)
+
+
+.Large[
+__Call to the .cb[`shinyApp`] function__
+]
+
+
+```r
+# USER INTERFACE
+ui &lt;- fluidPage(
+      . . .
+)
+
+
+# SERVER
+server &lt;- function(input, output) { 
+      . . .
+} 
+
+# RUN THE APP
+*shinyApp(ui = ui, server = server)
+```
+
+---
+
+## Running your app
+
+.large[.bold[There are two options when running your app:]]
+
+
+Open the app by running .cb[`runApp("app-dir")`] in the console, where "app-dir" is the name of the directory containing your app.R script: 
+
+
+```r
+runApp("luke")
+```
+
+.center[
+.bold[
+.large[
+OR
+]
+]
+]
+
+Open the app.R script in Rstudio and then:
+
+* click the "Run App" button:
+
+.center[&lt;img src="figs/run-app-button.png"&gt;]
+
+* Use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
+
+---
+
+class: inverse, center, middle
+
+# Capturing inputs: Control widgets
+
+---
+
+## A widget for every occasion
+
+Control widgets are used to capture user input and vary based on type of input:
+
+.center[
+&lt;img src="figs/widgets.png" height = 400&gt;
+
+
+Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+]
+
+---
+
+## The anatomy of a widget
+
+All control widgets have two elements in common:
+
+* __inputId__: Unique ID for that widget
+
+* __label__: Text to be displayed beside the widget (which can be left blank)
+
+
+```r
+textInput(inputId = "textboxinput",
+          label = "") 
+```
+
+.center[
+&lt;img src="figs/inputText.png", width = 300&gt;
+]
+
+Other elements are specific to the widget you are using:
+
+
+```r
+selectInput(inputId = "fillby",
+            label = "Variable to fill by",
+            choices = c("Health","treament")),
+```
+
+.center[
+&lt;img src="figs/drop-down.png" width = 300&gt;
+]
+
+--
+
+class: inverse, center, middle
+
+# Creating your own app: &lt;br&gt; Reactive outputs
+
+---
+
+## Creating outputs - the basics
+
+.small[
+
+```r
+# Define UI
+ui &lt;- fluidPage(
+  textOutput("textout")
+)
+
+# Define server
+server &lt;- function(input, output) {
+
+*   output$textout &lt;- renderText({
+*       "This is the best app ever!"
+*   })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+]
+
+Two steps:
+
+* Add the code to render the object to the server function using a .cb[`render*()`] function
+
+---
+
+## Creating outputs - the basics
+
+.small[
+
+```r
+# Define UI 
+ui &lt;- fluidPage(
+* textOutput("textout")
+)
+
+# Define server
+server &lt;- function(input, output) {
+
+    output$textout &lt;- renderText({
+        "This is the best app ever!"
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+]
+
+Two steps:
+
+* Add the code to render the object to the server function using a .cb[`render*()`] function
+
+* Add the resulting object to the user interface using the corresponding .cb[`*Output()`] function.
+---
+
+## Rendering the output
+
+Similar to inputs, there are different .cb[`render\*()`]/.cb[`*Output()`] function pairs for different types of output:
+
+
+.center[
+&lt;img src="figs/render.png" width = 650 class="border"&gt;
+
+Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+]
+
+---
+
+## Static vs reactive outputs
+
+.Large[
+
+So far, the graphical outputs we have created are not fully reactive
+
+Reactive outputs are those that make use of the value of a control widget
+
+]
+
+---
+
+## Accessing widget values
+
+The inputId of the widget is important
+
+Remember the server function:
+
+
+```r
+server &lt;- function(`input`, output) {
+  . . . 
+}
+```
+
+Reads in a list-like object containing the value of each widget, identified by its inputId
+
+--
+&lt;hr&gt;
+
+For the following widget:
+
+
+```r
+textInput(inputId = `"textboxinput"`,
+          label = "")
+```
+
+its value is defined by 
+
+
+```r
+input$`textboxinput`
+```
+
+???
+
+shiny stores all userdefined information in a list-like object called "input"
+
+---
+## Using the value of the control widgets
+
+.center[
+&lt;img src="figs/sidebarexample.png" width="1200" height="400" class="border"&gt;
+]
+
+---
+
+
+## Using the value of the control widgets
+.small[
+**renderPlot() function in the server**
+
+```r
+output$barPlot &lt;- renderPlot({
+       ggplot(data = med, aes_string(fill = `input$fill`)) +
+          geom_histogram(aes(x = status), stat = "count")
+       })
+```
+]
+
+&lt;hr&gt;
+
+--
+
+.small[
+**Changes based on value selected by user in UI**
+
+When *input$fill = health*:
+
+
+```r
+ggplot(data = med, aes_string(fill = `"health"`)) +
+   geom_histogram(aes(x = status), stat = "count")
+```
+]
+
+--
+
+.small[
+&lt;br&gt;
+When *input$fill = treatment*:
+
+
+```r
+ggplot(data = med, aes_string(fill = `"treatment"`)) +
+   geom_histogram(aes(x = status), stat = "count") 
+```
+]
+
+---
+
+## Wrapping up
+.Large[
+While the apps we built today are quite simple, the possibilities with .cb[`shiny`] are endless:
+&lt;br&gt;
+.pull-left[
+.center[
+[Example 1](https://mcguinlu.shinyapps.io/robvis/)
+]
+]
+.pull-right[
+.center[
+[Example 2](https://committedtotape.shinyapps.io/sixtyninelovesongs/)
+]
+]
+
+&lt;br&gt;
+Please do get in touch if I can be of help:
+
+* Email: [luke.mcguinness@bristol.ac.uk](mailto:luke.mcguinness@bristol.ac.uk)
+* Twitter: [@mcguinlu](https://twitter.com/mcguinlu)
+* GitHub: [@mcguinlu](https://github.com/mcguinlu)
+
+Slides will be always be available at:
+
+.center[[lukemcguinness.com](https://lukemcguinness.com/talk/intro-to-shiny-nov-19/)]
+
+]
+
+
+
+---
+
+
+## Images
+Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"ratio": "16:9",
+"highlightSpans": true,
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
