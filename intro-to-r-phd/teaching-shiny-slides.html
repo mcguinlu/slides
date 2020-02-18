@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>How to Wow</title>
+    <title>How to Wow with R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Twitter: @mcguinlu | @Science_Matt" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -12,7 +12,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# How to Wow
+# How to Wow with R
 ## Luke McGuinness + Matt Lee
 ### Twitter: <span class="citation">@mcguinlu</span> | <span class="citation">@Science_Matt</span>
 ### Department of Population Health Sciences, <br> Bristol Medical School
@@ -25,26 +25,26 @@ class: center, middle, inverse, title-slide
 
 
 
-# Advanced topics
+# A brief intro to advanced topics
 
 
-## - Plots with `ggplot`
-
-
---
-
-
-## -  App with `shiny`
+## - Create beautiful plots with `ggplot`
 
 
 --
 
-## - Sharing your work as a package
+
+## - Build interactive apps with `shiny`
+
+
+--
+
+## - Share your work as a package
 
 
 ---
 
-# Public Service Announcements
+# Public Service Announcement
 .Large[
 __I pronounce the letter "R" oddly:__
 ]
@@ -82,17 +82,11 @@ class: inverse, middle, center
 
 ---
 
-# .cb[ggplot2]
+# ggplot2
 
 .Large[
 
-Allows you to create highly customisable publication-ready plots
-
-
-```r
-install.packages("ggplot2")
-library("ggplot2")
-```
+A package to create highly customisable publication-ready plots
 
 Key points:
 
@@ -108,7 +102,7 @@ Key points:
 
 ## .yt[The `bmi2` dataset]
 .large[
-The dataset used for following graphics is the .cb[`bmi2`] dataset included with the BristolVis package:
+The dataset used for following graphics contains 200 observations across the following six variables:
 ]
 
 &lt;table&gt;
@@ -158,27 +152,17 @@ The dataset used for following graphics is the .cb[`bmi2`] dataset included with
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-.large[
-The data set contains 200 observations across the following six variables:
+Install and load `ggplot2`, and download a copy of the dataset to follow along:
 
-.pull-left[
-__Continuous variables:__
 
-* id
-* age
-* bmi
+```r
+install.packages("ggplot2")
+library("ggplot2")
 
-]
+df &lt;- read.csv("http://bit.ly/phd-intro-bmi2")
+```
 
-.pull-right[
-__Categorical variables:__
 
-* sex: Male / Female
-* diet: Good / Moderate / Poor
-* status: Healthy / Unhealthy
-
-]
-]
 
 ---
 
@@ -195,7 +179,7 @@ count: false
 .pull-left[.content[
 
 ```r
-*ggplot(data = dta)
+*ggplot(data = df)
 ```
 ]]
 .pull-right[.content.center[
@@ -208,7 +192,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 *aes(x = age)
 ```
 ]]
@@ -222,7 +206,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 *aes(y = bmi)
 ```
@@ -237,7 +221,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 *geom_point()
@@ -253,7 +237,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -270,7 +254,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -288,7 +272,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -308,7 +292,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -329,7 +313,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -351,7 +335,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -374,7 +358,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -398,7 +382,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -423,7 +407,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -449,7 +433,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -476,7 +460,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -498,6 +482,22 @@ theme_classic() +
 &lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_16-1.png" width="100%" /&gt;
 ]]
 
+???
+
+Make sure to copy these into a new R file.
+
+Key concept is that you are adding pieces together
+
+- first the data 
+
+- then the elements of the data you want to display 
+
+- then the way you want to display them
+
+- then how you want to colour them
+
+- then extra options
+
 ---
 
 
@@ -511,7 +511,7 @@ count: false
 .pull-left[.content[
 
 ```r
-*ggplot(data = dta)
+*ggplot(data = df)
 ```
 ]]
 .pull-right[.content.center[
@@ -524,7 +524,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 *aes(x = status)
 ```
 ]]
@@ -538,7 +538,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 *geom_histogram(stat = "count")
 ```
@@ -553,7 +553,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 *aes(fill = diet)
@@ -569,7 +569,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -586,7 +586,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -604,7 +604,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -623,7 +623,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -643,7 +643,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -664,7 +664,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -686,7 +686,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -709,7 +709,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -733,7 +733,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -758,7 +758,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -778,7 +778,7 @@ theme(panel.background=element_rect(fill="black")) +
 &lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_14-1.png" width="100%" /&gt;
 ]]
 
-
+---
 
 
 
@@ -790,7 +790,7 @@ count: false
 .pull-left[.content[
 
 ```r
-*ggplot(data = dta)
+*ggplot(data = df)
 ```
 ]]
 .pull-right[.content.center[
@@ -803,7 +803,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 *aes(x = age)
 ```
 ]]
@@ -817,7 +817,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 *aes(y = bmi)
 ```
@@ -832,7 +832,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 *geom_point()
@@ -848,7 +848,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -865,7 +865,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -883,7 +883,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -902,7 +902,7 @@ count: false
 .pull-left[.content[
 
 ```r
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -918,9 +918,6 @@ facet_grid(diet ~ .) +
 
 ---
 
-
----
-
 # Virtually endless customisability
 
 .Large[
@@ -929,12 +926,15 @@ Plots on previous slides are only a taster
 
 Can make any plot you can think up
 
-Key resource is the `ggplot2` cheatsheet
+Key resources, both open-source:
+
+* [`ggplot2` cheatsheet](https://ggplot2.tidyverse.org/)
+
+* ["Data visualisation"](https://socviz.co/) by Kieran Healy
 
 ]
 
 ---
-
 
 class: inverse, middle, center
 
@@ -975,6 +975,26 @@ class: inverse, middle, center
 class: inverse, middle, center
 
 # Introduction: &lt;br&gt; Structure of a `shiny` R file
+
+---
+
+# .yt[Run your own app ]
+
+.Large[
+
+Visit the URL below and copy and paste the code there into a new R file:
+
+&gt; http://bit.ly/phd-intro-app
+
+Save the file as "app.R" then start the app either by:
+
+* click the "Run App" button:
+
+.center[&lt;img src="figs/run-app-button.png"&gt;]
+
+* or use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
+
+]
 
 ---
 
@@ -1019,7 +1039,7 @@ Server
 
 exclude: false
 
-## Option 1: single file (*app.R*)
+## *app.R*
 
 .Large[
 __User interface container__
@@ -1047,7 +1067,7 @@ __User interface container__
 
 exclude: false
 
-## Option 1: single file (*app.R*)
+## *app.R*
 
 
 .Large[
@@ -1073,8 +1093,7 @@ ui &lt;- fluidPage(
 
 ---
 
-## Option 1: single file (*app.R*)
-
+## *app.R*
 
 .Large[
 __Call to the .cb[`shinyApp`] function__
@@ -1096,36 +1115,6 @@ server &lt;- function(input, output) {
 # RUN THE APP
 *shinyApp(ui = ui, server = server)
 ```
-
----
-
-## Running your app
-
-.large[.bold[There are two options when running your app:]]
-
-
-Open the app by running .cb[`runApp("app-dir")`] in the console, where "app-dir" is the name of the directory containing your app.R script: 
-
-
-```r
-runApp("luke")
-```
-
-.center[
-.bold[
-.large[
-OR
-]
-]
-]
-
-Open the app.R script in Rstudio and then:
-
-* click the "Run App" button:
-
-.center[&lt;img src="figs/run-app-button.png"&gt;]
-
-* Use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
 
 ---
 
@@ -1172,14 +1161,14 @@ Other elements are specific to the widget you are using:
 ```r
 selectInput(inputId = "fillby",
             label = "Variable to fill by",
-            choices = c("Health","treament")),
+            choices = c("Health","diet")),
 ```
 
 .center[
 &lt;img src="figs/drop-down.png" width = 300&gt;
 ]
 
---
+---
 
 class: inverse, center, middle
 
@@ -1187,13 +1176,48 @@ class: inverse, center, middle
 
 ---
 
-## Creating outputs - the basics
+## Creating reactive outputs 
 
 .small[
 
 ```r
 # Define UI
 ui &lt;- fluidPage(
+* textInput(inputId = "textboxinput",
+*           label = ""),
+  textOutput("textout")
+)
+
+# Define server
+server &lt;- function(input, output) {
+
+    output$textout &lt;- renderText({ 
+        input$textboxinput 
+    }) 
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+
+Three steps:
+
+* Capture the user input using a .cb[`*Input()`] function
+]
+
+---
+
+
+## Creating reactive outputs
+
+.small[
+
+```r
+# Define UI
+ui &lt;- fluidPage(
+  textInput(inputId = "textboxinput",
+            label = ""),
   textOutput("textout")
 )
 
@@ -1201,28 +1225,34 @@ ui &lt;- fluidPage(
 server &lt;- function(input, output) {
 
 *   output$textout &lt;- renderText({
-*       "This is the best app ever!"
+*       input$textboxinput
 *   })
 }
 
 # Run the application 
 shinyApp(ui = ui, server = server)
 ```
-]
 
-Two steps:
+
+Three steps:
+
+* Capture the user input using a .cb[`*Input()`] function
 
 * Add the code to render the object to the server function using a .cb[`render*()`] function
 
+]
+
 ---
 
-## Creating outputs - the basics
+## Creating reactive outputs
 
 .small[
 
 ```r
 # Define UI 
 ui &lt;- fluidPage(
+    textInput(inputId = "textboxinput",
+            label = ""),
 * textOutput("textout")
 )
 
@@ -1230,20 +1260,25 @@ ui &lt;- fluidPage(
 server &lt;- function(input, output) {
 
     output$textout &lt;- renderText({
-        "This is the best app ever!"
+        input$textboxinput
     })
 }
 
 # Run the application 
 shinyApp(ui = ui, server = server)
 ```
-]
 
-Two steps:
+
+Three steps:
+
+* Capture the user input using a .cb[`*Input()`] function
 
 * Add the code to render the object to the server function using a .cb[`render*()`] function
 
 * Add the resulting object to the user interface using the corresponding .cb[`*Output()`] function.
+
+]
+
 ---
 
 ## Rendering the output
@@ -1260,35 +1295,9 @@ Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.c
 
 ---
 
-## Static vs reactive outputs
-
-.Large[
-
-So far, the graphical outputs we have created are not fully reactive
-
-Reactive outputs are those that make use of the value of a control widget
-
-]
-
----
-
 ## Accessing widget values
 
 The inputId of the widget is important
-
-Remember the server function:
-
-
-```r
-server &lt;- function(`input`, output) {
-  . . . 
-}
-```
-
-Reads in a list-like object containing the value of each widget, identified by its inputId
-
---
-&lt;hr&gt;
 
 For the following widget:
 
@@ -1310,14 +1319,6 @@ input$`textboxinput`
 shiny stores all userdefined information in a list-like object called "input"
 
 ---
-## Using the value of the control widgets
-
-.center[
-&lt;img src="figs/sidebarexample.png" width="1200" height="400" class="border"&gt;
-]
-
----
-
 
 ## Using the value of the control widgets
 .small[
@@ -1336,13 +1337,20 @@ output$barPlot &lt;- renderPlot({
 --
 
 .small[
+.pull-left[
 **Changes based on value selected by user in UI**
 
 When *input$fill = health*:
+]
+
+.pull-right[
+&lt;img src="figs/drop-down.png" width = 300&gt;
+]
+
 
 
 ```r
-ggplot(data = med, aes_string(fill = `"health"`)) +
+ggplot(data = med, aes_string(fill = "health")) +
    geom_histogram(aes(x = status), stat = "count")
 ```
 ]
@@ -1355,47 +1363,149 @@ When *input$fill = treatment*:
 
 
 ```r
-ggplot(data = med, aes_string(fill = `"treatment"`)) +
+ggplot(data = med, aes_string(fill = "treatment")) +
    geom_histogram(aes(x = status), stat = "count") 
 ```
+]
+
+
+---
+
+# Further customising your app
+
+.large[
+The most common tags have wrapper functions to make them easier to use:
+]
+
+
+```r
+ui &lt;- fluidPage(         
+ h1("Header 1"),              # header (can be h1-h6)
+ hr(),                        # horizontal rule
+ br(),                        # line break
+ p("Text"),                   # paragraph text
+ p(strong("bold")),           # bold
+ p(em("italic")),             # italics         
+ p(code("code")),             # code highlighting         
+ a(href="", "link"),          # Hyperlink            
+ HTML("&lt;p&gt;Raw html&lt;/p&gt;")      # Raw html                
+)    
+```
+
+.large[
+Some tags, e.g. .cb[em()] and .cb[strong()] must be nested within a paragraph tag, .cb[p()]
+
+Similar to the control widgets, all tags are followed by a comma, except for the last element in the user interface container
+
+A full list of tags is available on the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+]
+
+--- 
+
+# Publishing your app
+
+.Large[
+
+Currently only you can access your app
+
+To publish online for free:
+
+* Ensure that your app.R file is contained within its own folder
+
+* Go to [shinyapps.io](https://www.shinyapps.io/)
+
+* Follow the instructions there to publish your app
+
+]
+
+---
+
+class: inverse, middle, center
+
+# Packaging your code
+
+---
+
+# Why package
+
+.Large[
+
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;&amp;quot;I wish I&amp;#39;d left this code across scattered .R files instead of combining it into a package&amp;quot; said no one ever &lt;a href="https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#rstats&lt;/a&gt; &lt;a href="http://t.co/udeNH4T67H"&gt;http://t.co/udeNH4T67H&lt;/a&gt;&lt;/p&gt;&amp;mdash; David Robinson (@drob) &lt;a href="https://twitter.com/drob/status/611885584584441856?ref_src=twsrc%5Etfw"&gt;June 19, 2015&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+
+&lt;br&gt;
+
+Benefits:
+
+* Reliable and universal way to share code/data
+
+* Are citable, via services like Zenodo
+
+* Well developed testing framework
+
+]
+
+???
+
+Even if you hate your fellow scientists and don't want to share your code, still good to package - future you will appreciate it! 
+
+---
+
+# Package repositories
+
+.Large[
+
+**Cran**
+
+* Official repository  
+* Strict submission process to guarantee quality
+* `install.packages("pacakgename")`
+
+**Bioconductor**
+
+* Topic specific repository, with a focus on bioinformatics  
+* Strict submission requirements, similar to CRAN
+* `BiocManager::install("GenomicFeatures")`
+
+**GitHub**
+
+* Popular for open source projects  
+* Wild west of packages
+* `devtools::install_github("username/packagename")`
+
+]
+
+---
+
+# Resources
+
+.Large[
+
+[*R Packages*](http://r-pkgs.had.co.nz/) by Hadley Wickham
+
+[*Writing an R package from scratch*](hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/) by Hilary Parker
+
 ]
 
 ---
 
 ## Wrapping up
-.Large[
-While the apps we built today are quite simple, the possibilities with .cb[`shiny`] are endless:
-&lt;br&gt;
-.pull-left[
-.center[
-[Example 1](https://mcguinlu.shinyapps.io/robvis/)
-]
-]
-.pull-right[
-.center[
-[Example 2](https://committedtotape.shinyapps.io/sixtyninelovesongs/)
-]
-]
 
-&lt;br&gt;
-Please do get in touch if I can be of help:
-
-* Email: [luke.mcguinness@bristol.ac.uk](mailto:luke.mcguinness@bristol.ac.uk)
-* Twitter: [@mcguinlu](https://twitter.com/mcguinlu)
-* GitHub: [@mcguinlu](https://github.com/mcguinlu)
-
-Slides will be always be available at:
-
-.center[[lukemcguinness.com](https://lukemcguinness.com/talk/intro-to-shiny-nov-19/)]
-
-]
+Please do get in touch if we can be of help:
 
 
+* Email: [luke.mcguinness@bristol.ac.uk](mailto:luke.mcguinness@bristol.ac.uk)  
+* Twitter: [@mcguinlu](https://twitter.com/mcguinlu)  
+* GitHub: [@mcguinlu](https://github.com/mcguinlu)  
+
+* Email: [matthew.lee@bristol.ac.uk](mailto:matthew.lee@bristol.ac.uk)  
+* Twitter: [@Science_Matt](https://twitter.com/Science_Matt)  
+* GitHub: [@mattlee821](https://github.com/mattlee821)  
 
 ---
 
 
-## Images
+## Image credits
 Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

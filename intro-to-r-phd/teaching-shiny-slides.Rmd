@@ -30,6 +30,7 @@ library(kableExtra)
 library(BristolVis)
 library(printr)
 library(ggthemes)
+library(tufte)
 knitr::opts_chunk$set(warning = F, message = F)
 knitr::opts_chunk$set(fig.height = 8, out.width = "100%", comment = " ", cache = F, dpi = 700)
 
@@ -59,7 +60,7 @@ source(file = "xaringan_reveal_parenthetical.R")
 
 ---
 
-# Public Service Announcements
+# Public Service Announcement
 .Large[
 __I pronounce the letter "R" oddly:__
 ]
@@ -97,16 +98,11 @@ class: inverse, middle, center
 
 ---
 
-# .cb[ggplot2]
+# ggplot2
 
 .Large[
 
-Allows you to create highly customisable publication-ready plots
-
-```{r, eval=FALSE}
-install.packages("ggplot2")
-library("ggplot2")
-```
+A package to create highly customisable publication-ready plots
 
 Key points:
 
@@ -122,7 +118,7 @@ Key points:
 
 ## .yt[The `bmi2` dataset]
 .large[
-The dataset used for following graphics is the .cb[`bmi2`] dataset included with the BristolVis package:
+The dataset used for following graphics contains 200 observations across the following six variables:
 ]
 
 ```{r, echo=FALSE, width = 800}
@@ -138,36 +134,25 @@ bmi2 <- tibble::tribble(
 kable(head(bmi2[1:4,]),row.names = FALSE)
 ```
 
-.large[
-The data set contains 200 observations across the following six variables:
+Install and load `ggplot2`, and download a copy of the dataset to follow along:
 
-.pull-left[
-__Continuous variables:__
+```{r, eval = FALSE}
+install.packages("ggplot2")
+library("ggplot2")
 
-* id
-* age
-* bmi
+df <- read.csv("http://bit.ly/phd-intro-bmi2")
+```
 
-]
 
-.pull-right[
-__Categorical variables:__
-
-* sex: Male / Female
-* diet: Good / Moderate / Poor
-* status: Healthy / Unhealthy
-
-]
-]
 
 ---
 
 ```{r, echo = F}
-dta <- BristolVis::bmi2
+df <- BristolVis::bmi2
 ```
 
 ```{r christmas, eval=F, echo=F}
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -194,10 +179,26 @@ ggsave(paste0("figures/", get_what_save_what, ".png"), dpi = 700)
 
 `r apply_reveal("christmas")`
 
+???
+
+Make sure to copy these into a new R file.
+
+Key concept is that you are adding pieces together
+
+- first the data 
+
+- then the elements of the data you want to display 
+
+- then the way you want to display them
+
+- then how you want to colour them
+
+- then extra options
+
 ---
 
 ```{r christmas2, eval=F, echo=F}
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = status) +
 geom_histogram(stat = "count") +
 aes(fill = diet) +
@@ -223,9 +224,10 @@ ggsave(paste0("figures/", get_what_save_what, ".png"), dpi = 700)
 
 `r apply_reveal("christmas2")`
 
+---
 
 ```{r christmas3, eval=F, echo=F}
-ggplot(data = dta) +
+ggplot(data = df) +
 aes(x = age) +
 aes(y = bmi) +
 geom_point() +
@@ -241,11 +243,7 @@ eval(parse(text = paste(knitr:::knit_code$get(get_what_save_what), collapse = ""
 ggsave(paste0("figures/", get_what_save_what, ".png"), dpi = 700)
 ```
 
-
 `r apply_reveal("christmas3")`
-
----
-
 
 ---
 
@@ -257,16 +255,15 @@ Plots on previous slides are only a taster
 
 Can make any plot you can think up
 
-Key resources
+Key resources, both open-source:
 
-* (`ggplot2` cheatsheet)[https://ggplot2.tidyverse.org/]
+* [`ggplot2` cheatsheet](https://ggplot2.tidyverse.org/)
 
-* ("Data visualisation")[https://socviz.co/] by Kieran Healy
+* ["Data visualisation"](https://socviz.co/) by Kieran Healy
 
 ]
 
 ---
-
 
 class: inverse, middle, center
 
@@ -307,6 +304,26 @@ class: inverse, middle, center
 class: inverse, middle, center
 
 # Introduction: <br> Structure of a `shiny` R file
+
+---
+
+# .yt[Run your own app ]
+
+.Large[
+
+Visit the URL below and copy and paste the code there into a new R file:
+
+> http://bit.ly/phd-intro-app
+
+Save the file as "app.R" then start the app either by:
+
+* click the "Run App" button:
+
+.center[<img src="figs/run-app-button.png">]
+
+* or use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
+
+]
 
 ---
 
@@ -351,7 +368,7 @@ Server
 
 exclude: false
 
-## Option 1: single file (*app.R*)
+## *app.R*
 
 .Large[
 __User interface container__
@@ -378,7 +395,7 @@ ui <- fluidPage(  #<<
 
 exclude: false
 
-## Option 1: single file (*app.R*)
+## *app.R*
 
 
 .Large[
@@ -404,8 +421,7 @@ server <- function(input, output) { #<<
 
 ---
 
-## Option 1: single file (*app.R*)
-
+## *app.R*
 
 .Large[
 __Call to the .cb[`shinyApp`] function__
@@ -427,35 +443,6 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server) #<<
  
 ```
-
----
-
-## Running your app
-
-.large[.bold[There are two options when running your app:]]
-
-
-Open the app by running .cb[`runApp("app-dir")`] in the console, where "app-dir" is the name of the directory containing your app.R script: 
-
-```{r, eval=FALSE}
-runApp("luke")
-```
-
-.center[
-.bold[
-.large[
-OR
-]
-]
-]
-
-Open the app.R script in Rstudio and then:
-
-* click the "Run App" button:
-
-.center[<img src="figs/run-app-button.png">]
-
-* Use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
 
 ---
 
@@ -500,7 +487,7 @@ Other elements are specific to the widget you are using:
 ```{r, eval=FALSE}
 selectInput(inputId = "fillby",
             label = "Variable to fill by",
-            choices = c("Health","treament")),
+            choices = c("Health","diet")),
 
 ```
 
@@ -508,7 +495,7 @@ selectInput(inputId = "fillby",
 <img src="figs/drop-down.png" width = 300>
 ]
 
---
+---
 
 class: inverse, center, middle
 
@@ -516,12 +503,47 @@ class: inverse, center, middle
 
 ---
 
-## Creating outputs - the basics
+## Creating reactive outputs 
 
 .small[
 ``` {r, eval = FALSE}
 # Define UI
 ui <- fluidPage(
+  textInput(inputId = "textboxinput", #<<
+            label = ""), #<<
+  textOutput("textout")
+)
+
+# Define server
+server <- function(input, output) {
+
+    output$textout <- renderText({ 
+        input$textboxinput 
+    }) 
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+```
+
+
+Three steps:
+
+* Capture the user input using a .cb[`*Input()`] function
+]
+
+---
+
+
+## Creating reactive outputs
+
+.small[
+``` {r, eval = FALSE}
+# Define UI
+ui <- fluidPage(
+  textInput(inputId = "textboxinput",
+            label = ""),
   textOutput("textout")
 )
 
@@ -529,7 +551,7 @@ ui <- fluidPage(
 server <- function(input, output) {
 
     output$textout <- renderText({ #<<
-        "This is the best app ever!" #<<
+        input$textboxinput #<<
     }) #<<
 }
 
@@ -537,20 +559,26 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 
 ```
-]
 
-Two steps:
+
+Three steps:
+
+* Capture the user input using a .cb[`*Input()`] function
 
 * Add the code to render the object to the server function using a .cb[`render*()`] function
 
+]
+
 ---
 
-## Creating outputs - the basics
+## Creating reactive outputs
 
 .small[
 ``` {r, eval = FALSE}
 # Define UI 
 ui <- fluidPage(
+    textInput(inputId = "textboxinput",
+            label = ""),
   textOutput("textout") #<<
 )
 
@@ -558,7 +586,7 @@ ui <- fluidPage(
 server <- function(input, output) {
 
     output$textout <- renderText({
-        "This is the best app ever!"
+        input$textboxinput
     })
 }
 
@@ -566,13 +594,18 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 
 ```
-]
 
-Two steps:
+
+Three steps:
+
+* Capture the user input using a .cb[`*Input()`] function
 
 * Add the code to render the object to the server function using a .cb[`render*()`] function
 
 * Add the resulting object to the user interface using the corresponding .cb[`*Output()`] function.
+
+]
+
 ---
 
 ## Rendering the output
@@ -589,35 +622,9 @@ Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.c
 
 ---
 
-## Static vs reactive outputs
-
-.Large[
-
-So far, the graphical outputs we have created are not fully reactive
-
-Reactive outputs are those that make use of the value of a control widget
-
-]
-
----
-
 ## Accessing widget values
 
 The inputId of the widget is important
-
-Remember the server function:
-
-```{r, eval = FALSE}
-server <- function(`input`, output) {
-  . . . 
-}
-
-```
-
-Reads in a list-like object containing the value of each widget, identified by its inputId
-
---
-<hr>
 
 For the following widget:
 
@@ -637,14 +644,6 @@ input$`textboxinput`
 shiny stores all userdefined information in a list-like object called "input"
 
 ---
-## Using the value of the control widgets
-
-.center[
-<img src="figs/sidebarexample.png" width="1200" height="400" class="border">
-]
-
----
-
 
 ## Using the value of the control widgets
 .small[
@@ -662,12 +661,19 @@ output$barPlot <- renderPlot({
 --
 
 .small[
+.pull-left[
 **Changes based on value selected by user in UI**
 
 When *input$fill = health*:
+]
+
+.pull-right[
+<img src="figs/drop-down.png" width = 300>
+]
+
 
 ```{r eval=FALSE}
-ggplot(data = med, aes_string(fill = `"health"`)) +
+ggplot(data = med, aes_string(fill = "health")) +
    geom_histogram(aes(x = status), stat = "count")
 ```
 ]
@@ -679,45 +685,146 @@ ggplot(data = med, aes_string(fill = `"health"`)) +
 When *input$fill = treatment*:
 
 ```{r eval=FALSE}
-ggplot(data = med, aes_string(fill = `"treatment"`)) +
+ggplot(data = med, aes_string(fill = "treatment")) +
    geom_histogram(aes(x = status), stat = "count") 
 ```
+]
+
+
+---
+
+# Further customising your app
+
+.large[
+The most common tags have wrapper functions to make them easier to use:
+]
+
+``` {r, eval=FALSE}
+ui <- fluidPage(         
+ h1("Header 1"),              # header (can be h1-h6)
+ hr(),                        # horizontal rule
+ br(),                        # line break
+ p("Text"),                   # paragraph text
+ p(strong("bold")),           # bold
+ p(em("italic")),             # italics         
+ p(code("code")),             # code highlighting         
+ a(href="", "link"),          # Hyperlink            
+ HTML("<p>Raw html</p>")      # Raw html                
+)    
+```
+
+.large[
+Some tags, e.g. .cb[em()] and .cb[strong()] must be nested within a paragraph tag, .cb[p()]
+
+Similar to the control widgets, all tags are followed by a comma, except for the last element in the user interface container
+
+A full list of tags is available on the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+]
+
+--- 
+
+# Publishing your app
+
+.Large[
+
+Currently only you can access your app
+
+To publish online for free:
+
+* Ensure that your app.R file is contained within its own folder
+
+* Go to [shinyapps.io](https://www.shinyapps.io/)
+
+* Follow the instructions there to publish your app
+
+]
+
+---
+
+class: inverse, middle, center
+
+# Packaging your code
+
+---
+
+# Why package
+
+.Large[
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;I wish I&#39;d left this code across scattered .R files instead of combining it into a package&quot; said no one ever <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="http://t.co/udeNH4T67H">http://t.co/udeNH4T67H</a></p>&mdash; David Robinson (@drob) <a href="https://twitter.com/drob/status/611885584584441856?ref_src=twsrc%5Etfw">June 19, 2015</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<br>
+
+Benefits:
+
+* Reliable and universal way to share code/data
+
+* Are citable, via services like Zenodo
+
+* Well developed testing framework
+
+]
+
+???
+
+Even if you hate your fellow scientists and don't want to share your code, still good to package - future you will appreciate it! 
+
+---
+
+# Package repositories
+
+.Large[
+
+**Cran**
+
+* Official repository  
+* Strict submission process to guarantee quality
+* `install.packages("pacakgename")`
+
+**Bioconductor**
+
+* Topic specific repository, with a focus on bioinformatics  
+* Strict submission requirements, similar to CRAN
+* `BiocManager::install("GenomicFeatures")`
+
+**GitHub**
+
+* Popular for open source projects  
+* Wild west of packages
+* `devtools::install_github("username/packagename")`
+
+]
+
+---
+
+# Resources
+
+.Large[
+
+[*R Packages*](http://r-pkgs.had.co.nz/) by Hadley Wickham
+
+[*Writing an R package from scratch*](hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/) by Hilary Parker
+
 ]
 
 ---
 
 ## Wrapping up
-.Large[
-While the apps we built today are quite simple, the possibilities with .cb[`shiny`] are endless:
-<br>
-.pull-left[
-.center[
-[Example 1](https://mcguinlu.shinyapps.io/robvis/)
-]
-]
-.pull-right[
-.center[
-[Example 2](https://committedtotape.shinyapps.io/sixtyninelovesongs/)
-]
-]
 
-<br>
-Please do get in touch if I can be of help:
-
-* Email: [luke.mcguinness@bristol.ac.uk](mailto:luke.mcguinness@bristol.ac.uk)
-* Twitter: [@mcguinlu](https://twitter.com/mcguinlu)
-* GitHub: [@mcguinlu](https://github.com/mcguinlu)
-
-Slides will be always be available at:
-
-.center[[lukemcguinness.com](https://lukemcguinness.com/talk/intro-to-shiny-nov-19/)]
-
-]
+Please do get in touch if we can be of help:
 
 
+* Email: [luke.mcguinness@bristol.ac.uk](mailto:luke.mcguinness@bristol.ac.uk)  
+* Twitter: [@mcguinlu](https://twitter.com/mcguinlu)  
+* GitHub: [@mcguinlu](https://github.com/mcguinlu)  
+
+* Email: [matthew.lee@bristol.ac.uk](mailto:matthew.lee@bristol.ac.uk)  
+* Twitter: [@Science_Matt](https://twitter.com/Science_Matt)  
+* GitHub: [@mattlee821](https://github.com/mattlee821)  
 
 ---
 
 
-## Images
+## Image credits
 Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720

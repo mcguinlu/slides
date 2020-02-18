@@ -16,3 +16,7 @@ Materials for the "Introduction to Data Visualisation and Web Applications Using
 
 * [Presentation](https://mcguinlu.github.io/slides/intro-to-shiny/teaching-shiny-slides.html)
 
+
+#### Intro to R for PhD Students
+* [Presentation](https://mcguinlu.github.io/slides/intro-to-r-phd/teaching-shiny-slides.html)
+
