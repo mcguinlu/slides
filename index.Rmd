@@ -6,17 +6,39 @@ output: html_document
 
 ### Shiny
 
-
-
 #### Intro to Shiny
 
 Materials for the "Introduction to Data Visualisation and Web Applications Using R" short course at the University of Bristol, November 2019.
 
-* [Holding slides](https://mcguinlu.github.io/slides/intro-to-shiny-prep/teaching-shiny-slides-prep.html)
+* [Holding slides](https://mcguinlu.github.io/slides/intro-to-shiny/intro-to-shiny-prep/teaching-shiny-slides-prep.html)
 
 * [Presentation](https://mcguinlu.github.io/slides/intro-to-shiny/teaching-shiny-slides.html)
 
+<br>
+
+### General R
 
 #### Intro to R for PhD Students
+
+Materials for the "How to Wow with R" session on the "Introduction to R" short course at the University of Bristol, Spring 2020. 
+
 * [Presentation](https://mcguinlu.github.io/slides/intro-to-r-phd/teaching-shiny-slides.html)
+
+<br>
+
+### medrixvr
+
+#### Inital concept and machine learning project
+
+Slides for the Autosynthesis Club on webscraping from medRxiv and machine learning with R and Python
+
+* [Presentation](https://mcguinlu.github.io/slides/20-01-15-autosynthesis-club/Autosynthesis-Club-15-1-2020.html)
+
+#### Intro to `medRxivr`
+
+Slides for the MESS introducing `medrxivr`
+
+* [Presentation](https://mcguinlu.github.io/slides/intro-to-medrxivr/intro-to-medrxivr.html)
+
+
 

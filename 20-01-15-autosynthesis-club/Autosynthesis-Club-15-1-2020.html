@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>medrxivr:   a new tool to search and extract  preprints uploaded to medRxiv</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Luke McGuinness   (+ Lena Schmidt)" />
+    <meta name="date" content="2020-04-03" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="reports\my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# medrxivr: <br/> a new tool to search and extract<br/> preprints uploaded to <em>medRxiv</em>
+### <br/> Luke McGuinness <br/> (+ Lena Schmidt)
+### University of Bristol
+### 04/03/2020
+
+---
+
+
+
+
+
+# Session overview
+
+.largest[
+
+* Motivation
+
+* Getting the data
+
+* Using the tool
+  
+* Feedback
+
+]
+
+---
+
+# Objectives of this project
+.largest[
+
+* Extract data from _medRxiv_ and save in a usable format
+
+* Provide tool to search for and extract data on preprints
+
+* Provide tool to automatically download PDFs
+]
+
+???
+
+---
+
+class: inverse, center, middle
+
+# Motivation
+
+---
+
+# Preprint repositories
+
+.largest[
+
+
+Key source of new information
+
+Subject specific (e.g. _bioRxiv_,  _PsyArXiv_, _SocArXiv_ )
+
+BUT do not allow bulk download of citations/PDFs
+
+AND search functionality is poor (/terrible)
+
+&lt;br&gt;
+.center[
+**How to get the data?**
+]
+]
+
+???
+
+Preprint repositories allow researchers to upload a non-peer reviewed copy of the manuscript while going through the peer review process
+
+---
+
+class: inverse, center, middle
+
+# Data extraction
+
+---
+
+# _medRxiv_ Overview
+
+
+
+.larger[
+_medRxiv_ is the new preprint repository for the medical, clinical, and related health sciences.
+
+&lt;br&gt;
+First preprint registered on June 25&lt;sup&gt;th&lt;/sup&gt; 2019
+
+&lt;br&gt;
+Currently contains 1631 preprints,&lt;sup&gt;*&lt;/sup&gt; with approximately ~100 new records uploaded each week
+]
+
+
+.footnote[
+
+&lt;sup&gt;*&lt;/sup&gt; This is only _technically_ true. Actually contains more, as often &gt;1 version of the same preprint
+
+]
+
+---
+
+# Introduction to web-scraping
+
+__Definition:__
+"_The process of extracting data from a website. . .and copying it to a local database for later retrieval or analysis._" &lt;sup&gt;1&lt;/sup&gt;
+
+&lt;br&gt;
+__Two key stages:__
+* Fetch the webpage (i.e.download a local copy)
+* Extract data from it
+
+&lt;br&gt;
+__Two key tools:__
+* `rvest`: an R package design to facilitate web-scraping by providing functions to achieve the steps above
+* _Selector Gadget_: Goolge Chrome plugin that helps to identify the part of the page you wish to scrape 
+
+.footnote[
+&lt;sup&gt;1&lt;/sup&gt; https://en.wikipedia.org/wiki/Web_scraping
+]
+
+---
+
+# `robots(.txt)`! 
+
+.center[
+.largest[**Problem:** &lt;br&gt; Can't scrape *search/* page, so can't perform a search and download the results]
+
+]
+
+--
+
+&lt;br&gt;
+
+.center[
+.largest[**Solution:** &lt;br&gt; Create an offline copy of the *entire repository* and search it myself (if needed)]
+]
+
+???
+
+Prevents common use of databases for systematic reviews
+
+---
+
+# Downloading the repository
+
+.larger[
+Two R scripts:
+  1. Systematically goes through the /archive path and extracts the links to each individual preprint &lt;br&gt;
+  
+  1. Uses the list of links created download key information for each preprint:
+    * Title 
+    * Abstract
+    * First author
+    * Subject category (Allergy/Pain/Public Health/Epi/etc)
+    * Link to bibtex citation
+    * Link to PDF
+    * Copy of PDF
+]  
+    
+???
+ 
+Program a set delay between scraps of 10 seconds
+
+Rather than the search/ page, use the archive/, which contains all the preprints listed on _medRxiv_ in reverse chronological order.   
+
+---
+
+# Automating the process
+
+.largest[
+Process runs every morning at 8am
+
+New data is added to a master spreadsheet (.CSV)
+
+Quality control practices in place
+]
+
+???
+
+And just because I am total nerd, a notification is sent to my phone
+
+---
+
+class: center, middle
+ 
+&lt;img src="figs/screenshot.jpg" width="40%" height="40%" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Machine learning model to classify new preprint abstracts
+
+---
+
+# Original dataset
+
+Systematic review of link between blood lipid levels (e.g. total cholesterol) and subsequent risk of dementia
+
+Initial search of several databases:
+  * Medline  
+  * EMBASE  
+  * Psychinfo  
+  * Cochrane Central Register of Controlled Trials (CENTRAL)  
+  * Web of Science Core Collection  
+
+__16109__ titles and abstracts screened for inclusion, of which *412* moved to full text screening
+
+&lt;br&gt;
+
+.largest[
+**Plan: to use these to train a model to assess the eligibility of new records from _medRxiv_**
+]
+
+
+---
+
+# Data preprocessing
+
+### Expected format
+
+The model expects the both training and testing data in a specific format:
+* Unique ID
+* Label 
+* Alpha
+* Text
+
+The text field is created from the: Title + Abstract + Keywords
+
+???
+
+alpha: A column of the same letter for all rows. Not used in classification but still needed.
+
+---
+
+# Data preprocessing
+
+### Creating chunks
+
+Abstracts &gt;200 characters in length split into 2 even halves and indicator column created:
+
+
+
+---
+
+# Undersampling of training data
+
+.larger[
+16000 records, of which only ~400 are included (label = 1)
+
+Problematic - model will just learn to mark everything as exclude
+
+Solution is to under-sample training data (1 in 20) to create a more balanced dataset
+
+]
+
+---
+
+# Methods
+
+Development dataset (16109 records) was split into training (85%) and test (15%) datasets
+
+Training dataset was then under-sampled:
+* All eligible records included
+* Ineligible records were included at a rate of 1/20
+
+---
+
+# Methods
+
+Development dataset (16109 records) was split into training (85%) and test (15%) datasets
+
+Training dataset was then under-sampled:
+* All eligible records included
+* Ineligible records were included at a rate of 1/20
+
+Model: XLNet&lt;sup&gt;1&lt;/sup&gt; via `transformers` &lt;sup&gt;2&lt;/sup&gt;
+
+.footnote[
+&lt;sup&gt;1&lt;/sup&gt; Yang Z, Dai Z, Yang Y, Carbonell J, Salakhutdinov R, Le QV. XLNet: Generalized Autoregressive Pretraining for Language Understanding. arXiv preprint arXiv:1906.08237. 2019 Jun 19.  
+&lt;sup&gt;2&lt;/sup&gt; [https://huggingface.co/transformers/index.html](https://huggingface.co/transformers/index.html)
+]
+
+???
+
+And if you Google XLnet, one of the first images that comes up is:
+
+---
+
+
+class: center, middle
+
+&lt;img src="figs/xlnet.png" width="667" /&gt;
+
+---
+
+# Methods
+
+Development dataset (16109 records) was split into training (85%) and test (15%) datasets
+
+Training dataset was then under-sampled:
+* All eligible records included
+* Ineligible records were included at a rate of 1/20
+
+Model: XLNet&lt;sup&gt;1&lt;/sup&gt; via `transformers` &lt;sup&gt;2&lt;/sup&gt;
+
+Fine tuning parameters:
+  * Epochs: 3
+  * Batch size: 8
+  * Learning rate: 2e-5 (medium to low)
+  * Warm-up steps: 50
+
+.footnote[
+&lt;sup&gt;1&lt;/sup&gt; Yang Z, Dai Z, Yang Y, Carbonell J, Salakhutdinov R, Le QV. XLNet: Generalized Autoregressive Pretraining for Language Understanding. arXiv preprint arXiv:1906.08237. 2019 Jun 19.  
+&lt;sup&gt;2&lt;/sup&gt; [https://huggingface.co/transformers/index.html](https://huggingface.co/transformers/index.html)
+]
+
+???
+
+epoch. A term that is often used in the context of machine learning. An epoch is one complete presentation of the data set to be learned to a learning machine.
+
+Batch size is a term used in machine learning and refers to the number of training examples utilized in one iteration.
+
+---
+
+# Training results
+
+.larger[
+
+Best model results, when assessed using test data (15% of original):
+
+* Sensitivity: 89%
+* Specificity: 91%
+
+&lt;br&gt;
+
+**Next step: apply this model to the new dataset of 1043 preprint records from _medRxiv_**
+
+]
+
+---
+
+# Cleaning the predictions
+
+### Chunk predictions
+
+
+
+---
+
+# Cleaning the predictions
+
+### Record predictions
+
+
+
+???
+
+Rule to combine chunk predictions
+
+---
+
+# Cleaning the predictions
+
+### Final predictions
+
+
+
+---
+
+# Results
+
+.larger[
+
+Best model results, when assessed using test data (15% of original):
+
+* Sensitivity: 89%
+* Specificity: 91%
+
+]
+
+--
+
+&lt;br&gt;
+
+.larger[
+When applied to the new data (1043 records from medRxiv):
+
+* 66 marked as included
+* 977 marked as excluded
+]
+
+--
+
+&lt;br&gt;
+
+.larger[
+
+A review of the studies marked as "included" found &lt;font color = "red"&gt;__2 eligible studies__&lt;/font&gt;
+
+]
+
+
+???
+
+
+Model performance leads to large number of false positives, but small number of false negatives. 
+
+Preferable in this case, as accept the trade off of having to screen extra false positives for reduced chance of excluding eligible record.
+
+But 66 records marked as included all were at least someway relevant.
+
+---
+
+class: inverse, center, middle
+
+# Discussion
+
+---
+
+# Limitations of methods
+.larger[
+
+
+No additional preprocessing (e.g. convert all numbers to @)
+
+Simplistic rule to combine chunk predictions into record predictions
+
+Different data fields
+* Formal databases have keywords (e.g. Dementia/Lipids/HDL)
+* _medRxiv_ only has topic area (e.g. Epidemiology)
+
+Only screened those included by the model - PPV only
+]
+
+---
+
+# Comments on machine learning
+
+.largest[
+* Accessible?
+  * Code
+  * Hardware
+
+* Reproducible?
+
+* Informative/useful?
+]
+
+???
+
+Code was relatively straightforward, but arguably too easy to apply. Similar argument for MR-Base, that the technology makes it too easy for people to do bad MR studies.
+
+Need better hardware - I like Google products, but Colab made me want to scream.
+
+Same model and fine tuning parameters lead to sensitivity varying between 70% and 92%, and a similar spread for specificity.
+
+By the time you train the model, could have screened the records - which you have to do anyway, as even the best model didn't do very well.
+
+---
+
+
+class: center, middle
+
+&lt;img src="figs/ml.jpg" width="1067" /&gt;
+
+class:larger
+
+# Potential projects using the _medRxiv_ data
+
+.larger[
+
+* Examine conflicts of interest data
+
+]
+
+--
+
+.larger[
+
+* Examine "availability of data" statements
+
+]
+
+--
+
+
+.larger[
+
+* Screen new preprint abstracts using a ML model
+
+]
+
+---
+
+---
+
+# Future plans
+
+.larger[
+Add some preprocessing steps to try and improve the performance of my model
+
+Attempt to set up automatic searching/download for other databases
+
+Set-up Rmarkdown template to allow rapid analysis of evidence
+
+  * Table of characteristics
+  * metafor::reporter()
+  * robvis::summary()
+
+]
+
+---
+
+class: center, middle, inverse
+
+# With (many, many, many)&lt;br&gt; thanks  to  Lena Schmidt&lt;br&gt; &lt;br&gt;Questions / comments / suggestions?  
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

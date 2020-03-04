@@ -1,0 +1,281 @@
+---
+title: "medrxivr: <br/> a new tool to search and extract<br/> preprints uploaded to _medRxiv_"
+subtitle: ""
+author: "<br/> Luke McGuinness <br/> (+ Lena Schmidt)"
+institute: "University of Bristol"
+date: "`r format(Sys.Date(), format = '%d/%m/%Y')`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "my-theme.css", "reports/my-theme.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+``` {r, echo = FALSE, message = FALSE}
+library(medrxivr)
+
+cache <- TRUE
+
+library(dplyr)
+
+```
+
+# Session overview
+
+.largest[
+
+* Motivation
+
+* Getting the data
+
+* Using the tool
+  
+* Feedback
+
+]
+
+---
+
+# Objectives of this project
+.largest[
+
+* Extract data from _medRxiv_ and save in a usable format
+
+* Provide tool to search for and extract data on preprints
+
+* Provide tool to automatically download PDFs
+]
+
+???
+
+---
+
+class: inverse, center, middle
+
+# Motivation
+
+---
+
+# Preprint repositories
+
+.largest[
+
+
+Key source of new information
+
+Subject specific (e.g. _bioRxiv_,  _PsyArXiv_, _SocArXiv_ )
+
+BUT do not allow bulk download of citations/PDFs
+
+AND search functionality is poor (/terrible)
+
+<br>
+.center[
+**How to get the data?**
+]
+]
+
+???
+
+Preprint repositories allow researchers to upload a non-peer reviewed copy of the manuscript while going through the peer review process
+
+---
+
+class: inverse, center, middle
+
+# Getting the data
+
+---
+
+# _medRxiv_ Overview
+
+``` {r, echo = FALSE, cache = cache}
+library(stringr)
+library(pushoverr)
+library(rvest)
+
+page <- read_html("https://www.medrxiv.org/search/%252A")
+
+results <- page %>%
+  html_nodes("#page-title") %>%
+  html_text()
+
+results <- gsub(",","", results)
+
+results <- as.numeric(word(results))
+
+```
+
+.larger[
+_medRxiv_ is the new preprint repository for the medical, clinical, and related health sciences.
+
+<br>
+First preprint registered on June 25<sup>th</sup> 2019
+
+<br>
+Currently contains `r results` preprints,<sup>*</sup> with approximately ~100 new records uploaded each week
+]
+
+
+.footnote[
+
+<sup>*</sup> This is only _technically_ true. Actually contains more, as often >1 version of the same preprint
+
+]
+
+---
+
+# Introduction to web-scraping
+
+__Definition:__
+"_The process of extracting data from a website. . .and copying it to a local database for later retrieval or analysis._" <sup>1</sup>
+
+<br>
+__Two key stages:__
+* Fetch the webpage (i.e.download a local copy)
+* Extract data from it
+
+<br>
+__Two key tools:__
+* `rvest`: an R package design to facilitate web-scraping by providing functions to achieve the steps above
+* _Selector Gadget_: Goolge Chrome plugin that helps to identify the part of the page you wish to scrape 
+
+.footnote[
+<sup>1</sup> https://en.wikipedia.org/wiki/Web_scraping
+]
+
+---
+
+# `robots(.txt)`! 
+
+.center[
+.largest[**Problem:** <br> Can't scrape *search/* page, so can't perform a search and download the results]
+
+]
+
+--
+
+<br>
+
+.center[
+.largest[**Solution:** <br> Create an offline copy of the *entire repository* and search it myself (if needed)]
+]
+
+???
+
+Prevents common use of databases for systematic reviews
+
+---
+
+# Downloading the repository
+
+.larger[
+Two R scripts:
+  1. Systematically goes through the /archive path and extracts the links to each individual preprint <br>
+  
+  1. Uses the list of links created download key information for each preprint:
+    * Title 
+    * Abstract
+    * First author
+    * Subject category (Allergy/Pain/Public Health/Epi/etc)
+    * Link to bibtex citation
+    * Link to PDF
+    * Copy of PDF
+]  
+    
+???
+ 
+Program a set delay between scraps of 10 seconds
+
+Rather than the search/ page, use the archive/, which contains all the preprints listed on _medRxiv_ in reverse chronological order.   
+
+---
+
+# Automating the process
+
+.largest[
+Process runs every morning at 8am
+
+New data is added to a master spreadsheet (.CSV)
+
+Quality control practices in place
+]
+
+???
+
+And just because I am total nerd, a notification is sent to my phone
+
+---
+
+class: center, middle
+ 
+``` {r, echo = FALSE, out.width = '40%', out.height = '40%'}
+
+knitr::include_graphics("figs/screenshot.jpg")
+
+```
+
+
+---
+
+class: inverse, center, middle
+
+# Using the tool
+
+---
+
+class: inverse, center, middle
+
+# Discussion
+
+---
+
+class:larger
+
+# Potential projects using the _medRxiv_ data
+
+.larger[
+
+* Examine conflicts of interest data
+
+]
+
+--
+
+.larger[
+
+* Examine "availability of data" statements
+
+]
+
+--
+
+
+.larger[
+
+* Screen new preprint abstracts using a ML model
+
+]
+
+---
+
+# Future plans
+
+.larger[
+
+]
+
+---
+
+class: center, middle, inverse
+
+# With (many, many, many)<br> thanks  to  Lena Schmidt<br> <br>Questions/comments/ suggestions?  
+
+--- 
+
+
+
