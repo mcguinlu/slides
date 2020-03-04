@@ -93,7 +93,7 @@ class: inverse, center, middle
 
 # _medRxiv_ Overview
 
-``` {r, echo = FALSE, cache = cache}
+``` {r, echo = FALSE, cache = cache, warnings = FALSE, message = FALSE}
 library(stringr)
 library(pushoverr)
 library(rvest)
@@ -274,8 +274,4 @@ class:larger
 class: center, middle, inverse
 
 # With (many, many, many)<br> thanks  to  Lena Schmidt<br> <br>Questions/comments/ suggestions?  
-
---- 
-
-
 
