@@ -28,17 +28,11 @@ Materials for the "How to Wow with R" session on the "Introduction to R" short c
 
 ### medrixvr
 
-#### Inital concept and machine learning project
-
-Slides for the Autosynthesis Club on webscraping from medRxiv and machine learning with R and Python
-
-* [Presentation](https://mcguinlu.github.io/slides/20-01-15-autosynthesis-club/Autosynthesis-Club-15-1-2020.html)
-
 #### Intro to `medRxivr`
 
 Slides for the MESS introducing `medrxivr`
 
-* [Presentation](https://mcguinlu.github.io/slides/intro-to-medrxivr/intro-to-medrxivr.html)
+* [Presentation](https://mcguinlu.github.io/slides/20-03-06-intro-to-medrxivr/intro-to-medrxivr.html)
 
 
 
