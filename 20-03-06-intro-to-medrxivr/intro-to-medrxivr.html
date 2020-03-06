@@ -4,7 +4,7 @@
     <title>medrxivr:   a new tool to search and extract  preprints uploaded to medRxiv</title>
     <meta charset="utf-8" />
     <meta name="author" content="  Luke McGuinness   (+ Lena Schmidt)" />
-    <meta name="date" content="2020-04-03" />
+    <meta name="date" content="2020-06-03" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="my-theme.css" type="text/css" />
     <link rel="stylesheet" href="reports\my-theme.css" type="text/css" />
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 # medrxivr: <br/> a new tool to search and extract<br/> preprints uploaded to <em>medRxiv</em>
 ### <br/> Luke McGuinness <br/> (+ Lena Schmidt)
 ### University of Bristol
-### 04/03/2020
+### 06/03/2020
 
 ---
 
@@ -33,8 +33,10 @@ class: center, middle, inverse, title-slide
 * Getting the data
 
 * Using the tool
+
+* Future plans
   
-* Feedback
+* Feedback/feature suggestion
 
 ]
 
@@ -43,11 +45,11 @@ class: center, middle, inverse, title-slide
 # Objectives of this project
 .largest[
 
-* Extract data from _medRxiv_ and save in a usable format
+* Extract data from _medRxiv_ and save in a useful format
 
-* Provide tool to search for and extract data on preprints
+* Provide tool to search for and extract metadata on preprints
 
-* Provide tool to automatically download PDFs
+* Provide tool to automatically download preprint PDFs
 ]
 
 ???
@@ -64,19 +66,12 @@ class: inverse, center, middle
 
 .largest[
 
+Venue to deposit __preprints__ (non-peer reviewed versions of articles)
 
-Key source of new information
+Key source of grey literature
 
-Subject specific (e.g. _bioRxiv_,  _PsyArXiv_, _SocArXiv_ )
+Subject specific (e.g. _bioRxiv_,  _PsyArXiv_, _SocArXiv_, __*medRxiv*__)
 
-BUT do not allow bulk download of citations/PDFs
-
-AND search functionality is poor (/terrible)
-
-&lt;br&gt;
-.center[
-**How to get the data?**
-]
 ]
 
 ???
@@ -85,13 +80,7 @@ Preprint repositories allow researchers to upload a non-peer reviewed copy of th
 
 ---
 
-class: inverse, center, middle
-
-# Getting the data
-
----
-
-# _medRxiv_ Overview
+# _medRxiv_ overview
 
 
 
@@ -103,14 +92,105 @@ First preprint registered on June 25&lt;sup&gt;th&lt;/sup&gt; 2019
 
 &lt;br&gt;
 Currently contains 1631 preprints,&lt;sup&gt;*&lt;/sup&gt; with approximately ~100 new records uploaded each week
-]
 
+&lt;br&gt;
+__BUT__ two major obstacles to usefulness as a grey literature source for systematic reviews
+
+]
 
 .footnote[
 
 &lt;sup&gt;*&lt;/sup&gt; This is only _technically_ true. Actually contains more, as often &gt;1 version of the same preprint
 
 ]
+
+---
+
+
+## Major issues #1: Searching
+
+--
+
+.larger[
+.center[
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+# The medRxiv search is &lt;br&gt; &lt;u&gt;not fit for purpose&lt;/u&gt;
+]
+]
+
+---
+
+class: center, middle
+ 
+&lt;img src="figs/medrxiv-adv-search.jpg" width="65%" height="65%" /&gt;
+
+---
+
+class: center, middle
+ 
+&lt;img src="figs/dementia-title-search-best.jpg" width="100%" height="100%" /&gt;
+
+---
+
+class: center, middle
+ 
+&lt;img src="figs/dementia-title-search-newest.jpg" width="100%" height="80%" /&gt;
+
+---
+
+#### CALGARY NORMATIVE STUDY: STUDY DESIGN OF A PROSPECTIVE LONGITUDINAL STUDY TO CHARACTERIZE POTENTIAL QUANTITATIVE MR BIOMARKERS OVER THE ADULT LIFESPAN
+
+Introduction: A number of magnetic resonance (MR) imaging methods have been proposed to be useful, quantitative biomarkers of neurodegeneration in aging. The Calgary Normative Study (CNS) is an ongoing single-centre, prospective, longitudinal study that seeks to develop, test and assess quantitative MR methods as potential biomarkers. The CNS has three objectives: first and foremost, to evaluate and characterize the dependence of the selected quantitative neuroimaging biomarkers on age over the adult lifespan; secondly, to evaluate the precision, variability and repeatability of quantitative neuroimaging biomarkers as part of biomarker validation providing proof of-concept and proof-of-principle; and thirdly, provide a shared repository of normative data for comparison to various disease cohorts. Methods and Analysis: Quantitative MR mapping of the brain including longitudinal relaxation time (T1), transverse relaxation time (T2), T2*, magnetic susceptibility (QSM), diffusion and perfusion measurements, as well as morphological assessments are performed. The Montreal Cognitive Assessment (MoCA) and a brief, self-report medical history will be collected. Mixed regression models will be used to characterize changes in quantitative MR biomarker measures over the adult lifespan. In this report on study design, we report interim prevalence and demographic information of recruitment from 28 May 2013 to 31 December 2018. Ethics and Dissemination: Participants provide signed informed consent. Changes in quantitative MR biomarkers measured over the adult lifespan as well as estimates of measurement variance and repeatability will be disseminated through peer-reviewed scientific publication.
+
+---
+
+## Major issues #1: Searching
+
+
+.largest[
+
+* Unclear how search works - problematic for search reproducibility
+
+* Not possible to use complex queries &lt;br&gt; (e.g. "randomi*ation")
+
+* Not possible to use Boolean combinations to build search (AND, OR, NOT)
+]
+
+
+---
+
+## Major issues #2:  Downloading
+
+.largest[
+* Not possible to "bulk" download either:
+  * Metadata for title/abstract screening
+  * PDFs for full text screening
+
+&lt;br&gt;
+
+* __Inefficient for systematic reviewers__
+]
+
+---
+
+.largest[
+.center[
+
+&lt;br&gt;
+# Solution?
+
+# Build a new tool that overcomes these issues: &lt;br&gt; _medrxivr_
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# Getting the data
 
 ---
 
@@ -127,7 +207,7 @@ __Two key stages:__
 &lt;br&gt;
 __Two key tools:__
 * `rvest`: an R package design to facilitate web-scraping by providing functions to achieve the steps above
-* _Selector Gadget_: Goolge Chrome plugin that helps to identify the part of the page you wish to scrape 
+* _Selector Gadget_: Google Chrome plugin that helps to identify the part of the page you wish to scrape 
 
 .footnote[
 &lt;sup&gt;1&lt;/sup&gt; https://en.wikipedia.org/wiki/Web_scraping
@@ -135,32 +215,11 @@ __Two key tools:__
 
 ---
 
-# `robots(.txt)`! 
-
-.center[
-.largest[**Problem:** &lt;br&gt; Can't scrape *search/* page, so can't perform a search and download the results]
-
-]
-
---
-
-&lt;br&gt;
-
-.center[
-.largest[**Solution:** &lt;br&gt; Create an offline copy of the *entire repository* and search it myself (if needed)]
-]
-
-???
-
-Prevents common use of databases for systematic reviews
-
----
-
 # Downloading the repository
 
 .larger[
 Two R scripts:
-  1. Systematically goes through the /archive path and extracts the links to each individual preprint &lt;br&gt;
+  1. Systematically goes through the site and extracts the links to each individual preprint &lt;br&gt;
   
   1. Uses the list of links created download key information for each preprint:
     * Title 
@@ -169,7 +228,6 @@ Two R scripts:
     * Subject category (Allergy/Pain/Public Health/Epi/etc)
     * Link to bibtex citation
     * Link to PDF
-    * Copy of PDF
 ]  
     
 ???
@@ -183,11 +241,13 @@ Rather than the search/ page, use the archive/, which contains all the preprints
 # Automating the process
 
 .largest[
-Process runs every morning at 8am
+Process runs every morning at 9am
 
-New data is added to a master spreadsheet (.CSV)
+New data is added to a master dataset
 
 Quality control practices in place
+* Ensures all records captured
+* Ensures record completeness 
 ]
 
 ???
@@ -207,6 +267,9 @@ class: inverse, center, middle
 
 # Using the tool
 
+[1](https://mcguinlu.shinyapps.io/medrxivr/) / 
+[2](https://gist.github.com/mcguinlu/81e5eeeea2904930ce36700ed40de00e)
+
 ---
 
 class: inverse, center, middle
@@ -217,9 +280,16 @@ class: inverse, center, middle
 
 class:larger
 
-# Potential projects using the _medRxiv_ data
+# Potential uses of _medrxivr_
+.largest[
 
-.larger[
+* Easily (/automatically?) download preprint abstracts/PDFs related to your review
+
+]
+
+--
+
+.largest[
 
 * Examine conflicts of interest data
 
@@ -227,7 +297,7 @@ class:larger
 
 --
 
-.larger[
+.largest[
 
 * Examine "availability of data" statements
 
@@ -235,10 +305,9 @@ class:larger
 
 --
 
+.largest[
 
-.larger[
-
-* Screen new preprint abstracts using a ML model
+* [Explore preprint publishing trends](https://lbrierley.github.io/cov_preprints/medrxiv_cov_preprints.html)
 
 ]
 
@@ -246,7 +315,33 @@ class:larger
 
 # Future plans
 
-.larger[
+.largest[
+
+Three main areas for improvement:
+
+* Improve data scraping (e.g. author field)
+
+* Expand search to include subject field
+
+* Allow users to specify search field(s)
+
+]
+
+---
+
+# Future plans
+
+.largest[
+
+Dissemination
+
+* Freely available via Github &amp; Shiny
+
+* Started rOpenSci process 
+  * Open-source code peer review 
+  * Results in article in JOSS
+
+* Shared on Twitter
 
 ]
 
@@ -254,7 +349,7 @@ class:larger
 
 class: center, middle, inverse
 
-# With (many, many, many)&lt;br&gt; thanks  to  Lena Schmidt&lt;br&gt; &lt;br&gt;Questions/comments/ suggestions?
+# With (many!)&lt;br&gt; thanks  to  Lena Schmidt&lt;br&gt; &lt;br&gt;Questions/comments/ suggestions?
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
