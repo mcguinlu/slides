@@ -1,0 +1,21 @@
+---
+title: "An example Rmarkdown document"
+author: "Luke McGuinness"
+output: word_document
+---
+
+This is a short **document** to demonstrate the functionality of the Rmarkdown file.
+
+```{r, echo = FALSE}
+
+df <- read.csv("http://bit.ly/phd-intro-bmi2", stringsAsFactors = FALSE)
+
+head(df, 10)
+
+mean_var <- "bmi"
+
+```
+
+There were `r ncol(df)` columns in the data. 
+
+The mean of the `r mean_var` variable was `r mean(df[[mean_var]])`.
