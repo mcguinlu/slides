@@ -29,13 +29,11 @@ class: center, middle, inverse, title-slide
 
 - Background to .cb[`shiny`]
 
---
-
-- Creating your own app
+- Getting started
 
   - Set-up
 
-  - User interface &amp; control widgets
+  - Control widgets &amp; User interface
 
   - Outputs
 
@@ -425,7 +423,6 @@ Add new functionality to show product of the two numbers?
 
 ```r
 ui &lt;- fluidPage( 
-
   # Allow user to define two numbers
   numericInput(inputId = "add_1", label = "Number:", value = 0),
   numericInput(inputId = "add_2", label = "Number:", value = 0),
@@ -460,7 +457,6 @@ First, add code needed to create the output to the server using a .cb[`render*()
 
 ```r
 ui &lt;- fluidPage( 
-
   # Allow user to define two numbers
   numericInput(inputId = "add_1", label = "Number:", value = 0),
   numericInput(inputId = "add_2", label = "Number:", value = 0),
@@ -496,7 +492,6 @@ Add the resulting object to the user interface using the corresponding .cb[`*Out
 
 ```r
 ui &lt;- fluidPage( 
-
   # Allow user to define two numbers
   numericInput(inputId = "add_1", label = "Number:", value = 0),
   numericInput(inputId = "add_2", label = "Number:", value = 0),
@@ -645,10 +640,14 @@ Open the app.R script in Rstudio and then:
 
 ---
 
-# Introducing the data
-.large[
-The dataset we will use for the practical elements is the .cb[`bmi2`] dataset included with the BristolVis package:
-]
+## Introducing the data
+
+The dataset we will use for the practical elements is the .cb[`bmi`] dataset:
+
+
+```r
+bmi &lt;- read.csv("http://bit.ly/bris-data-viz-bmi")
+```
 
 &lt;table&gt;
  &lt;thead&gt;
@@ -697,7 +696,6 @@ The dataset we will use for the practical elements is the .cb[`bmi2`] dataset in
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-.large[
 The data set contains 200 observations across the following six variables:
 
 .pull-left[
@@ -717,12 +715,10 @@ __Categorical variables:__
 * status: Healthy / Unhealthy
 
 ]
-]
-
 
 ---
 
-# Images
+## Images
 Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

@@ -39,11 +39,22 @@ ui <- fluidPage(
       
       # Define the plot's title
       textInput(inputId = "titletext",
-                label = "Plot title:")
+                label = "Plot title:"),
+      
+      p("This data set describes a population of participants.")
     ),
     
     mainPanel(
-      plotOutput("barPlot")
+      h2("Plot"),
+      
+      plotOutput("barPlot"),
+      
+      h2("Table"),
+      p("This table shows more detailed on the participants in the dataset."),
+      p(em("The number of rows shown is controlled by the slider on the left.")),
+      
+      tableOutput("table")
+      
     )
   )
 )
@@ -59,12 +70,12 @@ server <- function(input, output) {
     
     # Restrict the bmi dataset to the number of rows defined by the slider
     bmi_plot <- head(x = bmi,
-                      n = input$numberofrowsplot)
+                     n = input$numberofrowsplot)
     
     # Create plot using the restricted dataset
-    ggplot(data = bmi_plot, aes_string(color = "diet")) +
+    ggplot(data = bmi_plot, aes_string(color = input$pointcolour)) +
       geom_point(aes(x = age, y= bmi)) +
-      labs(title = "Plot title")
+      labs(title = input$titletext)
     
   })
   

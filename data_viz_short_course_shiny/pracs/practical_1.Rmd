@@ -3,13 +3,13 @@ title: "Intro to Shiny Practical 1"
 output: html_document
 ---
 
+Note: View this practical sheet online ([here](https://mcguinlu.github.io/slides/data_viz_short_course_shiny/pracs/practical_1.html)) to access the hints and tips.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-## Set-up
-
-### Install and load packages
+## Install and load packages
 
 
 ``` {r}
@@ -22,7 +22,7 @@ library(ggplot2)
 
 <hr>
 
-## Exercise 1: Run your first app
+## Warm-up: Run your first app
 
 ``` {r}
 library(shiny)
@@ -43,55 +43,58 @@ shinyApp(ui = ui, server = server)
 
 ```
 
-Make sure you can run it both:
+__1.__ Copy the code above to an empty R file.
 
+__2.__ Make sure you can run the app, both:
+
+  * using CTRL+SHIFT+ENTER keyboard shortcut
   * from the console (note: you'll have to save it first)
-  * using the "Run App" button
 
 <hr>
 
-## Exercise 2: Design a user interface
+## Exercise 1: Design a user interface
 
-Open the `prac_1.R` file in the `shiny-practicals` folder. 
+__1.__ Open the `prac_1.R` file in the `shiny-practicals` folder. 
 
-Identify the opening and closing brackets of the elements of `sidebarLayout` (e.g. `sidebarLayout()`, `sidePanel()`, `mainPanel()`)
+__2.__ Identify the opening and closing brackets of the elements of `sidebarLayout` (e.g. `sidebarLayout()`, `sidePanel()`, `mainPanel()`)
 
-Run the app
+__3.__ Run the app to familiarise yourself with it
 
-Make the following changes:
+__4.__ Make the following changes:
 
 * Change the title of the app to "Demo of a shiny app"
 
-* Add a new selectInput widget to the sidebar, with the options "sex","diet", and "status"
+* Add a new `selectInput()` widget to the sidebar, with an inputId of "select", a label of "Choose one:", and choices of "sex","diet", and "status"
 
-* Add a new textInput widget to the sidebar with the label "Plot title:"
-
-Re-run the app to ensure that the changes have worked
+* Add a new `textInput()` widget to the sidebar with an inputId of "plottitle" and a label "Plot title:"
 
 <details>
 <summary>Hint</summary>
   
 ```{r}
-selectInput(inputId = "input1",
-            label = "",
+selectInput(inputId = "select",
+            label = "Choose one:",
             choices = c("sex","diet","status"))
 
-textInput(inputId = "title",
-          label = "")
+textInput(inputId = "plottitle",
+          label = "Plot title:")
 
 ```
   
 </details>
+<br>
   
+__5.__ Re-run the app to ensure that the changes have worked
+
 <hr>
 
-## Exercise 3: Create reactive content
+## Exercise 2: Create reactive content
 
-Open the `prac_2.R` file in the `shiny-practicals` folder. 
+__1.__ Open the `prac_2.R` file in the `shiny-practicals` folder. 
 
-Run the app to familiarise yourself with it
+__2.__ Run the app to familiarise yourself with it
 
-Examine the code used to produce the table in the UI/server
+__3.__ Examine the code used to produce the table in the UI/server
 
  * Why is the table not being displayed in the app?
  
@@ -100,25 +103,31 @@ Examine the code used to produce the table in the UI/server
 <details>
 <summary>Hint</summary>
 
-Remember that simply creating an object in the server using a `render*()` function doesn't automatically mean it is visible in the user interface. You need to pass the output ID, in this case `"table"`, to the appropirate `*Output()` function.
+Remember that simply creating an object in the server using a `render*()` function doesn't automatically mean it is visible in the user interface. You need to pass the object, via it's outputId (in this case `"table"`), to the appropriate `*Output()` function.
+
+```{r}
+  tableOutput("table")
+```
   
 </details> 
 
-Examine the code used to produce the plot in the UI/server
+<br>
+
+__4.__ Examine the code used to produce the plot in the UI/server
 
  * Update the code so that the colour is set by the value of `input$pointcolour`
  
- * Update the code so that the title of the plot is defined by the value of the input from the `inputTextbox` widget
+ * Update the code so that the title of the plot is defined by the value of the input from the `textInput()` widget
  
 <details>
 <summary>Hint</summary>
 
 The colour is currently set to "diet" (`color = "diet"`), so you'll need to set it to use the value of `input$pointcolour`
   
-Similarly, the value of the plot title is currently set to "Plot title" (`title = "Plot title"`), so you'll need to update this to use the value of the inputTextbo widget (i.e. `input$titletext`)  
+Similarly, the value of the plot title is currently set to "Plot title" (`title = "Plot title"`), so you'll need to update this to use the value of the `inputText()` widget (i.e. `input$titletext`)  
   
 </details> 
  
 <br> 
  
-Re-run the app to ensure that the changes have worked
+__5.__ Re-run the app to ensure that the changes have worked

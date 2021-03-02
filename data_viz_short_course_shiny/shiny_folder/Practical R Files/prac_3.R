@@ -43,7 +43,10 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-      plotOutput("barPlot")
+      plotOutput("barPlot"),
+      
+      tableOutput("table")
+      
     )
   )
 )
@@ -59,12 +62,12 @@ server <- function(input, output) {
     
     # Restrict the bmi dataset to the number of rows defined by the slider
     bmi_plot <- head(x = bmi,
-                      n = input$numberofrowsplot)
+                     n = input$numberofrowsplot)
     
     # Create plot using the restricted dataset
-    ggplot(data = bmi_plot, aes_string(color = "diet")) +
+    ggplot(data = bmi_plot, aes_string(color = input$pointcolour)) +
       geom_point(aes(x = age, y= bmi)) +
-      labs(title = "Plot title")
+      labs(title = input$titletext)
     
   })
   

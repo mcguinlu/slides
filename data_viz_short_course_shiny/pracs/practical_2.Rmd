@@ -1,62 +1,161 @@
 ---
 title: "Intro to Shiny Practical 2"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
+Note: View this practical sheet online ([here](https://mcguinlu.github.io/slides/data_viz_short_course_shiny/pracs/practical_2.html)) to access the hints and tips.
+
+## Exercise 3: Customising the UI
+
+__1.__ Open the `prac_3.R` file in the `shiny-practicals` folder. 
+
+__2.__ Run the app to see what it does
+
+__3.__ Add some text to the end of the sidebar to describe the dataset used 
+
+<details>
+<summary>Hint</summary>
+<hr>
+
+In this session we spoke about using HTML tags to add (and format) text in your app. Why not try using a few to see what the different outputs look like?
+
+```{r}
+ui <- fluidPage(         
+ h1("Header 1"),              # header (can be h1-h6)
+ hr(),                        # horizontal rule
+ br(),                        # line break
+ p("Text"),                   # paragraph text
+ p(strong("bold")),           # bold
+ p(em("italic")),             # italics         
+ p(code("code")),             # code highlighting         
+ a(href="", "link"),          # Hyperlink            
+ HTML("<p>Raw html</p>")      # Raw html                
+)    
+```  
+  
+<hr>  
+</details>
+
+<br>
+
+__4.__ Add some text to the `mainPanel()` e.g. between the plot and the table
+
+__5.__ Re-run your app to ensure that it works as expected
+
+<hr>
+
+## Exercise 4: The `reactive({})` function
+
+In the previous session, we described an example where the data was being subset within the function that created the `barPlot` output object:
+
+``` {r, eval = FALSE}
+server <- function(input, output) {
+
+ output$barPlot <- renderPlot({
+      data <- head(med, n = input$slider) 
+      
+      ggplot(data = data, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })}
+```
+
+We converted this to the following code, using the `reactive({})` function, to prevent the data from being re-subset every time the user changed the value of `input$fill`:
+
+``` {r, eval = FALSE}
+server <- function(input, output) {
+  data <- reactive({
+        head(med, n = input$slider) 
+  })
+
+ output$barPlot <- renderPlot({
+    ggplot(data = data(), aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })}
+``` 
+  
+Can you apply the same principle to the app in `prac_3.R`?
+
+__1.__ In the the `prac_3.R`, create a reactive expression so that the data does not have to be subset every time the title of the plot is changed.
+
+<hr>
+
+## Exercise 5: Build an app from scratch
+
+__1.__ Open a new Shiny app file in RStudio (File -> New File -> Shiny Web App. . .)
+
+__2.__ Use one of the layouts we discussed as part of this workshop. 
+  
+  <details>
+  <hr>
+  <summary>Hint</summary>
+  
+  
+  The default layout of new apps opened in RStudio is `sidebarLayout()`. Why not try switching to a different layout (e.g. `splitLayout()`)?
+  
+  <hr>  
+    
+  </details>
+  
+  <br>
+  
+__3.__ Load `shiny` and `ggplot2` packages
+  
+__4.__ Load the `med` data set
+  
+```{r}
+med <- read.csv("http://bit.ly/bris-data-viz-med")
+```
+
+<br>
+
+__5.__ Add some text to the app to describe the dataset used
+  
+<details>
+<summary>Hint</summary>
+<hr>
+
+In this session we spoke about using HTML tags to add (and format) text in your app. Why not try using a few to see what the different outputs look like?
+
+```{r}
+ui <- fluidPage(         
+ h1("Header 1"),              # header (can be h1-h6)
+ hr(),                        # horizontal rule
+ br(),                        # line break
+ p("Text"),                   # paragraph text
+ p(strong("bold")),           # bold
+ p(em("italic")),             # italics         
+ p(code("code")),             # code highlighting         
+ a(href="", "link"),          # Hyperlink            
+ HTML("<p>Raw html</p>")      # Raw html                
+)    
+```  
+  
+<hr>  
+</details>
+
+<br>
+   
+__6.__ Add at least one widget to the `sidebarPanel` (but feel free to add as many as you like!)
+   
+__7.__ Add some reactive content (e.g. a plot or a table) to the `mainPanel` that makes use of the input from your widget
+
+__8.__ Run the app to ensure that it works as expected.
 
 ---
 
-* Open the "prac3_shiny" vignette, and copy the code into an empty R file
 
-```{r,eval=FALSE}
-  vignette("prac3_shiny", package = "BristolVis")
-```
+## Exercise 5: Publish your app [Optional]
 
-.Large[
-* Run the app to see what it does
+__1.__ Ensure that your app.R file is contained within its own folder
 
-* Add some text to the end of the sidebar to describe the dataset used 
+__2.__ Deploy your app online
 
-* Add some text to the mainPanel() e.g. between the plot and the table
-
-* Create a reactive expression so that the data does not have to be imported everytime the title is changed
-
-* Re-run your app to ensure that it works as expected
-
-
-## Build an app from scratch
-
-Open a new Shiny app (File -> New File -> Shiny Web App. . .)
-
-Develop an app to create reactive graph 
-
-  * Use one of the layouts we discussed as part of this workshop
-  
-  * Load `shiny` and `ggplot2` packages
-  
-  * Load the `med` data set
-
-  * Add some text to the app to describe the dataset used
-   
-  * Add at least one widget to the .cb[`sidebarPanel`] (but feel free to add as many as you like!)
-   
-  * Add some reative content (e.g. a plot or a table) to the .cb[`mainPanel`] that makes use of the input from your widget
-
-Run the app to ensure that it works as expected.
-
----
-
-
-## _Optional:_ Publish your app
-
-* Ensure that your app.R file is contained within its own folder
-
-* Deploy your app online
   * Go to [shinyapps.io](https://www.shinyapps.io/)
+  
   * Follow the instructions there to publish your app
 
 

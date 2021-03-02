@@ -16,6 +16,14 @@ Materials for the "Introduction to Data Visualisation and Web Applications Using
 
 <br>
 
+#### Intro to Shiny
+
+Materials for the "Introduction to Data Visualisation and Web Applications Using R" short course at the University of Bristol, March 2021.
+
+* [Presentation](https://mcguinlu.github.io/slides/data_viz_)
+
+<br>
+
 ### General R
 
 #### Intro to R for PhD Students
@@ -33,6 +41,7 @@ Materials for the "How to Wow with R" session on the "Introduction to R" short c
 Slides for the MESS introducing `medrxivr`
 
 * [Presentation](https://mcguinlu.github.io/slides/20-03-06-intro-to-medrxivr/intro-to-medrxivr.html)
+
 
 
 

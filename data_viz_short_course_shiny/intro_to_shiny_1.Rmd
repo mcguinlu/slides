@@ -478,7 +478,6 @@ Add new functionality to show product of the two numbers?
 .small[
 ``` {r, eval = FALSE}
 ui <- fluidPage( 
-
   # Allow user to define two numbers
   numericInput(inputId = "add_1", label = "Number:", value = 0),
   numericInput(inputId = "add_2", label = "Number:", value = 0),
@@ -513,7 +512,6 @@ First, add code needed to create the output to the server using a .cb[`render*()
 .small[
 ``` {r, eval = FALSE}
 ui <- fluidPage( 
-
   # Allow user to define two numbers
   numericInput(inputId = "add_1", label = "Number:", value = 0),
   numericInput(inputId = "add_2", label = "Number:", value = 0),
@@ -549,7 +547,6 @@ Add the resulting object to the user interface using the corresponding .cb[`*Out
 .small[
 ``` {r, eval = FALSE}
 ui <- fluidPage( 
-
   # Allow user to define two numbers
   numericInput(inputId = "add_1", label = "Number:", value = 0),
   numericInput(inputId = "add_2", label = "Number:", value = 0),
@@ -694,9 +691,12 @@ Open the app.R script in Rstudio and then:
 ---
 
 ## Introducing the data
-.large[
-The dataset we will use for the practical elements is the .cb[`bmi2`] dataset included with the BristolVis package:
-]
+
+The dataset we will use for the practical elements is the .cb[`bmi`] dataset:
+
+```{r}
+bmi <- read.csv("http://bit.ly/bris-data-viz-bmi")
+```
 
 ```{r, echo=FALSE, width = 800}
 
@@ -711,7 +711,6 @@ bmi2 <- tibble::tribble(
 kable(head(bmi2[1:4,]),row.names = FALSE)
 ```
 
-.large[
 The data set contains 200 observations across the following six variables:
 
 .pull-left[
@@ -731,8 +730,6 @@ __Categorical variables:__
 * status: Healthy / Unhealthy
 
 ]
-]
-
 
 ---
 
