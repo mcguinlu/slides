@@ -20,7 +20,19 @@ Materials for the "Introduction to Data Visualisation and Web Applications Using
 
 Materials for the "Introduction to Data Visualisation and Web Applications Using R" short course at the University of Bristol, March 2021.
 
-* [Presentation](https://mcguinlu.github.io/slides/data_viz_)
+__Slides__
+
+* [Part 1](https://mcguinlu.github.io/slides/data_viz_short_course_shiny/intro_to_shiny_1.html#1)
+
+* [Part 2](https://mcguinlu.github.io/slides/data_viz_short_course_shiny/intro_to_shiny_2.html#1)
+
+__Practicals__
+
+* [Pratical 1](https://mcguinlu.github.io/slides/data_viz_short_course_shiny/pracs/practical_1.html)
+
+* [Pratical 2](https://mcguinlu.github.io/slides/data_viz_short_course_shiny/pracs/practical_2.html)
+
+
 
 <br>
 
