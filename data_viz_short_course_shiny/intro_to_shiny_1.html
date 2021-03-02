@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Introduction to Shiny Part 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Twitter: @mcguinlu" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+    <script src="libs/anchor-sections/anchor-sections.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to Shiny Part 1
+## Luke McGuinness
+### Twitter: <span class="citation">@mcguinlu</span>
+### Deptartment of Population Health Sciences, <br> Bristol Medical School
+### 16th March, 2021
+
+---
+
+
+
+
+# Overview of this session
+
+- Background to .cb[`shiny`]
+
+--
+
+- Creating your own app
+
+  - Set-up
+
+  - User interface &amp; control widgets
+
+  - Outputs
+
+--
+
+- Getting more from .cb[`shiny`]
+
+  - Execution
+    
+  - Customising your app
+  
+  - Reactive programming
+  
+  - Publishing your app
+
+---
+
+# Public Service Announcements
+
+.Large[
+__Workshop plan__
+]
+.large[
+* Lecture followed by workshop
+* There will be a break for coffee in the middle
+]
+
+&lt;br&gt;
+
+--
+
+.Large[
+__Please ask questions as we go along!__
+]
+&lt;br&gt;
+
+
+---
+
+# Public Service Announcements
+.Large[
+__I pronounce the letter "R" oddly:__
+]
+
+.center[
+
+.col-left[
+&lt;img src="figs/oar.png" width =150 height =150&gt;  
+R  
+("oar")
+]
+
+.col-right[
+&lt;img src="figs/pirate.jpg" width =150 height =150&gt;   
+R  
+("arr")
+]
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+.col-center[.Large[.bold[means]]]
+]
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+---
+
+class: inverse, middle, center
+
+# Introduction: &lt;br&gt; Background to `shiny`
+
+---
+## What is .cb[`shiny`]?
+
+.cb[`shiny`] is an R package that allows users to build interactive web applications ("apps") straight from R.
+
+&lt;br&gt;
+
+.center[
+&lt;img src="figs/shiny.png" width = 350 height=400&gt;
+]
+
+---
+
+## What does Shiny do?
+
+&lt;iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="475" scrolling="no" frameBorder="0"&gt;&lt;/iframe&gt;
+
+.small[
+_Data shown is from the `med` dataset used in this practical_
+]
+---
+
+## What does Shiny do?
+
+&lt;img src="figs/Screenshot 2021-03-01 154305.jpg" width="900px" /&gt;
+
+---
+
+## Structure of a .cb[`shiny`] app
+
+A .cb[`shiny`] app has three components:
+
+* .large[.bold[User interface]]
+
+  * Defines the layout of your app
+  * Controls what it looks like (themes/fonts/etc)
+  
+--
+
+* .large[.bold[Server]]
+
+  * Defines the logic needed to build the app
+  * Performs computational work 
+  
+--
+
+* .large[.bold[Call to the .cb[`shinyApp`] function]]
+
+  * Creates the app from an user interface and server pair
+
+
+
+
+---
+
+## Inputs and outputs
+
+Information moves between the UI and the server via inputs and outputs
+
+NB: No computation takes place in UI - only the server can run R functions
+
+.center[
+&lt;img src="figs/uiserver.png" width = 600 height=420&gt;
+]
+
+---
+
+## A simple app: add two numbers
+
+&lt;br&gt;
+
+
+```r
+ui &lt;- fluidPage( 
+
+  # Allow user to define two numbers
+  numericInput(inputId = "add_1", label = "Number:", value = 0),
+  numericInput(inputId = "add_2", label = "Number:", value = 0),
+
+  # Display the output
+  textOutput(outputId = "sum")
+)
+
+server &lt;- function(input, output) {
+  
+  output$sum &lt;- renderText({
+    input$add_1 + input$add_2
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+---
+
+## Reactive programming
+
+.Large[
+* Outputs (the sum of two numbers) *take a dependency on* inputs (the numbers being added)
+* When the inputs change, the outputs change
+]
+
+&lt;br&gt;
+&lt;br&gt;
+
+
+&lt;img src="figs/reactive.png" width="431" style="display: block; margin: auto;" /&gt;
+
+---
+
+## A simple app: add two numbers
+
+&lt;br&gt;
+
+
+
+
+&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_2", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt; + input$add_2&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
+
+---
+
+## A simple app: add two numbers
+
+&lt;br&gt;
+
+
+&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:#66ff00;bg-color:#ffff7f;bold:text-weight'&gt;add_2&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt; + input$&lt;span style='color:#66ff00;bg-color:#ffff7f;bold:text-weight'&gt;add_2&lt;/span&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
+
+---
+
+## A simple app: add two numbers
+
+&lt;br&gt;
+
+
+&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:#66ff00;bg-color:#ffff7f;bold:text-weight'&gt;add_2&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "&lt;span style='color:red;bg-color:#ffff7f;bold:text-weight'&gt;sum&lt;/span&gt;")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$&lt;span style='color:red;bg-color:#ffff7f;bold:text-weight'&gt;sum&lt;/span&gt; &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt; + input$&lt;span style='color:#66ff00;bg-color:#ffff7f;bold:text-weight'&gt;add_2&lt;/span&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
+
+---
+
+class: inverse, center, middle
+
+# Getting started:  &lt;br&gt; Control widgets
+
+---
+
+## A widget for every occasion
+
+Control widgets are used to capture user input and vary based on type of input:
+
+.center[
+&lt;img src="figs/widgets.png" height = 400&gt;
+
+
+Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+]
+
+---
+
+## The anatomy of a widget
+
+We use the `numericInput` widget in our app
+
+
+&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style='background-color:#ffff7f'&gt;numericInput&lt;/span&gt;(inputId = "add_1", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style='background-color:#ffff7f'&gt;numericInput&lt;/span&gt;(inputId = "add_2", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$add_1 + input$add_2&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
+
+---
+
+## The anatomy of a widget
+
+All control widgets have two elements in common:
+
+* __inputId__: Unique ID for that widget
+
+* __label__: Text to be displayed beside the widget (which can be left blank)
+
+
+```r
+textInput(inputId = "textboxinput",
+          label = "") 
+```
+
+.center[
+&lt;img src="figs/inputText.png", width = 300&gt;
+]
+
+Other elements are specific to the widget you are using:
+
+
+```r
+selectInput(inputId = "fillby",
+            label = "Variable to fill by",
+            choices = c("Health","treament")),
+```
+
+.center[
+&lt;img src="figs/drop-down.png" width = 300&gt;
+]
+
+---
+
+## The anatomy of a widget
+
+The `inputId` must be unique, so that the value can be used in the server:
+
+
+&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='background-color:#ffff7f'&gt;add_1&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='background-color:#ffff7f'&gt;add_2&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$&lt;span style='background-color:#ffff7f'&gt;add_1&lt;/span&gt; + input$&lt;span style='background-color:#ffff7f'&gt;add_2&lt;/span&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
+
+---
+
+## The anatomy of a widget
+
+The value of `label` can be duplicated across widgets:
+
+
+&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_1", label = "&lt;span style='background-color:#ffff7f'&gt;Number:&lt;/span&gt;", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_2", label = "&lt;span style='background-color:#ffff7f'&gt;Number:&lt;/span&gt;", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$add_1 + input$add_2&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
+
+---
+
+## The anatomy of a widget
+
+Some widgets require a default value:
+
+
+&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_1", label = "Number:", &lt;span style='background-color:#ffff7f'&gt;value = 0&lt;/span&gt;),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_2", label = "Number:", &lt;span style='background-color:#ffff7f'&gt;value = 0&lt;/span&gt;),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$add_1 + input$add_2&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
+
+---
+
+class: inverse, center, middle
+
+# Getting started: &lt;br&gt; User Interface Layouts
+
+---
+
+## .cb[`sidebarLayout()`]
+
+Common layout for .cb[`shiny`] apps
+
+.center[
+
+&lt;img src="figs/sidebarlayout.png" height = 450&gt;
+
+]
+
+---
+
+## .cb[`sidebarLayout()`]
+
+
+```r
+ui &lt;- fluidPage( 
+  sidebarLayout(
+    sidebarPanel(
+      # Control widgets
+    ),
+    mainPanel(
+      # Outputs
+    )
+  )
+)
+```
+
+
+Conventions for use:
+* The .cb[`sidebarPanel`] is usually used to house the control widgets that capture user input.
+
+* The .cb[`mainPanel`] is usually used to present the output of the app (text/graph/results).
+
+---
+
+## Applying sidebarLayout() to our app
+
+
+```r
+ui &lt;- fluidPage( 
+* sidebarLayout(
+*  sidebarPanel(
+      # Allow user to define two numbers
+      numericInput(inputId = "add_1", label = "Number:", value = 0),
+      numericInput(inputId = "add_2", label = "Number:", value = 0),
+*   ),
+*   mainPanel(
+      # Display the output
+      textOutput(outputId = "sum")
+*   )
+* )
+)  
+
+server &lt;- function(input, output) {
+  
+  output$sum &lt;- renderText({
+    input$add_1 * input$add_2
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+---
+
+class: inverse, center, middle
+
+# Creating your own app: &lt;br&gt; Reactive outputs
+
+---
+
+## Creating outputs - the basics
+
+Add new functionality to show product of the two numbers?
+
+.small[
+
+```r
+ui &lt;- fluidPage( 
+
+  # Allow user to define two numbers
+  numericInput(inputId = "add_1", label = "Number:", value = 0),
+  numericInput(inputId = "add_2", label = "Number:", value = 0),
+
+  # Display the output
+  textOutput(outputId = "sum")
+  
+)
+
+server &lt;- function(input, output) {
+  
+  output$sum &lt;- renderText({ 
+    input$add_1 + input$add_2 
+  }) 
+  
+  
+  
+  
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+---
+
+## Creating outputs - the basics
+
+First, add code needed to create the output to the server using a .cb[`render*()`] function
+
+.small[
+
+```r
+ui &lt;- fluidPage( 
+
+  # Allow user to define two numbers
+  numericInput(inputId = "add_1", label = "Number:", value = 0),
+  numericInput(inputId = "add_2", label = "Number:", value = 0),
+
+  # Display the output
+  textOutput(outputId = "sum")
+  
+)
+
+server &lt;- function(input, output) {
+  
+  output$sum &lt;- renderText({ 
+    input$add_1 + input$add_2 
+  }) 
+  
+* output$product &lt;- renderText({
+*   input$add_1 * input$add_2
+* })
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+---
+
+## Creating outputs - the basics
+
+Add the resulting object to the user interface using the corresponding .cb[`*Output()`] function.
+
+
+.small[
+
+```r
+ui &lt;- fluidPage( 
+
+  # Allow user to define two numbers
+  numericInput(inputId = "add_1", label = "Number:", value = 0),
+  numericInput(inputId = "add_2", label = "Number:", value = 0),
+
+  # Display the output
+  textOutput(outputId = "sum")
+* textOutput(outputID = "product")
+)
+
+server &lt;- function(input, output) {
+  
+  output$sum &lt;- renderText({ 
+    input$add_1 + input$add_2 
+  }) 
+  
+* output$product &lt;- renderText({
+*   input$add_1 * input$add_2
+* })
+}
+
+shinyApp(ui = ui, server = server)
+```
+]
+
+---
+
+## Rendering the output
+
+Similar to inputs, there are different .cb[`render\*()`]/.cb[`*Output()`] function pairs for different types of output:
+
+
+.center[
+&lt;img src="figs/render.png" width = 650 class="border"&gt;
+
+Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+]
+
+---
+
+## Accessing widget values
+
+The inputId of the widget is important
+
+--
+&lt;hr&gt;
+
+For the following widget:
+
+
+```r
+numericInput(inputId = `add_1`, label = "Number:", value = 0)
+```
+
+its value is defined by 
+
+
+```r
+input$`add_1`
+```
+
+???
+
+shiny stores all userdefined information in a list-like object called "input"
+
+---
+## Using the value of the control widgets
+
+.center[
+&lt;img src="figs/sidebarexample.png" width="1200" height="400" class="border"&gt;
+]
+
+---
+
+
+## Using the value of the control widgets
+.small[
+**renderPlot() function in the server**
+
+```r
+output$barPlot &lt;- renderPlot({
+       ggplot(data = med, aes_string(fill = `input$fill`)) +
+          geom_histogram(aes(x = status), stat = "count")
+       })
+```
+]
+
+&lt;hr&gt;
+
+--
+
+.small[
+**Changes based on value selected by user in UI**
+
+When *input$fill = health*:
+
+
+```r
+ggplot(data = med, aes_string(fill = `"health"`)) +
+   geom_histogram(aes(x = status), stat = "count")
+```
+]
+
+--
+
+.small[
+&lt;br&gt;
+When *input$fill = treatment*:
+
+
+```r
+ggplot(data = med, aes_string(fill = `"treatment"`)) +
+   geom_histogram(aes(x = status), stat = "count") 
+```
+]
+
+---
+
+## Running an app
+
+.large[.bold[There are two options when running your app:]]
+
+
+Open the app by running .cb[`runApp("app-dir")`] in the console, where "app-dir" is the name of the directory containing your app.R script: 
+
+
+```r
+runApp("luke")
+```
+
+.center[
+.bold[
+.large[
+OR
+]
+]
+]
+
+Open the app.R script in Rstudio and then:
+
+* click the "Run App" button:
+
+.center[&lt;img src="figs/run-app-button.png"&gt;]
+
+* Use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
+
+---
+
+## .yt[Your Turn: Introducing the data]
+.large[
+The dataset we will use for the practical elements is the .cb[`bmi2`] dataset included with the BristolVis package:
+]
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; id &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; age &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; bmi &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; sex &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; diet &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; status &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 48.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 79.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Poor &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Healthy &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+.large[
+The data set contains 200 observations across the following six variables:
+
+.pull-left[
+__Continuous variables:__
+
+* id
+* age
+* bmi
+
+]
+
+.pull-right[
+__Categorical variables:__
+
+* sex: Male / Female
+* diet: Good / Moderate / Poor
+* status: Healthy / Unhealthy
+
+]
+]
+
+
+---
+
+## Images
+Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightSpans": true,
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

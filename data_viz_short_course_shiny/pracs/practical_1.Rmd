@@ -1,0 +1,82 @@
+---
+title: "Intro to Shiny Practical 1"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Prac 1: Run your first app
+
+``` {r}
+library(shiny)
+
+ui <- fluidPage( 
+  # Allow user to define two numbers
+  numericInput(inputId = "add_1", label = "Number:", value = 0),
+  numericInput(inputId = "add_2", label = "Number:", value = 0),
+  # Display the output
+  textOutput(outputId = "sum")
+)
+server <- function(input, output) {
+  output$sum <- renderText({
+    input$add_1 + input$add_2
+  })
+}
+shinyApp(ui = ui, server = server)
+
+```
+
+Make sure you can run it both:
+
+  * from the console (note: you'll have to save it first)
+  * using the "Run App" button
+
+Add some code to show the result of subtracting the two numbers (hint: input$add_1 - input$add_2 )
+
+---
+
+## .yt[Your Turn: Design a user interface]
+* Open the "prac1_shiny" , and copy the code into an empty R file
+
+
+```{r,eval=FALSE}
+  vignette("prac1_shiny", package = "BristolVis")
+```
+
+* Identify the opening and closing brackets of the elements of .cb[`sidebarLayout`] (e.g. .cb[sidebarLayout()], .cb[sidePanel()], .cb[mainPanel()])
+
+* Run the app
+
+* Make the following changes:
+  * Change the title of the app to "Demo of a shiny app"
+  * Add a new selectInput widget to the sidebar, with the options "sex","diet", and "status"
+  * Add a new textInput widget to the sidebar with the label "Plot title:"
+  
+* What is the value of .cb[`input$textbox`] when the following is entered in it?  
+_This is a test_    
+
+---
+
+## .yt[Your Turn: Create reactive content]
+
+* Open the "prac2_shiny" vignette, and copy the code into an empty R file
+
+```{r,eval=FALSE}
+
+  vignette("prac2_shiny", package = "BristolVis")
+
+```
+
+* Run the app to familarise yourself with it
+
+* Examine the code used to produce the table in the UI/server
+  * Why is the table not being displayed in the app?
+  * Fix the code in the UI so that the table is displayed in the .cb[`mainPanel`]
+
+* Examine the code used to produce the plot in the UI/server
+  * Update the code so that the colour is set by the value of .cb[`input$pointcolour`]
+  * Update the code so that the title of the plot is defined by the value of the input from the .cb[`inputTextbox`] widget
+
+* Re-run the app to ensure that the changes have worked

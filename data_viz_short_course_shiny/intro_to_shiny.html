@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Introduction to Shiny</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Twitter: @mcguinlu" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+    <script src="libs/anchor-sections/anchor-sections.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to Shiny
+## Luke McGuinness
+### Twitter: <span class="citation">@mcguinlu</span>
+### Deptartment of Population Health Sciences, <br> Bristol Medical School
+### 15th November, 2019
+
+---
+
+
+
+
+# Overview of this session
+
+- Background to .cb[`shiny`]
+
+--
+
+- Creating your own app
+
+  - Set-up
+
+  - User interface &amp; control widgets
+
+  - Outputs
+
+--
+
+- Getting more from .cb[`shiny`]
+
+  - Execution
+    
+  - Customising your app
+  
+  - Reactive programming
+  
+  - Publishing your app
+
+---
+
+# Public Service Announcements
+
+.Large[
+__Workshop plan__
+]
+.large[
+* Lecture and six short  practicals mixed together
+* There will be a break for coffee in the middle
+]
+
+&lt;br&gt;
+
+--
+
+.Large[
+__Please ask questions as we go along, and feel free to chat/compare code with your neighbours__
+]
+&lt;br&gt;
+
+--
+
+.Large[
+__We will be using timers as part of this course:__
+]
+
+<div class="countdown" id="timer_603d0879" style="right:34%;bottom:0;" data-audio="true" data-warnwhen="10">
+<code class="countdown-time"><span class="countdown-digits minutes">00</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">15</span></code>
+</div>
+
+---
+
+# Public Service Announcements
+.Large[
+__I pronounce the letter "R" oddly:__
+]
+
+.center[
+
+.col-left[
+&lt;img src="figs/oar.png" width =150 height =150&gt;  
+R  
+("oar")
+]
+
+.col-right[
+&lt;img src="figs/pirate.jpg" width =150 height =150&gt;   
+R  
+("arr")
+]
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+.col-center[.Large[.bold[means]]]
+]
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+--
+
+.center[
+&lt;img src="figs/r-joke.png" width="480" height="175" class="border"&gt;
+]
+
+---
+
+class: inverse, middle, center
+
+# Introduction: &lt;br&gt; Background to `shiny`
+
+---
+## What is .cb[`shiny`]?
+
+.cb[`shiny`] is an R package that allows users to build interactive web applications ("apps") straight from R.
+
+&lt;br&gt;
+
+.center[
+&lt;img src="figs/shiny.png" width = 350 height=400&gt;
+]
+
+---
+
+## Why is it called .cb[`shiny`]?
+
+.pull-left[
+**Likely (but less interesing) reason**
+
+Allows you “*to build beautiful, responsive, and powerful applications with minimal effort.*”]
+
+--
+
+.pull-right[
+**Unlikely (but more interesing) reason**
+
+Speculation that it comes from the show *Firefly*, in which “shiny” means “good” or “valuable”.]
+
+&lt;br&gt;
+
+.center[
+
+&lt;img src="https://media1.giphy.com/media/eSjmuv0wMC9r2/source.gif" width="500" height="300"&gt;
+
+]
+
+---
+
+## Benefits of .cb[`shiny`] for visualisation
+
+
+&lt;iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="475" scrolling="no" frameBorder="0"&gt;&lt;/iframe&gt;
+
+.small[
+_Data shown is from the `med` dataset used throughout this course_
+]
+
+---
+
+class: inverse, middle, center
+
+# Introduction: &lt;br&gt; Structure of a `shiny` app
+
+---
+
+## Structure of a .cb[`shiny`] app
+
+A .cb[`shiny`] app has three components:
+
+* .large[.bold[User interface]]
+
+  * Defines the layout of your app
+  * Controls what it looks like (themes/fonts/etc)
+  
+--
+
+* .large[.bold[Server]]
+
+  * Defines the logic needed to build the app
+  * Performs computational work 
+  
+--
+
+* .large[.bold[Call to the .cb[`shinyApp`] function]]
+
+  * Creates the app from an user interface and server pair
+
+
+---
+
+## Inputs and outputs
+
+Information moves between the UI and the server via inputs and outputs
+
+NB: No computation takes place in UI - only the server can run R functions
+
+.center[
+&lt;img src="figs/uiserver.png" width = 600 height=420&gt;
+]
+
+---
+
+class: inverse, center, middle
+
+# Creating your own app: &lt;br&gt; Getting started
+
+---
+
+exclude: false
+
+## Setting up a .cb[`shiny`] app
+
+.Large[
+This _ui/server_ structure can be implemented in two ways:
+]
+
+--
+
+.pull-left[
+.Large[
+.center[
+.bold[
+Option 1
+]
+A single file called app.R]]]
+--
+
+.pull-right[
+.Large[
+.center[
+.bold[
+Option 2
+]
+Two files: ui.R and server.R]]]
+
+--
+.Large[.center[.pull-left[.red[.bolder[
+&lt;span style='font-size:100px;'&gt;&amp;#8593;&lt;/span&gt;  
+
+This is the structure  
+we will use.
+]
+]
+]
+]
+]
+
+---
+
+exclude: false
+
+## Option 1: single file (*app.R*)
+
+.Large[
+__User interface container__
+]
+
+
+```r
+# USER INTERFACE
+*ui &lt;- fluidPage(
+      . . .
+*) 
+
+
+# SERVER
+|
+| 
+|
+
+# RUN THE APP
+|      
+```
+
+
+---
+
+exclude: false
+
+## Option 1: single file (*app.R*)
+
+
+.Large[
+__Server function__
+]
+
+
+```r
+# USER INTERFACE
+ui &lt;- fluidPage( 
+      . . .
+) 
+
+
+# SERVER
+*server &lt;- function(input, output) {
+      . . .
+*} 
+
+# RUN THE APP
+|
+```
+
+---
+
+## Option 1: single file (*app.R*)
+
+
+.Large[
+__Call to the .cb[`shinyApp`] function__
+]
+
+
+```r
+# USER INTERFACE
+ui &lt;- fluidPage(
+      . . .
+)
+
+
+# SERVER
+server &lt;- function(input, output) { 
+      . . .
+} 
+
+# RUN THE APP
+*shinyApp(ui = ui, server = server)
+```
+
+---
+
+## Option 2: two-file approach
+__Create new folder named "app_directory" with two files:__
+
+
+```r
+~/app_directory
+|-- ui.R
+|-- server.R
+```
+
+&lt;hr&gt;
+
+__The files will contain the relevant functions:__
+.pull-left[
+
+```r
+ui&lt;-fluidPage( 
+      . . .
+) 
+```
+.center[*ui.R*]]
+
+.pull-right[
+
+```r
+server&lt;-function(input,output){
+      . . .
+}
+```
+.center[*server.R*]]
+
+&lt;hr&gt;
+
+__Then run the app using:__
+
+
+```r
+runApp("app_directory")
+```
+
+
+???
+
+Single file apps have the advantage of being able to run from the console -&gt; easy to share.
+
+If using multi-file apps, you can open the ui/server seperately and have them open simultaneously in the editor -&gt; makes it easy to match inputs and outputs
+
+---
+
+## Running your app
+
+.large[.bold[There are two options when running your app:]]
+
+
+Open the app by running .cb[`runApp("app-dir")`] in the console, where "app-dir" is the name of the directory containing your app.R script: 
+
+
+```r
+runApp("luke")
+```
+
+.center[
+.bold[
+.large[
+OR
+]
+]
+]
+
+Open the app.R script in Rstudio and then:
+
+* click the "Run App" button:
+
+.center[&lt;img src="figs/run-app-button.png"&gt;]
+
+* Use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
+
+---
+
+## .yt[Your Turn: Introducing the data]
+.large[
+The dataset we will use for the practical elements is the .cb[`bmi2`] dataset included with the BristolVis package:
+]
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; id &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; age &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; bmi &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; sex &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; diet &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; status &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 48.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 79.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31.5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Poor &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Healthy &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+.large[
+The data set contains 200 observations across the following six variables:
+
+.pull-left[
+__Continuous variables:__
+
+* id
+* age
+* bmi
+
+]
+
+.pull-right[
+__Categorical variables:__
+
+* sex: Male / Female
+* diet: Good / Moderate / Poor
+* status: Healthy / Unhealthy
+
+]
+]
+
+
+---
+
+## .yt[Your Turn: Run your first app]
+
+
+
+.Large[
+* Open the "prac1_shiny" vignette, and copy the code into an empty R file
+]
+
+
+```r
+    vignette("prac1_shiny", package = "BristolVis")
+```
+
+.Large[
+* Run it both:
+
+  * from the console (note: you'll have to save it first)
+  * using the "Run App" button
+
+]
+
+<div class="countdown" id="timer_603d0926" style="right:0;bottom:0;" data-audio="true" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div> 
+
+---
+
+class: inverse, center, middle
+
+# Creating your own app: &lt;br&gt; User interface &amp; &lt;br&gt; control widgets
+
+---
+
+## .cb[`sidebarLayout()`]
+
+Common layout for .cb[`shiny`] apps
+
+.center[
+
+&lt;img src="figs/sidebarlayout.png" height = 450&gt;
+
+]
+
+
+---
+
+## .cb[`sidebarLayout()`]
+
+Defined in code as:
+
+
+```r
+ui &lt;- fluidPage( 
+  sidebarLayout(
+    sidebarPanel(
+      # Control widgets and HTML objects
+    ),
+    mainPanel(
+      # Outputs
+    )
+  )
+)
+```
+
+
+Conventions for use:
+* The .cb[`sidebarPanel`] is usually used to house the control widgets that capture user input.
+
+* The .cb[`mainPanel`] is usually used to present the output of the app (text/graph/results).
+
+---
+
+## Example of the sidebarLayout()
+
+.center[
+&lt;img src="figs/sidebarexample.png" width="1200" height="400" class="border"&gt;
+]
+
+---
+
+## A widget for every occasion
+
+Control widgets are used to capture user input and vary based on type of input:
+
+.center[
+&lt;img src="figs/widgets.png" height = 400&gt;
+
+
+Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+]
+
+---
+
+## The anatomy of a widget
+
+All control widgets have two elements in common:
+
+* __inputId__: Unique ID for that widget
+
+* __label__: Text to be displayed beside the widget (which can be left blank)
+
+
+```r
+textInput(inputId = "textboxinput",
+          label = "") 
+```
+
+.center[
+&lt;img src="figs/inputText.png", width = 300&gt;
+]
+
+Other elements are specific to the widget you are using:
+
+
+```r
+selectInput(inputId = "fillby",
+            label = "Variable to fill by",
+            choices = c("Health","treament")),
+```
+
+.center[
+&lt;img src="figs/drop-down.png" width = 300&gt;
+]
+
+---
+
+## A note on commas in the user interface
+
+.Large[
+Remember that the UI containers (e.g. .cb[`mainPanel()`]) are still functions, to which arguments (i.e. widgets) are passed, so normal rules apply when using commas
+]
+
+
+---
+
+## .yt[Your Turn: Design a user interface]
+* Open the "prac1_shiny" vignette, and copy the code into an empty R file
+
+
+
+```r
+  vignette("prac1_shiny", package = "BristolVis")
+```
+
+* Identify the elements of .cb[`sidebarLayout`]
+
+* Run the app
+
+* Make the following changes:
+  * Change the title of the app to "Demo of a shiny app"
+  * Add a new selectInput widget to the sidebar, with the options "sex","diet", and "status"
+  * Add a new textInput widget to the sidebar with the label "Plot title:"
+  
+* What is the value of .cb[`input$textbox`] when the following is entered in it?  
+_This is a test_    
+
+<div class="countdown" id="timer_603d0907" style="right:0;bottom:0;" data-audio="true" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+???
+
+Last question is important demonstration of how text is saved to input$&lt;id&gt;
+
+
+---
+
+
+class: inverse, center, middle
+
+# Creating your own app: &lt;br&gt; Reactive outputs
+
+---
+
+## Creating outputs - the basics
+
+.small[
+
+```r
+# Define UI
+ui &lt;- fluidPage(
+  textOutput("textout")
+)
+
+# Define server
+server &lt;- function(input, output) {
+
+*   output$textout &lt;- renderText({
+*       "This is the best app ever!"
+*   })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+]
+
+Two steps:
+
+* Add the code to render the object to the server function using a .cb[`render*()`] function
+
+---
+
+## Creating outputs - the basics
+
+.small[
+
+```r
+# Define UI 
+ui &lt;- fluidPage(
+* textOutput("textout")
+)
+
+# Define server
+server &lt;- function(input, output) {
+
+    output$textout &lt;- renderText({
+        "This is the best app ever!"
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+]
+
+Two steps:
+
+* Add the code to render the object to the server function using a .cb[`render*()`] function
+
+* Add the resulting object to the user interface using the corresponding .cb[`*Output()`] function.
+---
+
+## Rendering the output
+
+Similar to inputs, there are different .cb[`render\*()`]/.cb[`*Output()`] function pairs for different types of output:
+
+
+.center[
+&lt;img src="figs/render.png" width = 650 class="border"&gt;
+
+Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+]
+
+---
+
+## Static vs reactive outputs
+
+.Large[
+
+So far, the graphical outputs we have created are not fully reactive
+
+Remember in the last practical, changing the value of the selectInput widget from "sex" to "diet" had no effect
+
+Reactive outputs are those that make use of the value of a control widget
+
+]
+
+---
+
+## Accessing widget values
+
+The inputId of the widget is important
+
+Remember the server function:
+
+
+```r
+server &lt;- function(`input`, output) {
+  . . . 
+}
+```
+
+Reads in a list-like object containing the value of each widget, identified by its inputId
+
+--
+&lt;hr&gt;
+
+For the following widget:
+
+
+```r
+textInput(inputId = `"textboxinput"`,
+          label = "")
+```
+
+its value is defined by 
+
+
+```r
+input$`textboxinput`
+```
+
+???
+
+shiny stores all userdefined information in a list-like object called "input"
+
+---
+## Using the value of the control widgets
+
+.center[
+&lt;img src="figs/sidebarexample.png" width="1200" height="400" class="border"&gt;
+]
+
+---
+
+
+## Using the value of the control widgets
+.small[
+**renderPlot() function in the server**
+
+```r
+output$barPlot &lt;- renderPlot({
+       ggplot(data = med, aes_string(fill = `input$fill`)) +
+          geom_histogram(aes(x = status), stat = "count")
+       })
+```
+]
+
+&lt;hr&gt;
+
+--
+
+.small[
+**Changes based on value selected by user in UI**
+
+When *input$fill = health*:
+
+
+```r
+ggplot(data = med, aes_string(fill = `"health"`)) +
+   geom_histogram(aes(x = status), stat = "count")
+```
+]
+
+--
+
+.small[
+&lt;br&gt;
+When *input$fill = treatment*:
+
+
+```r
+ggplot(data = med, aes_string(fill = `"treatment"`)) +
+   geom_histogram(aes(x = status), stat = "count") 
+```
+]
+
+---
+
+## . . . and .cb[`switch`]!
+
+.large[
+In the previous example, we used the aes_string() function to get around the fact that the value of .cb[`input$fill`] was in quotes
+
+The .cb[`switch`] function converts the value of .cb[`input$&lt;id&gt;`] from a .cb[`selectInput()`] box into anything you like. 
+]
+
+
+```r
+server &lt;- function(input, output) {
+  
+ output$barPlot &lt;- renderPlot({
+    
+*   fill &lt;- switch(input$fill,
+*                    "treatment" = med$treatment,
+*                    "health" = med$health)
+    
+    ggplot(data = med, `aes`(fill = `fill`)) +
+      geom_histogram(aes(x = status), stat = "count") 
+    
+  })
+}
+```
+
+---
+
+## A comment on brackets
+
+.Large[
+
+Note the difference between:
+
+
+```r
+renderPlot(`{}`) 
+
+renderPlot()
+```
+
+Whenever you have a function argument that's more than just a single expression, you need to use curly braces
+
+Good practice to use .cb[{}] all the time, so that you don't get errors
+]
+
+
+---
+
+## .yt[Your Turn: Create reactive content]
+
+* Open the "prac2_shiny" vignette, and copy the code into an empty R file
+
+
+```r
+  vignette("prac2_shiny", package = "BristolVis")
+```
+
+* Run the app to familarise yourself with it
+
+* Examine the code used to produce the table in the UI/server
+  * Why is the table not being displayed in the app?
+  * Fix the code in the UI so that the table is displayed in the .cb[`mainPanel`]
+
+* Examine the code used to produce the plot in the UI/server
+  * Update the code so that the colour is set by the value of .cb[`input$pointcolour`]
+  * Update the code so that the title of the plot is defined by the value of the input from the .cb[`inputTextbox`] widget
+
+* Re-run the app to ensure that the changes have worked
+
+
+<div class="countdown" id="timer_603d086c" style="right:0;bottom:0;" data-audio="true" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+
+---
+
+class: inverse, center, middle
+
+# Getting more from `shiny`: &lt;br&gt; Execution
+
+---
+
+## Where you put your code is important
+
+.Large[
+
+In "prac2_shiny", we loaded the  .cb[`shiny`], .cb[`BristolVis`] and .cb[`ggplot2`] packages using:
+
+
+```r
+library(shiny)
+library(ggplot2)
+library(BristolVis)
+```
+
+Due to the way your app is executed, it is important that this is put outside both the user interface container and the server
+
+If you are .cb[`source()`]-ing additional .cb[`.R`] files, these commands should also go here
+]
+
+---
+
+# When is your code run?
+
+Only ever once, when the app is launched
+
+
+```r
+*library(shiny)
+*library(BristolVis)
+*library(ggplot2)
+
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                         label = "Variable to fill by:",
+                         choices = c("health","treatment")),
+      plotOutput("barPlot")
+)
+
+server &lt;- function(input, output) {
+   output$barPlot &lt;- renderPlot({
+      ggplot(data = med, aes_string(fill = input$fill)) +
+         geom_histogram(aes(x = status), stat = "count")
+      })
+}
+
+*shinyApp(ui = ui, server = server)
+```
+
+---
+
+# When is your code run?
+
+Once each time a new user visits
+
+
+```r
+library(shiny)
+library(BristolVis)
+library(ggplot2)
+
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                         label = "Variable to fill by:",
+                         choices = c("health","treatment")),
+      plotOutput("barPlot")
+)
+
+*server &lt;- function(input, output) {
+*  output$barPlot &lt;- renderPlot({
+*     ggplot(data = med, aes_string(fill = input$fill)) +
+*        geom_histogram(aes(x = status), stat = "count")
+*     })
+*} 
+
+shinyApp(ui = ui, server = server)
+```
+
+---
+
+# When is your code run?
+
+Each time the value of .cb[`input$fill`] changes
+
+
+```r
+library(shiny)
+library(BristolVis)
+library(ggplot2)
+
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                         label = "Variable to fill by:",
+                         choices = c("health","treatment")),
+      plotOutput("barPlot")
+)
+
+server &lt;- function(input, output) {
+   output$barPlot &lt;- renderPlot({
+*     ggplot(data = med, aes_string(fill = input$fill)) +
+*        geom_histogram(aes(x = status), stat = "count")
+*     })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+---
+
+class: inverse, center, middle
+
+# Getting more from `shiny`: &lt;br&gt; Page layout
+
+
+---
+
+## Alternatives to .cb[`sidebarLayout()`]
+
+.large[__.cb[`fluidRow()`]__]
+
+```r
+ui &lt;- fluidPage(
+ fluidRow(column(width= 4),
+          column(width= 2), offset= 3),
+ fluidRow(column(width= 12))
+ ) 
+```
+
+.center[
+&lt;img src="figs/fluidrow.png" width = 480&gt;
+]
+
+---
+
+## Alternatives to .cb[`sidebarLayout()`]
+
+.large[__.cb[`splitLayout()`]__]
+
+```r
+ui &lt;- fluidPage(
+ splitLayout( 
+    # object 1,
+    # object 2
+ )
+)  
+```
+.center[
+&lt;img src="figs/splitLayout.png" width = 480&gt;
+]
+
+---
+
+
+class: inverse, center, middle
+
+# Getting more from `shiny`: &lt;br&gt; Making `shiny` sparkle
+
+---
+
+## A .cb[`shiny`] UI is a HTML document
+
+Can use HTML ___tags___ to add static elements (such as text) to your app.
+
+For example, in the user interface:
+
+
+```r
+ui &lt;- fluidPage(
+* h2("Please complete the options below."),
+* p("This information will be used to update the graph"),
+  selectInput(inputId = "fill",
+              label = "Variable to fill by:",
+              choices = c("health","treatment"))
+)
+```
+&lt;br&gt;
+
+.center[
+&lt;img src="figs/html.png" height = 150 class="border"&gt;
+]
+
+---
+
+## Adding HTML ___tags___
+
+.large[
+The most common tags have wrapper functions to make them easier to use:
+]
+
+
+```r
+ui &lt;- fluidPage(         
+ h1("Header 1"),              # header (can be h1-h6)
+ hr(),                        # horizontal rule
+ br(),                        # line break
+ p("Text"),                   # paragraph text
+ p(strong("bold")),           # bold
+ p(em("italic")),             # italics         
+ p(code("code")),             # code highlighting         
+ a(href="", "link"),          # Hyperlink            
+ HTML("&lt;p&gt;Raw html&lt;/p&gt;")      # Raw html                
+)    
+```
+
+.large[
+Some tags, e.g. .cb[em()] and .cb[strong()] must be nested within a paragraph tag, .cb[p()]
+
+Similar to the control widgets, all tags are followed by a comma, except for the last element in the user interface container
+
+A full list of tags is available on the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Getting more from `shiny`: &lt;br&gt; Reactive programming
+
+---
+
+## Shiny is reactive . . . 
+
+As discussed, .cb[`output$barplot`] below depends on the value of **both** .cb[`input$slider`] and .cb[`input$fill`]:
+
+
+```r
+server &lt;- function(input, output) {
+
+ output$barPlot &lt;- renderPlot({
+      data &lt;- head(med, n = `input$slider`) 
+      ggplot(data = data, aes_string(fill = `input$fill`)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })
+}
+```
+
+When either .cb[`input$slider`] and .cb[`input$fill`] changes, all the code contain within the .cb[`renderPlot()`] function will run
+
+???
+
+
+
+---
+
+## . . . but in a lazy way
+
+<div class="countdown" id="timer_603d09bb" style="top:0;right:0;" data-audio="true" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">02</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+Compare what happens when we change .cb[`input$fill`] in the following:
+
+
+```r
+server &lt;- function(input, output) {
+
+ output$barPlot &lt;- renderPlot({
+      `data` &lt;- head(med, n = `input$slider`) 
+      ggplot(data = `data`, aes_string(fill = `input$fill`)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })}
+```
+
+versus:
+
+
+```r
+server &lt;- function(input, output) {
+  `data` &lt;- reactive({
+        head(med, n = `input$slider`) 
+  })
+
+ output$barPlot &lt;- renderPlot({
+    ggplot(data = `data()`, aes_string(fill = `input$fill`)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })}
+```
+
+---
+
+## The .cb[`reactive({ })`] function
+
+.large[
+
+The difference: changing the value of .cb[`input$fill`] in the second example does not require the data to be re-calculated:
+
+
+* `renderPlot` calls `data()`
+]
+
+
+```r
+data &lt;- `reactive({` head(med, n = input$slider) `})`
+```
+
+.large[
+* `data()` will check that the value of `input$slider` has not changed
+* `data()` will return its saved data ___without___ re-subsetting the _med_ dataset
+* `renderPlot` will re-draw the histogram with the correct fill.  
+]
+
+.center[
+&lt;img src="figs/dependencies.png" width = 300&gt;
+]
+
+???
+Shiny caches the results of .cb[`data()`] and continously validates the value of .cb[`input$slider`] on which it depends. 
+
+You can use this behavior to prevent Shiny from re-running code unnecessarily. 
+
+Important when, for example, loading big datasets from the web -&gt; time consuming if all you want to do is change the title. . . 
+
+---
+
+## .yt[Your Turn: Reactive expressions &amp; HTML tags]
+
+.large[
+* Open the "prac3_shiny" vignette, and copy the code into an empty R file
+]
+
+
+```r
+  vignette("prac3_shiny", package = "BristolVis")
+```
+
+.Large[
+* Run the app to see what it does
+
+* Add some text to the end of the sidebar to describe the dataset used 
+
+* Add some text to the mainPanel() e.g. between the plot and the table
+
+* Create a reactive expression so that the data does not have to be imported everytime the title is changed
+
+* Re-run your app to ensure that it works as expected
+
+]
+
+---
+
+## .yt[Your Turn: Build an app from scratch]
+Open a new Shiny app (File -&gt; New File -&gt; Shiny Web App. . .)
+
+Develop an app to create reactive graph 
+
+  * Use one of the layouts we discussed as part of this workshop
+  
+  * Load `shiny`, `BristolVis` and `ggplot2` packages
+  
+  * Use one of the other datsets included with the `BristolVis` package
+
+  * Add some text to the app to describe the dataset used
+   
+  * Add at least one widget to the .cb[`sidebarPanel`] (but feel free to add as many as you like!)
+   
+  * Add a plot to the .cb[`mainPanel`] that makes use of the input from your widget
+
+Run the app to ensure that it works as expected, and compare your finished app/code with a neighbour
+
+
+<div class="countdown" id="timer_603d073b" style="right:0;bottom:0;" data-audio="true" data-warnwhen="120">
+<code class="countdown-time"><span class="countdown-digits minutes">30</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+class: inverse, center, middle
+
+# Getting more from `shiny`: &lt;br&gt; Sharing/publishing your app
+
+---
+
+## .yt[Your Turn: Publish your app]
+
+.Large[
+* Ensure that your app.R file is contained within its own folder
+
+* Deploy your app online
+  * Go to [shinyapps.io](https://www.shinyapps.io/)
+  * Follow the instructions there to publish your app
+  * Send the link to your new app, plus a brief description of what it does, to us here:
+  
+.center[[http://bit.ly/bris-shiny-form](http://bit.ly/bris-shiny-form)]
+
+]
+
+<div class="countdown" id="timer_603d09b2" style="right:0;bottom:0;" data-audio="true" data-warnwhen="120">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+## Wrapping up
+.Large[
+While the apps we built today are quite simple, the possibilities with .cb[`shiny`] are endless:
+&lt;br&gt;
+.pull-left[
+.center[
+[Example 1](https://mcguinlu.shinyapps.io/robvis/)
+]
+]
+.pull-right[
+.center[
+[Example 2](https://committedtotape.shinyapps.io/sixtyninelovesongs/)
+]
+]
+
+&lt;br&gt;
+Please do get in touch if I can be of help:
+
+* Email: [luke.mcguinness@bristol.ac.uk](mailto:luke.mcguinness@bristol.ac.uk)
+* Twitter: [@mcguinlu](https://twitter.com/mcguinlu)
+* GitHub: [@mcguinlu](https://github.com/mcguinlu)
+
+Slides will be always be available at:
+
+.center[[lukemcguinness.com](https://lukemcguinness.com/talk/intro-to-shiny-nov-19/)]
+
+]
+
+
+
+---
+
+
+## Images
+Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightSpans": true,
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
