@@ -33,13 +33,11 @@ library(flair)
 
 - Background to .cb[`shiny`]
 
---
-
-- Creating your own app
+- Getting started
 
   - Set-up
 
-  - User interface & control widgets
+  - Control widgets & User interface
 
   - Outputs
 
@@ -695,7 +693,7 @@ Open the app.R script in Rstudio and then:
 
 ---
 
-# Introducing the data
+## Introducing the data
 .large[
 The dataset we will use for the practical elements is the .cb[`bmi2`] dataset included with the BristolVis package:
 ]
@@ -738,5 +736,5 @@ __Categorical variables:__
 
 ---
 
-# Images
+## Images
 Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720

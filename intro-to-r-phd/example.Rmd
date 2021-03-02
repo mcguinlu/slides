@@ -1,10 +1,14 @@
 ---
-title: "An example Rmarkdown document"
+title: "An example Rmarkdown document, for the Intro to R course"
 author: "Luke McGuinness"
-output: word_document
+output: html_document
 ---
 
-This is a short **document** to demonstrate the functionality of the Rmarkdown file.
+# Introduction
+
+This is a short **document** to *demonstrate* the functionality of the Rmarkdown file.
+
+## Table of data
 
 ```{r, echo = FALSE}
 
@@ -12,10 +16,12 @@ df <- read.csv("http://bit.ly/phd-intro-bmi2", stringsAsFactors = FALSE)
 
 head(df, 10)
 
-mean_var <- "bmi"
+mean_variable <- "age"
 
 ```
 
+## Summary statistics
+
 There were `r ncol(df)` columns in the data. 
 
-The mean of the `r mean_var` variable was `r mean(df[[mean_var]])`.
+The mean of the `r mean_variable` variable was `r mean(df[[mean_variable]])`.

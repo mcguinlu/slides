@@ -6,6 +6,8 @@
     <meta name="author" content="Twitter: @mcguinlu" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+    <script src="libs/anchor-sections/anchor-sections.js"></script>
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
   <body>
@@ -13,10 +15,10 @@
 class: center, middle, inverse, title-slide
 
 # How to Wow with R
-## Luke McGuinness (+ Matt Lee)
+## Luke McGuinness
 ### Twitter: <span class="citation">@mcguinlu</span>
 ### Department of Population Health Sciences, <br> Bristol Medical School
-### 21st October, 2020
+### 16th March, 2021
 
 ---
 
@@ -52,6 +54,13 @@ code.r.hljs.remark-code:hover {
 --
 
 ## - Share your work as a package
+
+
+???
+
+Just to note that this is a jumping off point for reference. 
+
+Slides are available from the link in your folders - lots of elements in this presentation are hyperlinked, so might be worth having a look.
 
 ---
 
@@ -113,7 +122,13 @@ Elements are added together using **+**
 
 ]
 
+???
 
+Can do plots in base R, as Matt showed you earlier
+
+Advantage of using ggplot is greater control over the layout
+
+Base plots fine for doing simple exploratory figures - anything more, you'll want ggplot2
 
 ---
 
@@ -179,7 +194,9 @@ library("ggplot2")
 df &lt;- read.csv("http://bit.ly/phd-intro-bmi2")
 ```
 
+???
 
+So we're going to jump right in and start making plots:
 
 ---
 
@@ -399,6 +416,11 @@ labs(title = "BMI by Age") +
 &lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_14-1.png" width="100%" /&gt;
 ]]
 
+
+???
+
+So just to reinforce the idea that we are adding things sequentially:
+
 ---
 
 
@@ -501,6 +523,10 @@ ggplot(data = df) +
 .pull-right[.content.center[
 &lt;img src="teaching-shiny-slides_files/figure-html/output_christmas7_8-1.png" width="100%" /&gt;
 ]]
+
+???
+
+Going to have a look at using predined themes:
 
 ---
 
@@ -660,6 +686,10 @@ theme_classic() +
 .pull-right[.content.center[
 &lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_9-1.png" width="100%" /&gt;
 ]]
+
+???
+
+Rather than using predefined themes, going to showcase how you can edit specific elements of your plots
 
 ---
 

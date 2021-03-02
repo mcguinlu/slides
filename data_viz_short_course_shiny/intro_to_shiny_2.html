@@ -27,15 +27,14 @@ class: center, middle, inverse, title-slide
 
 # Overview of this session
 
+
 - Background to .cb[`shiny`]
 
---
-
-- Creating your own app
+- Getting started
 
   - Set-up
 
-  - User interface &amp; control widgets
+  - Control widgets &amp; User interface
 
   - Outputs
 
@@ -53,359 +52,404 @@ class: center, middle, inverse, title-slide
 
 ---
 
-# Public Service Announcements
+### New example!
 
-.Large[
-__Workshop plan__
-]
-.large[
-* Lecture followed by workshop
-* There will be a break for coffee in the middle
-]
-
-&lt;br&gt;
-
---
-
-.Large[
-__Please ask questions as we go along!__
-]
-&lt;br&gt;
-
-
----
-
-# Public Service Announcements
-.Large[
-__I pronounce the letter "R" oddly:__
-]
-
-.center[
-
-.col-left[
-&lt;img src="figs/oar.png" width =150 height =150&gt;  
-R  
-("oar")
-]
-
-.col-right[
-&lt;img src="figs/pirate.jpg" width =150 height =150&gt;   
-R  
-("arr")
-]
-&lt;br&gt;
-&lt;br&gt;
-&lt;br&gt;
-.col-center[.Large[.bold[means]]]
-]
-&lt;br&gt;
-&lt;br&gt;
-&lt;br&gt;
-&lt;br&gt;
-&lt;br&gt;
-&lt;br&gt;
-
----
-
-class: inverse, middle, center
-
-# Introduction: &lt;br&gt; Background to `shiny`
-
----
-## What is .cb[`shiny`]?
-
-.cb[`shiny`] is an R package that allows users to build interactive web applications ("apps") straight from R.
-
-&lt;br&gt;
-
-.center[
-&lt;img src="figs/shiny.png" width = 350 height=400&gt;
-]
-
----
-
-## What does Shiny do?
-
-&lt;iframe src="https://mcguinlu.shinyapps.io/shiny-teaching-apps/" class="foo" width="1400"  height="475" scrolling="no" frameBorder="0"&gt;&lt;/iframe&gt;
-
-.small[
-_Data shown is from the `med` dataset used in this practical_
-]
----
-
-## What does Shiny do?
-
-&lt;img src="figs/Screenshot 2021-03-01 154305.jpg" width="900px" /&gt;
-
----
-
-## Structure of a .cb[`shiny`] app
-
-A .cb[`shiny`] app has three components:
-
-* .large[.bold[User interface]]
-
-  * Defines the layout of your app
-  * Controls what it looks like (themes/fonts/etc)
-  
---
-
-* .large[.bold[Server]]
-
-  * Defines the logic needed to build the app
-  * Performs computational work 
-  
---
-
-* .large[.bold[Call to the .cb[`shinyApp`] function]]
-
-  * Creates the app from an user interface and server pair
-
-
-
-
----
-
-## Inputs and outputs
-
-Information moves between the UI and the server via inputs and outputs
-
-NB: No computation takes place in UI - only the server can run R functions
-
-.center[
-&lt;img src="figs/uiserver.png" width = 600 height=420&gt;
-]
-
----
-
-## A simple app: add two numbers
-
-&lt;br&gt;
+Can anyone describe what this app does?
 
 
 ```r
-ui &lt;- fluidPage( 
+library(shiny) 
+library(ggplot2) 
 
-  # Allow user to define two numbers
-  numericInput(inputId = "add_1", label = "Number:", value = 0),
-  numericInput(inputId = "add_2", label = "Number:", value = 0),
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med") 
 
-  # Display the output
-  textOutput(outputId = "sum")
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      
+      plotOutput("barPlot")
 )
 
 server &lt;- function(input, output) {
   
-  output$sum &lt;- renderText({
-    input$add_1 + input$add_2
-  })
+  output$barPlot &lt;- renderPlot({
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+    
+      })
 }
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+### New example!
+
+Imports `med` dataset...
+
+
+```r
+library(shiny) 
+library(ggplot2) 
+
+*med &lt;- read.csv("http://bit.ly/bris-data-viz-med")
+
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      
+      plotOutput("barPlot")
+)
+
+server &lt;- function(input, output) {
+  
+  output$barPlot &lt;- renderPlot({
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+    
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+### New example!
+
+Which is used to create a barplot using `ggplot2`...
+
+
+```r
+library(shiny) 
+library(ggplot2) 
+
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      
+      plotOutput("barPlot")
+)
+
+server &lt;- function(input, output) {
+  
+  output$barPlot &lt;- renderPlot({
+    
+*     ggplot(data = med, aes_string(fill = input$fill)) +
+*     geom_histogram(aes(x = status), stat = "count")
+    
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+### New example!
+
+With user defined "fill" variable, captured by an input widget
+
+
+```r
+library(shiny) 
+library(ggplot2) 
+
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui &lt;- fluidPage(
+*     selectInput(inputId = "fill",
+*                 label = "Variable to fill by:",
+*                 choices = c("health","treatment")),
+      
+      plotOutput("barPlot")
+)
+
+server &lt;- function(input, output) {
+  
+  output$barPlot &lt;- renderPlot({
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+    
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+class: inverse, center, middle
+
+# Getting more from `shiny`: &lt;br&gt; Execution
+
+---
+
+## Where you put your code is important
+
+.Large[
+
+In the example, we loaded the  .cb[`shiny`] and .cb[`ggplot2`] packages using:
+
+
+```r
+library(shiny)
+library(ggplot2)
+```
+
+Due to the way your app is executed, it is important that this is put outside both the user interface container and the server
+
+If you are .cb[`source()`]-ing additional .cb[`.R`] files, these commands should also go here
+
+__This is particularly relevant when loading large data files__
+
+]
+
+---
+
+## When is your code run?
+
+Only ever once, when the app is launched
+
+
+```r
+*library(shiny)
+*library(ggplot2)
+
+*med &lt;- read.csv("http://bit.ly/bris-data-viz-med")
+
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      plotOutput("barPlot")
+)
+
+server &lt;- function(input, output) {
+  
+   output$barPlot &lt;- renderPlot({ 
+     
+      ggplot(data = med, aes_string(fill = input$fill)) + 
+      geom_histogram(aes(x = status), stat = "count") 
+     
+      }) 
+} 
+
+*shinyApp(ui = ui, server = server)
+```
+
+---
+
+## When is your code run?
+
+Once each time a new user visits
+
+
+```r
+library(shiny)
+library(ggplot2)
+
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      plotOutput("barPlot")
+)
+
+*server &lt;- function(input, output) {
+  
+*  output$barPlot &lt;- renderPlot({
+     
+*     ggplot(data = med, aes_string(fill = input$fill)) +
+*     geom_histogram(aes(x = status), stat = "count")
+     
+*     })
+*} 
 
 shinyApp(ui = ui, server = server)
 ```
 
 ---
 
-## Reactive programming
+## When is your code run?
 
-.Large[
-* Outputs (the sum of two numbers) *take a dependency on* inputs (the numbers being added)
-* When the inputs change, the outputs change
-]
-
-&lt;br&gt;
-&lt;br&gt;
-
-
-&lt;img src="figs/reactive.png" width="431" style="display: block; margin: auto;" /&gt;
-
----
-
-## A simple app: add two numbers
-
-&lt;br&gt;
-
-
-
-
-&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_2", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt; + input$add_2&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
-
----
-
-## A simple app: add two numbers
-
-&lt;br&gt;
-
-
-&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:#66ff00;bg-color:#ffff7f;bold:text-weight'&gt;add_2&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt; + input$&lt;span style='color:#66ff00;bg-color:#ffff7f;bold:text-weight'&gt;add_2&lt;/span&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
-
----
-
-## A simple app: add two numbers
-
-&lt;br&gt;
-
-
-&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='color:#66ff00;bg-color:#ffff7f;bold:text-weight'&gt;add_2&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "&lt;span style='color:red;bg-color:#ffff7f;bold:text-weight'&gt;sum&lt;/span&gt;")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$&lt;span style='color:red;bg-color:#ffff7f;bold:text-weight'&gt;sum&lt;/span&gt; &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$&lt;span style='color:blue;bg-color:#ffff7f;bold:text-weight'&gt;add_1&lt;/span&gt; + input$&lt;span style='color:#66ff00;bg-color:#ffff7f;bold:text-weight'&gt;add_2&lt;/span&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
-
----
-
-class: inverse, center, middle
-
-# Getting started:  &lt;br&gt; Control widgets
-
----
-
-## A widget for every occasion
-
-Control widgets are used to capture user input and vary based on type of input:
-
-.center[
-&lt;img src="figs/widgets.png" height = 400&gt;
-
-
-Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
-]
-
----
-
-## The anatomy of a widget
-
-We use the `numericInput` widget in our app
-
-
-&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style='background-color:#ffff7f'&gt;numericInput&lt;/span&gt;(inputId = "add_1", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style='background-color:#ffff7f'&gt;numericInput&lt;/span&gt;(inputId = "add_2", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$add_1 + input$add_2&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
-
----
-
-## The anatomy of a widget
-
-All control widgets have two elements in common:
-
-* __inputId__: Unique ID for that widget
-
-* __label__: Text to be displayed beside the widget (which can be left blank)
+Each time the value of .cb[`input$fill`] changes (_reactive outputs_)
 
 
 ```r
-textInput(inputId = "textboxinput",
-          label = "") 
-```
+library(shiny) 
+library(ggplot2) 
 
-.center[
-&lt;img src="figs/inputText.png", width = 300&gt;
-]
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med")
 
-Other elements are specific to the widget you are using:
-
-
-```r
-selectInput(inputId = "fillby",
-            label = "Variable to fill by",
-            choices = c("Health","treament")),
-```
-
-.center[
-&lt;img src="figs/drop-down.png" width = 300&gt;
-]
-
----
-
-## The anatomy of a widget
-
-The `inputId` must be unique, so that the value can be used in the server:
-
-
-&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='background-color:#ffff7f'&gt;add_1&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "&lt;span style='background-color:#ffff7f'&gt;add_2&lt;/span&gt;", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$&lt;span style='background-color:#ffff7f'&gt;add_1&lt;/span&gt; + input$&lt;span style='background-color:#ffff7f'&gt;add_2&lt;/span&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
-
----
-
-## The anatomy of a widget
-
-The value of `label` can be duplicated across widgets:
-
-
-&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_1", label = "&lt;span style='background-color:#ffff7f'&gt;Number:&lt;/span&gt;", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_2", label = "&lt;span style='background-color:#ffff7f'&gt;Number:&lt;/span&gt;", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$add_1 + input$add_2&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
-
----
-
-## The anatomy of a widget
-
-Some widgets require a default value:
-
-
-&lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_1", label = "Number:", &lt;span style='background-color:#ffff7f'&gt;value = 0&lt;/span&gt;),&lt;br&gt;&amp;nbsp;&amp;nbsp;numericInput(inputId = "add_2", label = "Number:", &lt;span style='background-color:#ffff7f'&gt;value = 0&lt;/span&gt;),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$add_1 + input$add_2&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
-
----
-
-class: inverse, center, middle
-
-# Getting started: &lt;br&gt; User Interface Layouts
-
----
-
-## .cb[`sidebarLayout()`]
-
-Common layout for .cb[`shiny`] apps
-
-.center[
-
-&lt;img src="figs/sidebarlayout.png" height = 450&gt;
-
-]
-
----
-
-## .cb[`sidebarLayout()`]
-
-Defined in code as:
-
-
-```r
-ui &lt;- fluidPage( 
-  sidebarLayout(
-    sidebarPanel(
-      # Control widgets and HTML objects
-    ),
-    mainPanel(
-      # Outputs
-    )
-  )
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      plotOutput("barPlot")
 )
+
+server &lt;- function(input, output) { 
+  
+   output$barPlot &lt;- renderPlot({ 
+     
+*     ggplot(data = med, aes_string(fill = input$fill)) +
+*     geom_histogram(aes(x = status), stat = "count")
+     
+      }) 
+} 
+
+shinyApp(ui = ui, server = server)
 ```
-
-
-Conventions for use:
-* The .cb[`sidebarPanel`] is usually used to house the control widgets that capture user input.
-
-* The .cb[`mainPanel`] is usually used to present the output of the app (text/graph/results).
 
 ---
 
-## Applying sidebarLayout() to our app
+class: inverse, center, middle
 
+# Getting more from `shiny`: &lt;br&gt; Page layout
+
+---
+
+## Alternatives to .cb[`sidebarLayout()`]
+
+.large[__.cb[`fluidRow()`]__]
 
 ```r
-ui &lt;- fluidPage( 
-* sidebarLayout(
-*  sidebarPanel(
-      # Allow user to define two numbers
-      numericInput(inputId = "add_1", label = "Number:", value = 0),
-      numericInput(inputId = "add_2", label = "Number:", value = 0),
-*   ),
-*   mainPanel(
-      # Display the output
-      textOutput(outputId = "sum")
-*   )
-  )
+ui &lt;- fluidPage(
+ fluidRow(column(width= 4),
+          column(width= 2), offset= 3),
+ fluidRow(column(width= 12))
+ ) 
+```
+
+.center[
+&lt;img src="figs/fluidrow.png" width = 480&gt;
+]
+
+---
+
+## Alternatives to .cb[`sidebarLayout()`]
+
+.large[__.cb[`splitLayout()`]__]
+
+```r
+ui &lt;- fluidPage(
+ splitLayout( 
+    # object 1,
+    # object 2
+ )
 )  
+```
+.center[
+&lt;img src="figs/splitLayout.png" width = 480&gt;
+]
 
-server &lt;- function(input, output) {
+---
+
+
+class: inverse, center, middle
+
+# Getting more from `shiny`: &lt;br&gt; Making `shiny` sparkle
+
+---
+
+## A .cb[`shiny`] UI is a HTML document
+
+Can use HTML ___tags___ to add static elements (such as text) to your app.
+
+For example, in the user interface:
+
+
+```r
+ui &lt;- fluidPage(
+* h2("Please complete the options below."),
+* p("This information will be used to update the graph"),
+  selectInput(inputId = "fill",
+              label = "Variable to fill by:",
+              choices = c("health","treatment"))
+)
+```
+&lt;br&gt;
+
+.center[
+&lt;img src="figs/html.png" height = 150 class="border"&gt;
+]
+
+---
+
+## Adding HTML ___tags___
+
+.large[
+The most common HTML tags have wrapper functions to make them easier to use:
+]
+
+
+```r
+ui &lt;- fluidPage(         
+ h1("Header 1"),              # header (can be h1-h6)
+ hr(),                        # horizontal rule
+ br(),                        # line break
+ p("Text"),                   # paragraph text
+ p(strong("bold")),           # bold
+ p(em("italic")),             # italics         
+ p(code("code")),             # code highlighting         
+ a(href="", "link"),          # Hyperlink            
+ HTML("&lt;p&gt;Raw html&lt;/p&gt;")      # Raw html                
+)    
+```
+
+.large[
+Some tags, e.g. .cb[em()] and .cb[strong()] must be nested within a paragraph tag, .cb[p()]
+
+Similar to the control widgets, all tags are followed by a comma, except for the last element in the user interface container
+
+A full list of tags is available on the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+
+]
+
+---
+
+Add some text to our example app:
+
+
+```r
+library(shiny) 
+library(ggplot2) 
+
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med")
+
+ui &lt;- fluidPage(
+*     p("Use the option below to customise your chart:"),
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      
+      
+*     hr(),
+*     p("Here is your plot:"),
+      plotOutput("barPlot")
+)
+
+server &lt;- function(input, output) { 
   
-  output$sum &lt;- renderText({
-    input$add_1 * input$add_2
-  })
-}
+   output$barPlot &lt;- renderPlot({ 
+     
+      ggplot(data = med, aes_string(fill = input$fill)) + 
+      geom_histogram(aes(x = status), stat = "count") 
+     
+      }) 
+} 
 
 shinyApp(ui = ui, server = server)
 ```
@@ -415,278 +459,315 @@ shinyApp(ui = ui, server = server)
 
 class: inverse, center, middle
 
-# Creating your own app: &lt;br&gt; Reactive outputs
+# Getting more from `shiny`: &lt;br&gt; Reactive programming
 
 ---
 
-## Creating outputs - the basics
+New example!
 
-.small[
 
 ```r
-ui &lt;- fluidPage( 
+library(shiny) 
+library(ggplot2) 
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med") 
 
-  # Allow user to define two numbers
-  numericInput(inputId = "add_1", label = "Number:", value = 0),
-  numericInput(inputId = "add_2", label = "Number:", value = 0),
-
-  # Display the output
-  textOutput(outputId = "sum")
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Fill:",
+                  choices = c("health","treatment")),
+      
+      sliderInput(inputId = "slider",
+                  label = "Number of rows to plot in figure:",
+                  value = 100,
+                  min = 5,
+                  max = 150),
+      
+      plotOutput("barPlot")
 )
 
 server &lt;- function(input, output) {
   
-* output$sum &lt;- renderText({
-*   input$add_1 + input$add_2
-* })
+  output$barPlot &lt;- renderPlot({
+      med &lt;- head(med, input$slider)
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+      })
 }
 
-shinyApp(ui = ui, server = server)
+shinyApp(ui = ui, server = server) 
 ```
-]
 
-Two steps:
-
-* Add the code to render the object to the server function using a .cb[`render*()`] function
 
 ---
 
-## Creating outputs - the basics
+Capture two user inputs: "fill" variable and number of rows to plot ("slider")
 
-.small[
 
 ```r
-ui &lt;- fluidPage( 
+library(shiny) 
+library(ggplot2) 
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med") 
 
-  # Allow user to define two numbers
-  numericInput(inputId = "add_1", label = "Number:", value = 0),
-  numericInput(inputId = "add_2", label = "Number:", value = 0),
-
-  # Display the output
-* textOutput(outputId = "sum")
+ui &lt;- fluidPage(
+*     selectInput(inputId = "fill",
+*                 label = "Fill:",
+*                 choices = c("health","treatment")),
+      
+*     sliderInput(inputId = "slider",
+*                 label = "Number of rows to plot in figure:",
+*                 value = 100,
+*                 min = 5,
+*                 max = 150),
+      
+      plotOutput("barPlot")
 )
 
 server &lt;- function(input, output) {
   
-  output$sum &lt;- renderText({ 
-    input$add_1 + input$add_2 
-  }) 
+  output$barPlot &lt;- renderPlot({
+      med &lt;- head(med, input$slider)
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+      })
 }
 
-shinyApp(ui = ui, server = server)
+shinyApp(ui = ui, server = server) 
 ```
-]
 
-Two steps:
 
-* Add the code to render the object to the server function using a .cb[`render*()`] function
-
-* Add the resulting object to the user interface using the corresponding .cb[`*Output()`] function.
 ---
 
-## Rendering the output
+Use these inputs to create a barplot using the `med` dataset
 
-Similar to inputs, there are different .cb[`render\*()`]/.cb[`*Output()`] function pairs for different types of output:
 
+```r
+library(shiny) 
+library(ggplot2) 
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Fill:",
+                  choices = c("health","treatment")),
+      
+      sliderInput(inputId = "slider",
+                  label = "Number of rows to plot in figure:",
+                  value = 100,
+                  min = 5,
+                  max = 150),
+      
+      plotOutput("barPlot")
+)
+
+server &lt;- function(input, output) {
+  
+  output$barPlot &lt;- renderPlot({
+*     med &lt;- head(med, input$slider)
+    
+*     ggplot(data = med, aes_string(fill = input$fill)) +
+*     geom_histogram(aes(x = status), stat = "count")
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+What does the output .cb[barPlot] take a dependency on?
+
+
+```r
+library(shiny) 
+library(ggplot2) 
+med &lt;- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui &lt;- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Fill:",
+                  choices = c("health","treatment")),
+      
+      sliderInput(inputId = "slider",
+                  label = "Number of rows to plot in figure:",
+                  value = 100,
+                  min = 5,
+                  max = 150),
+      
+*     plotOutput("barPlot")
+)
+
+server &lt;- function(input, output) {
+  
+  output$barPlot &lt;- renderPlot({
+      med &lt;- head(med, input$slider) 
+    
+      ggplot(data = med, aes_string(fill = input$fill)) + 
+      geom_histogram(aes(x = status), stat = "count")
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+## Shiny is reactive . . . 
+
+.cb[`output$barplot`] depends on the value of **both** .cb[`input$slider`] and .cb[`input$fill`]:
+
+
+```r
+server &lt;- function(input, output) {
+
+ output$barPlot &lt;- renderPlot({
+      data &lt;- head(med, n = `input$slider`) 
+      
+      ggplot(data = data, aes_string(fill = `input$fill`)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })
+}
+```
+
+When either .cb[`input$slider`] and .cb[`input$fill`] changes, all the code contain within the .cb[`renderPlot()`] function will run
+
+---
+
+## . . . but in a lazy way
+
+Compare what happens when we change .cb[`input$fill`] in the following:
+
+
+```r
+server &lt;- function(input, output) {
+
+ output$barPlot &lt;- renderPlot({
+      `data` &lt;- head(med, n = `input$slider`) 
+      
+      ggplot(data = `data`, aes_string(fill = `input$fill`)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })}
+```
+
+versus:
+
+
+```r
+server &lt;- function(input, output) {
+  `data` &lt;- reactive({
+        head(med, n = `input$slider`) 
+  })
+
+ output$barPlot &lt;- renderPlot({
+    ggplot(data = `data()`, aes_string(fill = `input$fill`)) +
+      geom_histogram(aes(x = status), stat = "count")
+  })}
+```
+
+---
+
+## The .cb[`reactive({ })`] function
+
+.large[
+
+The difference: changing the value of .cb[`input$fill`] in the second example does not require the data to be re-calculated:
+
+
+* `renderPlot` calls `data()`
+]
+
+
+```r
+data &lt;- `reactive({` head(med, n = input$slider) `})`
+```
+
+.large[
+* `data()` will check that the value of `input$slider` has not changed
+* `data()` will return its saved data ___without___ re-subsetting the _med_ dataset
+* `renderPlot` will re-draw the histogram with the correct fill.  
+]
 
 .center[
-&lt;img src="figs/render.png" width = 650 class="border"&gt;
-
-Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
-
+&lt;img src="figs/dependencies.png" width = 300&gt;
 ]
-
----
-
----
-
-## Accessing widget values
-
-The inputId of the widget is important
-
---
-&lt;hr&gt;
-
-For the following widget:
-
-
-```r
-numericInput(inputId = `add_1`, label = "Number:", value = 0)
-```
-
-its value is defined by 
-
-
-```r
-input$`add_1`
-```
 
 ???
 
-shiny stores all userdefined information in a list-like object called "input"
 
----
-## Using the value of the control widgets
-
-.center[
-&lt;img src="figs/sidebarexample.png" width="1200" height="400" class="border"&gt;
-]
+Important when, for example, loading big datasets from the web -&gt; time consuming if all you want to do is change the title. . . 
 
 ---
 
+## The .cb[`reactive({ })`] function
 
-## Using the value of the control widgets
-.small[
-**renderPlot() function in the server**
+Shiny caches the results of .cb[`data()`] and continuously validates the value of .cb[`input$slider`] on which it depends. 
 
-```r
-output$barPlot &lt;- renderPlot({
-       ggplot(data = med, aes_string(fill = `input$fill`)) +
-          geom_histogram(aes(x = status), stat = "count")
-       })
-```
-]
+Being able to separate out computationally intense steps in your app is useful, as it prevents Shiny from re-running code unnecessarily. 
 
-&lt;hr&gt;
-
---
-
-.small[
-**Changes based on value selected by user in UI**
-
-When *input$fill = health*:
+For example, reloading and cleaning a large datasets from the web each time the user makes a change to a plot title is inefficient
 
 
-```r
-ggplot(data = med, aes_string(fill = `"health"`)) +
-   geom_histogram(aes(x = status), stat = "count")
-```
-]
+---
 
---
+class: inverse, center, middle
 
-.small[
+# Getting more from `shiny`: &lt;br&gt; Sharing/publishing your app
+
+---
+
+## Sharing/publishing your app
+
+At the moment, your app is only available to you locally
+
+To make it widely available, you need to publish it
+
+Lots of ways to do this, but easiest is via shinyapps.io:
+
+* Ensure that your app.R file is contained within its own folder
+
+* Go to [shinyapps.io](https://www.shinyapps.io/)
+
+* Follow the instructions there to publish your app
+
+---
+
+## Sharing/publishing your app
+
+Why publish?
+
+* Makes your code available to anyone with an internet connection
+
+* Good way to showcase your work
+
+* Can make a nice compliment to an R package, as it does not require users to know R
+
+---
+
+## Wrapping up
+
+.Large[
+While the apps we built today are quite simple, the possibilities with .cb[`shiny`] are endless:
 &lt;br&gt;
-When *input$fill = treatment*:
-
-
-```r
-ggplot(data = med, aes_string(fill = `"treatment"`)) +
-   geom_histogram(aes(x = status), stat = "count") 
-```
-]
-
----
-
-## Running an app
-
-.large[.bold[There are two options when running your app:]]
-
-
-Open the app by running .cb[`runApp("app-dir")`] in the console, where "app-dir" is the name of the directory containing your app.R script: 
-
-
-```r
-runApp("luke")
-```
-
-.center[
-.bold[
-.large[
-OR
-]
-]
-]
-
-Open the app.R script in Rstudio and then:
-
-* click the "Run App" button:
-
-.center[&lt;img src="figs/run-app-button.png"&gt;]
-
-* Use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
-
----
-
-## .yt[Your Turn: Introducing the data]
-.large[
-The dataset we will use for the practical elements is the .cb[`bmi2`] dataset included with the BristolVis package:
-]
-
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:right;"&gt; id &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; age &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; bmi &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; sex &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; diet &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; status &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 78.2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 29.3 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 48.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 33.0 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 79.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 31.5 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Unhealthy &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 78.5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 28.1 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Poor &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Healthy &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-.large[
-The data set contains 200 observations across the following six variables:
-
 .pull-left[
-__Continuous variables:__
-
-* id
-* age
-* bmi
-
+.center[
+[Example 1](https://mcguinlu.shinyapps.io/robvis/)
 ]
-
+]
 .pull-right[
-__Categorical variables:__
-
-* sex: Male / Female
-* diet: Good / Moderate / Poor
-* status: Healthy / Unhealthy
-
+.center[
+[Example 2](https://committedtotape.shinyapps.io/sixtyninelovesongs/)
 ]
 ]
 
+&lt;br&gt;
+Please do get in touch if I can be of help:
 
----
+* Email: [luke.mcguinness@bristol.ac.uk](mailto:luke.mcguinness@bristol.ac.uk)
+* Twitter: [@mcguinlu](https://twitter.com/mcguinlu)
+* GitHub: [@mcguinlu](https://github.com/mcguinlu)
 
-## Images
-Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -1,13 +1,28 @@
 ---
 title: "Intro to Shiny Practical 1"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-## Prac 1: Run your first app
+## Set-up
+
+### Install and load packages
+
+
+``` {r}
+install.packages(c("shiny","ggplot2"))        
+
+library(shiny)
+library(ggplot2)
+
+```
+
+<hr>
+
+## Exercise 1: Run your first app
 
 ``` {r}
 library(shiny)
@@ -33,50 +48,77 @@ Make sure you can run it both:
   * from the console (note: you'll have to save it first)
   * using the "Run App" button
 
-Add some code to show the result of subtracting the two numbers (hint: input$add_1 - input$add_2 )
+<hr>
 
----
+## Exercise 2: Design a user interface
 
-## .yt[Your Turn: Design a user interface]
-* Open the "prac1_shiny" , and copy the code into an empty R file
+Open the `prac_1.R` file in the `shiny-practicals` folder. 
 
+Identify the opening and closing brackets of the elements of `sidebarLayout` (e.g. `sidebarLayout()`, `sidePanel()`, `mainPanel()`)
 
-```{r,eval=FALSE}
-  vignette("prac1_shiny", package = "BristolVis")
-```
+Run the app
 
-* Identify the opening and closing brackets of the elements of .cb[`sidebarLayout`] (e.g. .cb[sidebarLayout()], .cb[sidePanel()], .cb[mainPanel()])
+Make the following changes:
 
-* Run the app
+* Change the title of the app to "Demo of a shiny app"
 
-* Make the following changes:
-  * Change the title of the app to "Demo of a shiny app"
-  * Add a new selectInput widget to the sidebar, with the options "sex","diet", and "status"
-  * Add a new textInput widget to the sidebar with the label "Plot title:"
+* Add a new selectInput widget to the sidebar, with the options "sex","diet", and "status"
+
+* Add a new textInput widget to the sidebar with the label "Plot title:"
+
+Re-run the app to ensure that the changes have worked
+
+<details>
+<summary>Hint</summary>
   
-* What is the value of .cb[`input$textbox`] when the following is entered in it?  
-_This is a test_    
+```{r}
+selectInput(inputId = "input1",
+            label = "",
+            choices = c("sex","diet","status"))
 
----
-
-## .yt[Your Turn: Create reactive content]
-
-* Open the "prac2_shiny" vignette, and copy the code into an empty R file
-
-```{r,eval=FALSE}
-
-  vignette("prac2_shiny", package = "BristolVis")
+textInput(inputId = "title",
+          label = "")
 
 ```
+  
+</details>
+  
+<hr>
 
-* Run the app to familarise yourself with it
+## Exercise 3: Create reactive content
 
-* Examine the code used to produce the table in the UI/server
-  * Why is the table not being displayed in the app?
-  * Fix the code in the UI so that the table is displayed in the .cb[`mainPanel`]
+Open the `prac_2.R` file in the `shiny-practicals` folder. 
 
-* Examine the code used to produce the plot in the UI/server
-  * Update the code so that the colour is set by the value of .cb[`input$pointcolour`]
-  * Update the code so that the title of the plot is defined by the value of the input from the .cb[`inputTextbox`] widget
+Run the app to familiarise yourself with it
 
-* Re-run the app to ensure that the changes have worked
+Examine the code used to produce the table in the UI/server
+
+ * Why is the table not being displayed in the app?
+ 
+ * Fix the code in the UI so that the table is displayed in the `mainPanel`
+ 
+<details>
+<summary>Hint</summary>
+
+Remember that simply creating an object in the server using a `render*()` function doesn't automatically mean it is visible in the user interface. You need to pass the output ID, in this case `"table"`, to the appropirate `*Output()` function.
+  
+</details> 
+
+Examine the code used to produce the plot in the UI/server
+
+ * Update the code so that the colour is set by the value of `input$pointcolour`
+ 
+ * Update the code so that the title of the plot is defined by the value of the input from the `inputTextbox` widget
+ 
+<details>
+<summary>Hint</summary>
+
+The colour is currently set to "diet" (`color = "diet"`), so you'll need to set it to use the value of `input$pointcolour`
+  
+Similarly, the value of the plot title is currently set to "Plot title" (`title = "Plot title"`), so you'll need to update this to use the value of the inputTextbo widget (i.e. `input$titletext`)  
+  
+</details> 
+ 
+<br> 
+ 
+Re-run the app to ensure that the changes have worked

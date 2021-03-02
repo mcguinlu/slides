@@ -1,0 +1,63 @@
+---
+title: "Intro to Shiny Practical 2"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+---
+
+* Open the "prac3_shiny" vignette, and copy the code into an empty R file
+
+```{r,eval=FALSE}
+  vignette("prac3_shiny", package = "BristolVis")
+```
+
+.Large[
+* Run the app to see what it does
+
+* Add some text to the end of the sidebar to describe the dataset used 
+
+* Add some text to the mainPanel() e.g. between the plot and the table
+
+* Create a reactive expression so that the data does not have to be imported everytime the title is changed
+
+* Re-run your app to ensure that it works as expected
+
+
+## Build an app from scratch
+
+Open a new Shiny app (File -> New File -> Shiny Web App. . .)
+
+Develop an app to create reactive graph 
+
+  * Use one of the layouts we discussed as part of this workshop
+  
+  * Load `shiny` and `ggplot2` packages
+  
+  * Load the `med` data set
+
+  * Add some text to the app to describe the dataset used
+   
+  * Add at least one widget to the .cb[`sidebarPanel`] (but feel free to add as many as you like!)
+   
+  * Add some reative content (e.g. a plot or a table) to the .cb[`mainPanel`] that makes use of the input from your widget
+
+Run the app to ensure that it works as expected.
+
+---
+
+
+## _Optional:_ Publish your app
+
+* Ensure that your app.R file is contained within its own folder
+
+* Deploy your app online
+  * Go to [shinyapps.io](https://www.shinyapps.io/)
+  * Follow the instructions there to publish your app
+
+
+

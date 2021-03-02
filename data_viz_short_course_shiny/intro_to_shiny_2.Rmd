@@ -26,9 +26,21 @@ library(countdown)
 library(shiny)
 library(kableExtra)
 library(BristolVis)
+library(flair)
 ```
 
 # Overview of this session
+
+
+- Background to .cb[`shiny`]
+
+- Getting started
+
+  - Set-up
+
+  - Control widgets & User interface
+
+  - Outputs
 
 --
 
@@ -44,6 +56,138 @@ library(BristolVis)
 
 ---
 
+### New example!
+
+Can anyone describe what this app does?
+
+``` {r, eval = FALSE}
+library(shiny) 
+library(ggplot2) 
+
+med <- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui <- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) {
+  
+  output$barPlot <- renderPlot({
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+    
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+### New example!
+
+Imports `med` dataset...
+
+``` {r, eval = FALSE}
+library(shiny) 
+library(ggplot2) 
+
+med <- read.csv("http://bit.ly/bris-data-viz-med") #<<
+
+ui <- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) {
+  
+  output$barPlot <- renderPlot({
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+    
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+### New example!
+
+Which is used to create a barplot using `ggplot2`...
+
+``` {r, eval = FALSE}
+library(shiny) 
+library(ggplot2) 
+
+med <- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui <- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) {
+  
+  output$barPlot <- renderPlot({
+    
+      ggplot(data = med, aes_string(fill = input$fill)) + #<<
+      geom_histogram(aes(x = status), stat = "count") #<<
+    
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+### New example!
+
+With user defined "fill" variable, captured by an input widget
+
+``` {r, eval = FALSE}
+library(shiny) 
+library(ggplot2) 
+
+med <- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui <- fluidPage(
+      selectInput(inputId = "fill", #<<
+                  label = "Variable to fill by:", #<<
+                  choices = c("health","treatment")), #<<
+      
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) {
+  
+  output$barPlot <- renderPlot({
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+    
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
 class: inverse, center, middle
 
 # Getting more from `shiny`: <br> Execution
@@ -54,43 +198,49 @@ class: inverse, center, middle
 
 .Large[
 
-In "prac2_shiny", we loaded the  .cb[`shiny`], .cb[`BristolVis`] and .cb[`ggplot2`] packages using:
+In the example, we loaded the  .cb[`shiny`] and .cb[`ggplot2`] packages using:
 
 ```{r,eval=FALSE}
 library(shiny)
 library(ggplot2)
-library(BristolVis)
 ```
 
 Due to the way your app is executed, it is important that this is put outside both the user interface container and the server
 
 If you are .cb[`source()`]-ing additional .cb[`.R`] files, these commands should also go here
+
+__This is particularly relevant when loading large data files__
+
 ]
 
 ---
 
-# When is your code run?
+## When is your code run?
 
 Only ever once, when the app is launched
 
 ``` {r, eval = FALSE}
 library(shiny) #<<
-library(BristolVis) #<<
 library(ggplot2) #<<
+
+med <- read.csv("http://bit.ly/bris-data-viz-med") #<<
 
 ui <- fluidPage(
       selectInput(inputId = "fill",
-                         label = "Variable to fill by:",
-                         choices = c("health","treatment")),
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
       plotOutput("barPlot")
 )
 
 server <- function(input, output) {
-   output$barPlot <- renderPlot({
-      ggplot(data = med, aes_string(fill = input$fill)) +
-         geom_histogram(aes(x = status), stat = "count")
-      })
-}
+  
+   output$barPlot <- renderPlot({ 
+     
+      ggplot(data = med, aes_string(fill = input$fill)) + 
+      geom_histogram(aes(x = status), stat = "count") 
+     
+      }) 
+} 
 
 shinyApp(ui = ui, server = server) #<<
 
@@ -98,26 +248,30 @@ shinyApp(ui = ui, server = server) #<<
 
 ---
 
-# When is your code run?
+## When is your code run?
 
 Once each time a new user visits
 
 ``` {r, eval = FALSE}
 library(shiny)
-library(BristolVis)
 library(ggplot2)
+
+med <- read.csv("http://bit.ly/bris-data-viz-med") 
 
 ui <- fluidPage(
       selectInput(inputId = "fill",
-                         label = "Variable to fill by:",
-                         choices = c("health","treatment")),
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
       plotOutput("barPlot")
 )
 
 server <- function(input, output) { #<<
+  
    output$barPlot <- renderPlot({ #<<
+     
       ggplot(data = med, aes_string(fill = input$fill)) + #<<
-         geom_histogram(aes(x = status), stat = "count") #<<
+      geom_histogram(aes(x = status), stat = "count") #<<
+     
       }) #<<
 } #<<
 
@@ -127,28 +281,32 @@ shinyApp(ui = ui, server = server)
 
 ---
 
-# When is your code run?
+## When is your code run?
 
-Each time the value of .cb[`input$fill`] changes
+Each time the value of .cb[`input$fill`] changes (_reactive outputs_)
 
 ``` {r, eval = FALSE}
-library(shiny)
-library(BristolVis)
-library(ggplot2)
+library(shiny) 
+library(ggplot2) 
+
+med <- read.csv("http://bit.ly/bris-data-viz-med")
 
 ui <- fluidPage(
       selectInput(inputId = "fill",
-                         label = "Variable to fill by:",
-                         choices = c("health","treatment")),
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
       plotOutput("barPlot")
 )
 
-server <- function(input, output) {
-   output$barPlot <- renderPlot({
+server <- function(input, output) { 
+  
+   output$barPlot <- renderPlot({ 
+     
       ggplot(data = med, aes_string(fill = input$fill)) + #<<
-         geom_histogram(aes(x = status), stat = "count") #<<
-      }) #<<
-}
+      geom_histogram(aes(x = status), stat = "count") #<<
+     
+      }) 
+} 
 
 shinyApp(ui = ui, server = server)
 
@@ -159,7 +317,6 @@ shinyApp(ui = ui, server = server)
 class: inverse, center, middle
 
 # Getting more from `shiny`: <br> Page layout
-
 
 ---
 
@@ -230,7 +387,7 @@ ui <- fluidPage(
 ## Adding HTML ___tags___
 
 .large[
-The most common tags have wrapper functions to make them easier to use:
+The most common HTML tags have wrapper functions to make them easier to use:
 ]
 
 ``` {r, eval=FALSE}
@@ -258,21 +415,205 @@ A full list of tags is available on the .cb[`shiny`] Rstudio [cheatsheet](https:
 
 ---
 
+Add some text to our example app:
+
+``` {r, eval = FALSE}
+library(shiny) 
+library(ggplot2) 
+
+med <- read.csv("http://bit.ly/bris-data-viz-med")
+
+ui <- fluidPage(
+      p("Use the option below to customise your chart:"), #<<
+      selectInput(inputId = "fill",
+                  label = "Variable to fill by:",
+                  choices = c("health","treatment")),
+      
+      
+      hr(), #<<
+      p("Here is your plot:"), #<<
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) { 
+  
+   output$barPlot <- renderPlot({ 
+     
+      ggplot(data = med, aes_string(fill = input$fill)) + 
+      geom_histogram(aes(x = status), stat = "count") 
+     
+      }) 
+} 
+
+shinyApp(ui = ui, server = server)
+
+```
+
+
+---
+
 class: inverse, center, middle
 
 # Getting more from `shiny`: <br> Reactive programming
 
 ---
 
+New example!
+
+``` {r, eval = FALSE}
+library(shiny) 
+library(ggplot2) 
+med <- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui <- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Fill:",
+                  choices = c("health","treatment")),
+      
+      sliderInput(inputId = "slider",
+                  label = "Number of rows to plot in figure:",
+                  value = 100,
+                  min = 5,
+                  max = 150),
+      
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) {
+  
+  output$barPlot <- renderPlot({
+      med <- head(med, input$slider)
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+
+---
+
+Capture two user inputs: "fill" variable and number of rows to plot ("slider")
+
+``` {r, eval = FALSE}
+library(shiny) 
+library(ggplot2) 
+med <- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui <- fluidPage(
+      selectInput(inputId = "fill", #<<
+                  label = "Fill:", #<<
+                  choices = c("health","treatment")), #<<
+      
+      sliderInput(inputId = "slider", #<<
+                  label = "Number of rows to plot in figure:", #<<
+                  value = 100, #<<
+                  min = 5, #<<
+                  max = 150), #<<
+      
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) {
+  
+  output$barPlot <- renderPlot({
+      med <- head(med, input$slider)
+    
+      ggplot(data = med, aes_string(fill = input$fill)) +
+      geom_histogram(aes(x = status), stat = "count")
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+
+---
+
+Use these inputs to create a barplot using the `med` dataset
+
+``` {r, eval = FALSE}
+library(shiny) 
+library(ggplot2) 
+med <- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui <- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Fill:",
+                  choices = c("health","treatment")),
+      
+      sliderInput(inputId = "slider",
+                  label = "Number of rows to plot in figure:",
+                  value = 100,
+                  min = 5,
+                  max = 150),
+      
+      plotOutput("barPlot")
+)
+
+server <- function(input, output) {
+  
+  output$barPlot <- renderPlot({
+      med <- head(med, input$slider) #<<
+    
+      ggplot(data = med, aes_string(fill = input$fill)) + #<<
+      geom_histogram(aes(x = status), stat = "count") #<<
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
+What does the output .cb[barPlot] take a dependency on?
+
+``` {r, eval = FALSE}
+library(shiny) 
+library(ggplot2) 
+med <- read.csv("http://bit.ly/bris-data-viz-med") 
+
+ui <- fluidPage(
+      selectInput(inputId = "fill",
+                  label = "Fill:",
+                  choices = c("health","treatment")),
+      
+      sliderInput(inputId = "slider",
+                  label = "Number of rows to plot in figure:",
+                  value = 100,
+                  min = 5,
+                  max = 150),
+      
+      plotOutput("barPlot") #<<
+)
+
+server <- function(input, output) {
+  
+  output$barPlot <- renderPlot({
+      med <- head(med, input$slider) 
+    
+      ggplot(data = med, aes_string(fill = input$fill)) + 
+      geom_histogram(aes(x = status), stat = "count")
+      })
+}
+
+shinyApp(ui = ui, server = server) 
+```
+
+---
+
 ## Shiny is reactive . . . 
 
-As discussed, .cb[`output$barplot`] below depends on the value of **both** .cb[`input$slider`] and .cb[`input$fill`]:
+.cb[`output$barplot`] depends on the value of **both** .cb[`input$slider`] and .cb[`input$fill`]:
 
 ``` {r, eval = FALSE}
 server <- function(input, output) {
 
  output$barPlot <- renderPlot({
       data <- head(med, n = `input$slider`) 
+      
       ggplot(data = data, aes_string(fill = `input$fill`)) +
       geom_histogram(aes(x = status), stat = "count")
   })
@@ -281,15 +622,9 @@ server <- function(input, output) {
 
 When either .cb[`input$slider`] and .cb[`input$fill`] changes, all the code contain within the .cb[`renderPlot()`] function will run
 
-???
-
-
-
 ---
 
 ## . . . but in a lazy way
-
-`r countdown(minutes = 2, play_sound=TRUE, warn_when = 30, top = 0)`
 
 Compare what happens when we change .cb[`input$fill`] in the following:
 
@@ -298,6 +633,7 @@ server <- function(input, output) {
 
  output$barPlot <- renderPlot({
       `data` <- head(med, n = `input$slider`) 
+      
       ggplot(data = `data`, aes_string(fill = `input$fill`)) +
       geom_histogram(aes(x = status), stat = "count")
   })}
@@ -344,60 +680,20 @@ data <- `reactive({` head(med, n = input$slider) `})`
 ]
 
 ???
-Shiny caches the results of .cb[`data()`] and continously validates the value of .cb[`input$slider`] on which it depends. 
 
-You can use this behavior to prevent Shiny from re-running code unnecessarily. 
 
 Important when, for example, loading big datasets from the web -> time consuming if all you want to do is change the title. . . 
 
 ---
 
-## .yt[Your Turn: Reactive expressions & HTML tags]
+## The .cb[`reactive({ })`] function
 
-.large[
-* Open the "prac3_shiny" vignette, and copy the code into an empty R file
-]
+Shiny caches the results of .cb[`data()`] and continuously validates the value of .cb[`input$slider`] on which it depends. 
 
-```{r,eval=FALSE}
-  vignette("prac3_shiny", package = "BristolVis")
-```
+Being able to separate out computationally intense steps in your app is useful, as it prevents Shiny from re-running code unnecessarily. 
 
-.Large[
-* Run the app to see what it does
+For example, reloading and cleaning a large datasets from the web each time the user makes a change to a plot title is inefficient
 
-* Add some text to the end of the sidebar to describe the dataset used 
-
-* Add some text to the mainPanel() e.g. between the plot and the table
-
-* Create a reactive expression so that the data does not have to be imported everytime the title is changed
-
-* Re-run your app to ensure that it works as expected
-
-]
-
----
-
-## .yt[Your Turn: Build an app from scratch]
-Open a new Shiny app (File -> New File -> Shiny Web App. . .)
-
-Develop an app to create reactive graph 
-
-  * Use one of the layouts we discussed as part of this workshop
-  
-  * Load `shiny`, `BristolVis` and `ggplot2` packages
-  
-  * Use one of the other datsets included with the `BristolVis` package
-
-  * Add some text to the app to describe the dataset used
-   
-  * Add at least one widget to the .cb[`sidebarPanel`] (but feel free to add as many as you like!)
-   
-  * Add a plot to the .cb[`mainPanel`] that makes use of the input from your widget
-
-Run the app to ensure that it works as expected, and compare your finished app/code with a neighbour
-
-
-`r countdown(minutes = 30, play_sound=TRUE, warn_when = 120)`
 
 ---
 
@@ -407,25 +703,36 @@ class: inverse, center, middle
 
 ---
 
-## .yt[Your Turn: Publish your app]
+## Sharing/publishing your app
 
-.Large[
+At the moment, your app is only available to you locally
+
+To make it widely available, you need to publish it
+
+Lots of ways to do this, but easiest is via shinyapps.io:
+
 * Ensure that your app.R file is contained within its own folder
 
-* Deploy your app online
-  * Go to [shinyapps.io](https://www.shinyapps.io/)
-  * Follow the instructions there to publish your app
-  * Send the link to your new app, plus a brief description of what it does, to us here:
-  
-.center[[http://bit.ly/bris-shiny-form](http://bit.ly/bris-shiny-form)]
+* Go to [shinyapps.io](https://www.shinyapps.io/)
 
-]
+* Follow the instructions there to publish your app
 
-`r countdown(minutes = 10, play_sound=TRUE, warn_when = 120)`
+---
+
+## Sharing/publishing your app
+
+Why publish?
+
+* Makes your code available to anyone with an internet connection
+
+* Good way to showcase your work
+
+* Can make a nice compliment to an R package, as it does not require users to know R
 
 ---
 
 ## Wrapping up
+
 .Large[
 While the apps we built today are quite simple, the possibilities with .cb[`shiny`] are endless:
 <br>
@@ -447,16 +754,4 @@ Please do get in touch if I can be of help:
 * Twitter: [@mcguinlu](https://twitter.com/mcguinlu)
 * GitHub: [@mcguinlu](https://github.com/mcguinlu)
 
-Slides will be always be available at:
-
-.center[[lukemcguinness.com](https://lukemcguinness.com/talk/intro-to-shiny-nov-19/)]
-
 ]
-
-
-
----
-
-
-## Images
-Oar: By Florian Pépellin - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=43042720
