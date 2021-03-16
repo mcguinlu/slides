@@ -492,6 +492,11 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server) 
 ```
 
+???
+
+Take your time with this!
+
+Ask them to explain it
 
 ---
 
@@ -622,6 +627,10 @@ server <- function(input, output) {
 
 When either .cb[`input$slider`] and .cb[`input$fill`] changes, all the code contain within the .cb[`renderPlot()`] function will run
 
+???
+
+As we spoke about previous, shiny outputs depend on shiny inputs
+
 ---
 
 ## . . . but in a lazy way
@@ -659,7 +668,7 @@ server <- function(input, output) {
 
 .large[
 
-The difference: changing the value of .cb[`input$fill`] in the second example does not require the data to be re-calculated:
+The difference: changing the value of .cb[`input$fill`] in the second example does not require the data to be re-calculated
 
 
 * `renderPlot` calls `data()`
@@ -680,7 +689,6 @@ data <- `reactive({` head(med, n = input$slider) `})`
 ]
 
 ???
-
 
 Important when, for example, loading big datasets from the web -> time consuming if all you want to do is change the title. . . 
 

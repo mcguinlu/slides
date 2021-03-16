@@ -4,10 +4,9 @@
     <title>Introduction to Shiny Part 1</title>
     <meta charset="utf-8" />
     <meta name="author" content="Twitter: @mcguinlu" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/hygge.css" rel="stylesheet" />
-    <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
-    <script src="libs/anchor-sections/anchor-sections.js"></script>
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
   <body>
@@ -48,6 +47,10 @@ class: center, middle, inverse, title-slide
   - Reactive programming
   
   - Publishing your app
+
+???
+
+Hopefully by the end, create a very simple app
 
 ---
 
@@ -109,6 +112,12 @@ class: inverse, middle, center
 
 # Introduction: &lt;br&gt; Background to `shiny`
 
+???
+
+Just to note, you should consider a mental break between this and previous topics. Similar to how 
+
+Shiny is quite different and I think it is useful to approach it from a different viewpoint
+
 ---
 ## What is .cb[`shiny`]?
 
@@ -120,6 +129,16 @@ class: inverse, middle, center
 &lt;img src="figs/shiny.png" width = 350 height=400&gt;
 ]
 
+???
+
+Web applications here means a website, with some processing power behind it, rather than just a static document
+
+When the user interacts with the app, it does something.
+
+__It's very different from a lot of other R programming__ including that on this course.
+
+Requires a different way of thinking, and has a bit of learning curve.
+
 ---
 
 ## What does Shiny do?
@@ -129,11 +148,27 @@ class: inverse, middle, center
 .small[
 _Data shown is from the `med` dataset used in this practical_
 ]
+
+
+???
+
+In basic terms, it allows you to create an friendly web-based interface to your R code
+
+Compare with having to share the script, open RStudio, manually change the hard-coded fill value.
+
+For Shiny, you point someone to a website, and then can change the fill themselves.
+
 ---
 
 ## What does Shiny do?
 
 &lt;img src="figs/Screenshot 2021-03-01 154305.jpg" width="900px" /&gt;
+
+???
+
+Previous example is quite basic, but Shiny is capable of very complex apps
+
+COVID-19 dashboard, showing clusters of cases
 
 ---
 
@@ -145,7 +180,7 @@ A .cb[`shiny`] app has three components:
 
   * Defines the layout of your app
   * Controls what it looks like (themes/fonts/etc)
-  
+
 --
 
 * .large[.bold[Server]]
@@ -159,9 +194,6 @@ A .cb[`shiny`] app has three components:
 
   * Creates the app from an user interface and server pair
 
-
-
-
 ---
 
 ## Inputs and outputs
@@ -173,6 +205,14 @@ NB: No computation takes place in UI - only the server can run R functions
 .center[
 &lt;img src="figs/uiserver.png" width = 600 height=420&gt;
 ]
+
+??? 
+
+One of the key things to remember is that no computation can take place in the User Interface
+
+So you can use R code to change how it looks, but you can't run any calculations/scripts there.
+
+So in order for shiny to work, needs to have a way to pass information from what users interact with/see to the space where work is done.
 
 ---
 
@@ -202,6 +242,38 @@ server &lt;- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
+???
+
+Load shiny
+
+All R code is copy/paste able
+
+Spend a long time on this, as it is important that they get it
+
+User interface is a HTML document (__demonstrate in RStudio__)
+
+Server is where R code is run
+
+ShinyApp call to bring it all together
+
+__Run app to see what it does__
+
+Inputs and outputs move user-defined values and results
+
+* add_1 and add_2 are brought from the UI to the server
+
+* Are added to create the sum object
+
+* which is sent back to the UI
+
+Leads onto the key tennant of shiny: __reactive programming__
+
+add_1 &lt;- 3
+
+add_2 &lt;- 4
+
+(sum &lt;- add_1 + add_2)
+
 ---
 
 ## Reactive programming
@@ -213,7 +285,6 @@ shinyApp(ui = ui, server = server)
 
 &lt;br&gt;
 &lt;br&gt;
-
 
 &lt;img src="figs/reactive.png" width="431" style="display: block; margin: auto;" /&gt;
 
@@ -252,6 +323,10 @@ class: inverse, center, middle
 
 # Getting started:  &lt;br&gt; Control widgets
 
+???
+
+One of my favourite parts of the course is that I get to use the word widget a lot - find it fun to say.
+
 ---
 
 ## A widget for every occasion
@@ -265,6 +340,12 @@ Control widgets are used to capture user input and vary based on type of input:
 Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
 ]
 
+???
+
+Items in the user interface that allow users to define or change values
+
+See cheatsheet. Help &gt; Cheatsheets
+
 ---
 
 ## The anatomy of a widget
@@ -273,6 +354,10 @@ We use the `numericInput` widget in our app
 
 
 &lt;code class ='r hljs remark-code'&gt;ui &lt;- fluidPage( &lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Allow user to define two numbers&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style='background-color:#ffff7f'&gt;numericInput&lt;/span&gt;(inputId = "add_1", label = "Number:", value = 0),&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;span style='background-color:#ffff7f'&gt;numericInput&lt;/span&gt;(inputId = "add_2", label = "Number:", value = 0),&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;# Display the output&lt;br&gt;&amp;nbsp;&amp;nbsp;textOutput(outputId = "sum")&lt;br&gt;)&lt;br&gt;&lt;br&gt;server &lt;- function(input, output) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&lt;br&gt;&amp;nbsp;&amp;nbsp;output$sum &lt;- renderText({&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;input$add_1 + input$add_2&lt;br&gt;&amp;nbsp;&amp;nbsp;})&lt;br&gt;}&lt;br&gt;&lt;br&gt;shinyApp(ui = ui, server = server)&lt;/code&gt;
+
+???
+
+__So to highlight these aspects in our example!__
 
 ---
 
@@ -352,6 +437,10 @@ Common layout for .cb[`shiny`] apps
 
 ]
 
+???
+
+So far been using a very basic layout for the UI of our app
+
 ---
 
 ## .cb[`sidebarLayout()`]
@@ -407,6 +496,14 @@ shinyApp(ui = ui, server = server)
 ```
 
 
+???
+
+Few extra lines of code allow us to apply a different layout to our app
+
+Still using fluidpage
+
+__Run app to show difference__
+
 ---
 
 class: inverse, center, middle
@@ -447,6 +544,12 @@ shinyApp(ui = ui, server = server)
 ```
 ]
 
+???
+
+How to add more computation?
+
+Two step process
+
 ---
 
 ## Creating outputs - the basics
@@ -480,6 +583,14 @@ server &lt;- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 ]
+
+???
+
+Run the app at this point
+
+Not sufficient to produce the result in the server
+
+Need to also show it in the UI
 
 ---
 
@@ -530,6 +641,10 @@ Image sourced from the .cb[`shiny`] Rstudio [cheatsheet](https://shiny.rstudio.c
 
 ]
 
+???
+
+Go back and show the pair in our example app
+
 ---
 
 ## Accessing widget values
@@ -555,7 +670,9 @@ input$`add_1`
 
 ???
 
-shiny stores all userdefined information in a list-like object called "input"
+shiny stores all user defined information in a list-like object called "input"
+
+Refer back 
 
 ---
 ## Using the value of the control widgets
@@ -637,6 +754,11 @@ Open the app.R script in Rstudio and then:
 .center[&lt;img src="figs/run-app-button.png"&gt;]
 
 * Use the keyboard short-cut: _Ctrl/Command+Shift+Enter_
+
+
+???
+
+__Do demo of each__
 
 ---
 
