@@ -1,0 +1,12 @@
+base
+methods
+datasets
+utils
+grDevices
+graphics
+stats
+medrxivr
+dplyr
+stringr
+xml2
+rvest
