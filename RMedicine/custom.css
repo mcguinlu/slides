@@ -1,0 +1,124 @@
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,400,400i,500,500i,700,700i|IBM+Plex+Mono:400,500);
+@import url(//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css);
+
+body {
+  font-family: 'Fira Sans','Droid Serif', 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif;
+}
+
+.remark-slide-content {
+    font-size: 35px;
+    padding: 1em 2.28em 1em 2.28em;
+}
+
+.g {
+  color: green;
+}
+
+.r {
+  color: red;
+}
+
+.sc {
+  color: #e2c10a;
+}
+
+.shadeLight {
+  background-color: Gainsboro;
+  width: 70%;
+  position: relative;
+  background-size: auto;
+  display: inline-block;
+}
+
+.tricolumn {
+  float: left;
+  text-align: center;
+  width: 30%;
+  padding-right: 3.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.largest { font-size: 200% }
+.larger { font-size: 130% }
+.small { font-size: 80% }
+.normal { font-size: 100%}
+.smaller { font-size: 60% }
+
+.tricolhead {
+  background-color: Gainsboro;
+  width: 100%;
+  background-size: contain;
+}
+
+
+.box {
+  background-color: #e1e1e1;
+  width: 100%;
+  background-size: contain;
+  text-align: center;
+  font-size: 130%;
+  padding: 2px;
+}
+
+.remark-slide-content {
+  color: #474747;
+  font-weight: 300;
+  font-weight: 300;
+}
+
+
+.footer {
+    position: absolute;
+    text-align: right;
+    bottom: 10px;
+    font-size: 70%;
+    right: 5px;
+    height: 25px;
+    width: 100%;
+}
+
+.large {
+  font-size: 40px;
+}
+
+.right-column {
+    padding-top: 0em;
+}
+
+.image-small img {
+  width: 50%;
+}
+
+.image-smallest img {
+  width: 3%;
+}
+
+.left-sidebar{
+  width:0%;
+}
+
+.col-left {
+  float: left;
+  width: 30%;
+}
+
+.col-center {
+  float: none;
+  width: 30%;
+}
+
+.col-right {
+  float: right;
+  width: 30%;
+}
+
+.col-right2 {
+  float: right;
+  width: 20%;
+}

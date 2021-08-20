@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>robvis.utf8</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
+    <script src="libs/xaringanExtra-logo/logo.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+.col-right2[
+.center[
+![](figures/robvis_hex.png)
+]
+]
+
+## Incorporating risk-of-bias assessments into evidence syntheses with `robvis`
+
+&lt;br&gt;
+
+__Luke McGuinness__&lt;br&gt;
+(with Alex Fowler and Randall Boyes)
+
+
+.small[
+.image-smallest[![](figures/building.png)] Population Health Sciences, University of Bristol
+
+.image-smallest[![](figures/Twitter-featured.png)] mcguinlu
+
+.image-smallest[![](figures/Github-32.png)] mcguinlu
+]
+
+???
+
+Hello, I'm Luke McGuinness, a PhD student at the University of Bristol Medical School
+
+Sorry I couldn't attend this presentation live in the chat - due to the time different, it clashed with a family event.
+
+I'm going to talk today about incorporating the resuls of risk-of-bias assessments int
+
+And just to note that all the work presented today would not have been possible without my amazing collaborators, Alex Fowler and Randall Boyes
+
+
+
+---
+
+## Public Service Announcement
+
+__I pronounce the letter "R" oddly:__
+
+.center[
+
+.col-left[
+&lt;img src="figures/oar.png" width =150 height =150&gt;  
+R  
+("oar")
+]
+
+.col-right[
+&lt;img src="figures/pirate.jpg" width =150 height =150&gt;   
+R  
+("arr")
+]
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+.col-center[.Large[.bold[means]]]
+]
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+---
+
+## Risk-of-bias assessments
+
+Forms __core__ part of __systematic reviews__
+
+???
+
+Assessed using tools, which vary by study design
+
+--
+
+__Different tools__ for different __study designs__ (e.g. RoB2, ROBINS-I, QUADAS-2)
+
+--
+
+Bias assessed in __different domains__ (e.g. randomisation)
+
+--
+
+Each result include in review gets a __judgement in each domain__, plus an __overall judgement__
+
+--
+
+Judgements __vary by tool__ (e.g. Low, Some concerns, High)
+
+---
+
+##  The `robvis` package 
+
+__R package__ and __web app__ to create publication-quality risk-of-bias visualisations
+
+__Currently can produce two types of plots:__
+* Traffic-light plots
+* Summary barplots
+
+??? 
+
+robvis built to make these data more visually appealing
+
+---
+
+class: center
+
+## Traffic-light plots
+
+.image-small[![](figures/traffic.png)]
+
+???
+
+Example presented is of RoB2 tool for RCT
+
+Studies along the right hand side, domains of bias along the left
+
+---
+class: center
+##  Summary bar-plots 
+
+&lt;br&gt;
+
+![](figures/summary.png)
+
+???
+
+Same data as before just presented as a bar chart instead
+
+---
+
+class: large
+
+##  Limitations of the current approach 
+
+.pull-left[
+.small[
+Risk-of-bias assessments are performed __BUT__ data is relegated to the supplementary material
+
+Better to try and __pair__ the assessments to their respective results
+
+Also useful to perform __sub-group meta-analysis__ by risk-of-bias level
+]
+]
+
+.pull-right[
+![](figures/paired_ROB2.png)
+
+]
+
+???
+
+Insufficient to simply perform the assessments, create the figure and not actively think about what this means for your meta-analysis
+
+---
+
+class: middle
+
+##  Building on metafor 
+
+_Paired_ forest/risk-of-bias plots
+
+
+
+---
+
+### Explore the datasets
+
+`metafor` data - 13 trials of effectiveness of BCG vaccine against tuberculosis
+
+
+
+
+```r
+dat.bcg
+```
+
+```
+##    trial               author year tpos  tneg cpos  cneg ablat      alloc
+## 1      1              Aronson 1948    4   119   11   128    44     random
+## 2      2     Ferguson &amp; Simes 1949    6   300   29   274    55     random
+## 3      3      Rosenthal et al 1960    3   228   11   209    42     random
+## 4      4    Hart &amp; Sutherland 1977   62 13536  248 12619    52     random
+## 5      5 Frimodt-Moller et al 1973   33  5036   47  5761    13  alternate
+## 6      6      Stein &amp; Aronson 1953  180  1361  372  1079    44  alternate
+## 7      7     Vandiviere et al 1973    8  2537   10   619    19     random
+## 8      8           TPT Madras 1980  505 87886  499 87892    13     random
+## 9      9     Coetzee &amp; Berjak 1968   29  7470   45  7232    27     random
+## 10    10      Rosenthal et al 1961   17  1699   65  1600    42 systematic
+## 11    11       Comstock et al 1974  186 50448  141 27197    18 systematic
+## 12    12   Comstock &amp; Webster 1969    5  2493    3  2338    33 systematic
+## 13    13       Comstock et al 1976   27 16886   29 17825    33 systematic
+```
+
+---
+
+### Explore the datasets
+
+`robvis` data - 13 (fake) risk of bias assessments performed using RoB2 for randomised trials
+
+
+
+
+
+```r
+dat.bcg.rob
+```
+
+```
+## # A tibble: 13 x 7
+##    Study             D1          D2         D3        D4    D5        Overall   
+##    &lt;chr&gt;             &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     
+##  1 Aronson 1948      Low         Low        Low       Low   Low       Low       
+##  2 Ferguson &amp; Simes~ Some conce~ Low        Low       Low   Low       Low       
+##  3 Rosenthal et al ~ No informa~ Low        Some con~ Low   Low       Some conc~
+##  4 Hart &amp; Sutherlan~ Low         Low        High      Low   Some con~ High      
+##  5 Frimodt-Moller e~ High        High       Low       Low   Some con~ Low       
+##  6 Stein &amp; Aronson ~ Low         High       Some con~ Low   Low       Some conc~
+##  7 Vandiviere et al~ Low         Some conc~ Some con~ High  Low       Some conc~
+##  8 TPT Madras 1980   Low         Some conc~ Low       Low   Low       Low       
+##  9 Coetzee &amp; Berjak~ Low         Low        High      Low   Low       High      
+## 10 Rosenthal et al ~ Low         Low        Low       Low   Low       Low       
+## 11 Comstock et al 1~ Some conce~ Low        Low       Low   Low       Low       
+## 12 Comstock &amp; Webst~ No informa~ Low        Some con~ Low   Low       Some conc~
+## 13 Comstock et al 1~ Low         Low        High      Low   Some con~ High
+```
+
+??? 
+
+Note that these are example assessments from the robvis package
+
+Doubling up to make the N of studies match the N of assessments
+
+Notice that the names are the same
+
+---
+
+#### Standard approach
+
+
+```r
+# Calculate the effect size and sampling variance for each study
+dat &lt;- metafor::escalc(
+    measure = "RR",
+    ai = tpos, bi = tneg, ci = cpos, di = cneg,
+    data = dat.bcg, 
+    slab = paste(author, year))
+
+# Perform meta-anlysis and plot results
+res &lt;- metafor::rma(yi, vi, data = dat)
+```
+
+???
+
+So we use the escalc function to generate our study effect sizes and sampling variances from the raw counts
+
+This data is then passed to a simple random effects meta-analytical model, and the results are stored in the `res` object.
+
+---
+
+#### Standard approach
+
+
+```r
+metafor::forest(res)
+```
+
+&lt;img src="robvis_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+???
+
+Once we have the results of our meta-analysis
+
+And this is the standard approach.
+
+I'm now going to walk you through two ways in which robvis can add to this standard approach.
+
+---
+
+#### Option #1: `rob_append_to_forest()`
+
+
+```r
+robvis::rob_append_to_forest(res, dat.bcg.rob)
+```
+
+&lt;img src="robvis_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+???
+
+This function acts as a wrapper to the metafor::forest function and appends a risk of bias plot to the right hand side
+
+Important that the study names are the same in both the results object and the risk of bias dataset (for matching)
+
+This is only possible due to the foresight of the metafor package developer, who ensured that the forest function could be built upon.
+
+---
+
+#### Option #2: `rob_blobbogram()`
+
+
+
+
+
+```r
+rob_blobbogram(res, dat.bcg.rob)
+```
+
+&lt;img src="figures/forester.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+???
+
+Option to is a bit more sophisticated
+
+Takes whatever meta-analytical model you have specified (though limited to metafor for now) and applies it across studies grouped by risk of bias level.
+
+This function leans heavily on the amazing forester package built by Randall Boyes
+
+This function is still in development, and so some aspect are not finalised - for example, we still need to improve reporting by subgroup and make it clearer which are study vs summary effects
+
+Though, who knows potentially by the time you all see this next week, I'll have worked out the last few issues!
+
+---
+
+#### Option #2: `rob_blobbogram()`
+
+
+
+
+```r
+rob_blobbogram(res, dat.bcg.rob, subset_col = "D1")
+```
+
+&lt;img src="figures/forester2.png" width="55%" height="90%" style="display: block; margin: auto;" /&gt;
+
+??? One potential added advantage of this approach is that you can subset the studies based not only on the overall risk of bias, but on any of the domains.
+
+So here, we are subsetting by D1 which in the ROB2 tool is bias due to randomisation
+
+---
+
+class: largest
+
+
+##  Take-home messages 
+
+__For users__
+* Risk-of-bias assessments should be __presented alongside the corresponding result__
+* Risk-of-bias level should be investigated as a __source of heterogeneity__
+
+--
+
+__For developers__
+* Keep an eye out for potential ways to __build on existing evidence synthesis__ packages to expand user functionality
+* On the flip-side, think about how others might build on your packages (and what information they'll need!)
+
+
+---
+
+class: larger
+
+##  Further info 
+
+__See docs/info at:__
+* Package website: [mcguinlu.github.io/robvis/](https://mcguinlu.github.io/robvis)
+* Shiny app: [mcguinlu.shinyapps.io/robvis/](https://mcguinlu.shinyapps.io/robvis/)
+	
+__Paper introducing `robvis`:__
+* McGuinness, L. A., &amp; Higgins, J. P. (2020). Risk-of-bias VISualization (robvis): An R package and Shiny web app for visualizing risk-of-bias assessments. Research Synthesis Methods .
+
+__Contribute to the package__:
+* Open an issue on the GitHub repository
+* Tweet at me ([@mcguinlu](https://twitter.com/mcguinlu))
+* Send me an email (luke.mcguinness@bistol.ac.uk)
+
+&lt;br&gt;
+
+.center[__Thanks again to Randall Boyes and Alex Fowler for all their support!__]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="cols_macro.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"ratio": "16:9",
+"highlightSpans": true,
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
