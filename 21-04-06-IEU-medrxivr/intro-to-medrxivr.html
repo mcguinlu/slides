@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>medrxivr:   Searching biomedical preprints   as part of a systematic review</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Luke McGuinness" />
+    <meta name="date" content="2021-07-04" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <script src="libs/xaringanExtra-webcam-0.0.1/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30}) })</script>
+    <link rel="stylesheet" href="my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="reports/my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# medrxivr: <br/> Searching biomedical preprints <br/> as part of a systematic review
+### <br/> Luke McGuinness<br/>
+### IEU Monthly Meeting
+### 07/04/2021
+
+---
+
+
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 110px;
+height: 128px;
+z-index: 0;
+background-image: url(https://raw.githubusercontent.com/ropensci/medrxivr/master/man/figures/hex-medrxivr.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+top:1em;right:1em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'https://github.com/ropensci/medrxivr'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+# Overview
+
+.larger[
+
+* Motivation for this project
+  * Why include preprints in systematic reviews?
+  * Problems with native medRxiv search
+
+* Introducing `medrxivr`
+  * Run a simple search
+  * Advanced functions
+
+* Discussion
+  * Use cases
+  * Common criticisms (&amp; rebuttals)
+  * Feedback/feature suggestion
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Motivation
+
+---
+
+## Preprints in systematic reviews
+
+.larger[
+Systematic reviews seek to identify all evidence on a particular research question
+
+&lt;br&gt;
+
+Preprints are non-peer reviewed versions of manuscripts
+
+* Provide a glimpse into the future
+
+* Potentially less susceptible to publication bias 
+
+&lt;br&gt;
+
+Preprints should be considered an important source of information for systematic reviews
+]
+
+???
+
+Preprint repositories allow researchers to upload a non-peer reviewed copy of the manuscript while going through the peer review process
+
+---
+
+## _medRxiv_ overview
+
+
+
+.larger[
+_medRxiv_ is the preprint repository for the medical, clinical, and related health sciences.&lt;sup&gt;1&lt;/sup&gt;
+
+&lt;br&gt;
+
+.center[
+&lt;img src="figs/medrxiv_banner.jpg" width="50%" height="30%" /&gt;
+]
+
+&lt;br&gt;
+
+__BUT two major problems limit its usefulness in systematic reviews__
+
+]
+
+&lt;hr&gt;
+&lt;sup&gt;1&lt;/sup&gt; Rawlinson C, Bloom T. New preprint server for medical research. BMJ. 2019;365. doi:10.1136/bmj.l2301
+
+???
+Replaces "Clinical Trial"/"Epidemiology" categories on _bioRxiv_
+First preprint registered on June 25&lt;sup&gt;th&lt;/sup&gt; 2019 - currently contains 18593 preprints
+
+---
+
+## Problem #1: Systematic searching
+
+--
+
+.larger[
+.center[
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+# The medRxiv native search is &lt;br&gt; &lt;u&gt;not fit for use in systematic reviews&lt;/u&gt;
+]
+]
+
+---
+
+## Problem #1: Systematic searching
+
+
+.larger[
+
+Can't build complex searches (multiple topics)
+
+&lt;br&gt;
+
+Boolean operators (_AND, OR, NOT_) don't work as expected]
+
+* "dementia AND (lipids OR statins)" = 199 results
+* "dementia AND (statins OR lipids)" =  77 results
+
+&lt;br&gt;
+
+.larger[
+Search is poorly documented and subject to change (problematic for search reproducibility)
+]
+
+.center[
+&lt;img src="figs/tweet_2.jpg" width="60%" height="30%" /&gt;
+]
+
+&lt;br&gt;
+
+???
+
+Some hidden weighting of terms means there is great variability in results obtained
+
+Should be noted that we aren't actually sure Boolean operators work on the site.
+
+---
+
+## Problem #2: Extracting metadata
+
+.larger[
+Not possible to "bulk" download either:
+* Metadata for title/abstract screening
+* PDFs for full text screening]
+
+&lt;br&gt;
+.center[
+&lt;img src="figs/tweet_1.jpg" width="80%" height="30%" /&gt;
+]
+
+&lt;br&gt;
+.larger[
+__Incredibly ineffecient (and frustrating!)__
+]
+
+---
+
+class: inverse, center, middle
+
+# Introducing `medrxivr`
+
+---
+
+## Where it can help
+
+.center[
+&lt;img src="figs/medrxiv-role.png" width="50%" height="50%" /&gt;
+]
+---
+
+## Works in three steps
+.largest[
+
+1 - Import the data
+
+&lt;br&gt;
+
+2 - Create your search strategy
+
+&lt;br&gt;
+
+3 - Perform the search
+]
+
+---
+
+## Import data
+
+From the live API:
+
+
+```r
+mx_data &lt;- mx_api_content()
+```
+
+From the maintained snapshot (faster/more reliable):
+
+
+```r
+mx_data &lt;- mx_snapshot()
+```
+
+&lt;hr&gt;
+ 
+Resulting data contains several useful variables:
+
+
+
+
+```r
+colnames(mx_data)
+```
+
+```
+##  [1] "doi"                              "title"                           
+##  [3] "authors"                          "author_corresponding"            
+##  [5] "author_corresponding_institution" "date"                            
+##  [7] "version"                          "license"                         
+##  [9] "category"                         "abstract"                        
+## [11] "published"                        "node"                            
+## [13] "link"                             "pdf"                             
+## [15] "link_page"                        "link_pdf"
+```
+
+---
+
+&lt;br&gt;
+
+&lt;img src="figs/author_plot.png" width="90%" height="90%" /&gt;
+
+---
+
+## Create a search strategy
+
+Search terms are combined in a vector using __*OR*__
+
+Multiple topics are combined in a list with __*AND*__
+
+&lt;br&gt;
+
+
+```r
+topic1  &lt;- c("dementia","vascular","alzheimer's") # Combined w/ OR
+topic2  &lt;- c("lipids","statins","cholesterol")    # Combined w/ OR
+
+myquery &lt;- list(topic1, topic2)                   # Combined w/ AND
+```
+
+No limit on number of topics that can be included
+
+&lt;br&gt;
+&lt;hr&gt;
+
+.larger[__Advanced syntax__]
+
+Wildcards (*) and proximity operators (NEAR#) are also supported
+
+E.g. "randomi*ation" will find "randomi__z__ation" and randomi__s__ation"
+
+---
+
+## Perform the search
+
+
+```r
+mx_results &lt;- mx_search(data = mx_data,
+                        query = myquery,
+                        report = TRUE)
+```
+
+```
+## Found 80 record(s) matching your search.
+```
+
+```
+## Total topic 1 records: 1245
+```
+
+```
+## dementia: 221
+```
+
+```
+## vascular: 1059
+```
+
+```
+## alzheimer's: 0
+```
+
+```
+## Total topic 2 records: 242
+```
+
+```
+## lipids: 89
+```
+
+```
+## statins: 33
+```
+
+```
+## cholesterol: 154
+```
+
+---
+
+## Additional functions
+
+### Exporting to .bib file
+
+Allows for easy import into reference manager
+
+
+```r
+mx_export(data = mx_results,
+          file = "mx_search_results.bib")
+```
+
+&lt;br&gt;
+
+### Download PDFs of included records
+
+Similar to EndNote "Find Full Text"
+
+
+```r
+mx_download(mx_results, # Object returned by mx_search()
+            "pdf/")     # Directory to save PDFs to
+```
+---
+
+class: inverse, center, middle
+
+# Discussion
+
+---
+
+## Use cases for _medrxivr_ 
+.larger[
+
+Include medRxiv/bioRxiv as a evidence source in "living" systematic reviews (programmatically run the search every day)
+
+]
+
+--
+
+&lt;br&gt;
+
+.larger[
+
+Perform preprinted-published concordance meta-studies (e.g. reporting quality, impact of peer review)
+
+]
+
+--
+
+&lt;br&gt;
+
+.larger[
+
+[Explore preprint publishing trends](https://lbrierley.github.io/cov_preprints/medrxiv_cov_preprints.html)
+
+]
+
+---
+
+class: larger
+
+## Common criticisms
+
+.larger[_"Quality of preprints is lower than peer reviewed papers"_]
+
+ * Peer-review is not a stamp of quality 
+ * Can be handled with good risk-of-bias assessment as part of review
+
+&lt;br&gt;
+.larger[_"Results of paper may change following peer-review"_]
+
+ * Meta-study found high concordance between preprints and published papers
+ * Best available evidence at time of systematic review
+ 
+&lt;br&gt; 
+.larger[_"Results of preprints may change between versions"_]
+
+ * `medrxivr` allows to extract all versions of a preprint and examine changes for yourself
+
+---
+
+## Dissemination
+
+.larger[
+
+Freely available via CRAN (stable) or GitHub (development)
+
+
+```r
+# From CRAN
+install.packages("medrxivr")
+
+# From GitHub
+devtools::install_github("ropensci/medrxivr")
+```
+
+Extensive documentation available from the package website: [https://docs.ropensci.org/medrxivr/](https://docs.ropensci.org/medrxivr/)
+
+Accepted to rOpenSci, and corresponding paper published in Journal of Open-Source Software [![DOI](https://joss.theoj.org/papers/10.21105/joss.02651/status.svg)](https://doi.org/10.21105/joss.02651)
+
+&lt;br&gt;
+
+.center[
+__Would highly recommend rOpenSci review process__
+]
+]
+
+---
+
+## Acknowledgements 
+
+.larger[
+
+Many (__*many!*__) thanks to Lena Schmidt for co-development work.
+
+&lt;br&gt;
+
+Thanks to Tuija Sonkkila and Najko Jahn for reviewing the package as part of the rOpenSci review process and providing useful feedback.
+
+&lt;br&gt;
+
+Thanks to members of the Bristol Appraisal and Review of Research (BARR) team for piloting.
+
+]
+
+---
+
+class: inverse, center
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+## Questions/comments/suggestions?
+
+#### Twitter: [@mcguinlu](https://twitter.com/mcguinlu) | GitHub: [@mcguinlu](https://github.com/mcguinlu)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
