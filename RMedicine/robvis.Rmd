@@ -28,7 +28,6 @@ library(robvis)
 cache <- TRUE
 library(dplyr)
 xaringanExtra::use_xaringan_extra(c("tile_view", "webcam"))
-xaringanExtra::use_logo("https://github.com/mcguinlu/robvis/blob/master/man/figures/robvis_hex_box.png?raw=true")
 ```
 
 .col-right2[
@@ -57,47 +56,12 @@ __Luke McGuinness__<br>
 
 Hello, I'm Luke McGuinness, a PhD student at the University of Bristol Medical School
 
-Sorry I couldn't attend this presentation live in the chat - due to the time different, it clashed with a family event.
+Sorry I couldn't attend this presentation live in the chat.
 
 I'm going to talk today about incorporating the resuls of risk-of-bias assessments int
 
 And just to note that all the work presented today would not have been possible without my amazing collaborators, Alex Fowler and Randall Boyes
 
-
-
----
-
-## Public Service Announcement
-
-__I pronounce the letter "R" oddly:__
-
-.center[
-
-.col-left[
-<img src="figures/oar.png" width =150 height =150>  
-R  
-("oar")
-]
-
-.col-right[
-<img src="figures/pirate.jpg" width =150 height =150>   
-R  
-("arr")
-]
-
-<br>
-<br>
-<br>
-
-.col-center[.Large[.bold[means]]]
-]
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
 ---
 
