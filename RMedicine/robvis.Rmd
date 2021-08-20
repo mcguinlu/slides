@@ -198,8 +198,6 @@ class: middle
 
 _Paired_ forest/risk-of-bias plots
 
-
-
 ---
 
 ### Explore the datasets
@@ -269,7 +267,7 @@ This data is then passed to a simple random effects meta-analytical model, and t
 
 #### Standard approach
 
-```{r, include = TRUE, message=FALSE, fig.align="center", fig.width=7}
+```{r, include = TRUE, message=FALSE, fig.align="center", fig.width=9, fig.height=6}
 
 metafor::forest(res)
 
@@ -287,7 +285,7 @@ I'm now going to walk you through two ways in which robvis can add to this stand
 
 #### Option #1: `rob_append_to_forest()`
 
-```{r, include = TRUE, message=FALSE, fig.align="center", fig.width=7, fig.height=6}
+```{r, include = TRUE, message=FALSE, fig.align="center", fig.width=9, fig.height=6}
 robvis::rob_append_to_forest(res, dat.bcg.rob)
 ```
 
