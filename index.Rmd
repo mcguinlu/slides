@@ -40,9 +40,7 @@ __Practicals__
 
 #### Intro to R for PhD Students
 
-Materials for the "How to Wow with R" session on the "Introduction to R" short course at the University of Bristol, Spring 2020. 
-
-* [Presentation](https://mcguinlu.github.io/slides/intro-to-r-phd/teaching-shiny-slides.html)
+* [Presentation](https://mcguinlu.github.io/slides/intro-to-r-phd/index.html)
 
 <br>
 

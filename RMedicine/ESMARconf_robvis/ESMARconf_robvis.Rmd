@@ -1,0 +1,119 @@
+---
+title: ''
+author: Luke McGuinness
+date: 2021-08-20
+output:
+  xaringan::moon_reader:
+  lib_dir: libs
+  nature:
+    highlightStyle: github
+    highlightLines: true
+    countIncrementalSlides: false
+---
+#  The robvis package 
+
+R package and web app to create publication- quality risk-of-bias visualisations
+Motivation: no tool available to reproducibly create these figures
+Currently can produce two types of plots:
++ Traffic-light plots
+	+ Summary barplots
+
+---
+#  Traffic-light plots 
+
+![](assets/img/image6.png)
+
+---
+#  Summary bar-plots 
+
+![](assets/img/image7.png)
+
+---
+#  Limitations of the current approach 
+
+Risk-of-bias assessments are performed and the figures are relegated to the supplementary material
+Better to try and “pair” the assessments to their respective results
+Also suggested to perform sub-group meta-analysis by risk-of-bias level
+![](assets/img/image8.png)
+
+---
+#  Building on metafor 
+
+“Paired” forest/risk-of-bias plots
+
+---
+
+![](assets/img/image9.png)
+
+---
+
+.pull-left[![](assets/img/image11.png)]
+
+.pull-right[![](assets/img/image10.png)]
+
+---
+#  metafor::forest() returns information on dimensions of the plot 
+
+The metafor ::forest() function produces additional output beyond the plot itself
+As seen on the last slide, assigning this output to a variable (e.g. forest_obj ) via
+forest_obj <- metafor::forest(res)
+means we can explore and use this information in subsequent functions
+Output includes:
+Limits of the forest plot ( xlim , ylim )
+Axis limits (alim)
+Where the breaks at the axis lie (at)
+Other information needed for plotting
+![](assets/img/image12.png)
+
+---
+
+
+---
+
+
+---
+
+![](assets/img/image13.png)
+
+---
+
+![](assets/img/image13.png)
+
+---
+
+![](assets/img/image13.png)
+
+---
+
+rob_append_to_forest ()
+![](assets/img/image13.png)
+
+---
+#  Take-home messages 
+
+Keep an eye out for potential ways to build on existing evidence synthesis packages to expand user functionality
+On the flip-side, think about how others might build on your packages (and what information they’ll need!)
+Best option : develop packages in tandem, so that cross-talk between them is possible.
+
+---
+#  Future work 
+
+New function ( rob_blobbogram () ) , which will automatically subset data by risk-of-bias level and perform a meta-analysis on each subset.
+Draws on metafor and forester packages
+![](assets/img/image14.png)
+
+---
+#  Further info 
+
+See docs/info at:
++ Package website: mcguinlu.github.io/robvis/
+	+ Shiny app: mcguinlu.shinyapps.io/robvis/
+Paper introducing robvis :
++ McGuinness, L. A., & Higgins, J. P. (2020). Risk-of-bias VISualization (robvis): An R package and Shiny web app for visualizing risk-of-bias assessments. Research Synthesis Methods .
+Contribute to the package
++ Open an issue on the GitHub repository
+	+ Tweet at me (@mcguinlu)
+	+ Send me an email (luke.mcguinness@bistol.ac.uk)
+![](assets/img/image5.png)
+[mcguinlu.github.io/robvis/](https://mcguinlu.shinyapps.io/robvis/)
+[mcguinlu.shinyapps.io/robvis/](https://mcguinlu.github.io/robvis/authors.html)

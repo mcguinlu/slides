@@ -1,5 +1,18 @@
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,400,400i,500,500i,700,700i|IBM+Plex+Mono:400,500);
+@import url(//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css);
+
+body {
+  font-family: 'Fira Sans','Droid Serif', 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif;
+}
+
 .remark-slide-number {
   position: inherit;
+}
+
+.remark-slide-content {
+  color: #474747;
+  font-weight: 300;
+  font-weight: 300;
 }
 
 .remark-slide-number .progress-bar-container {
@@ -14,12 +27,6 @@
 .remark-slide-number .progress-bar {
   height: 100%;
   background-color: black;
-}
-
-.inverse {
-  background-color: #B01C2E;
-  color: #000000;
-  text-shadow: 0 0 0 #333;
 }
 
 .yt{
@@ -54,6 +61,10 @@ del {
 .col-right {
   float: right;
   width: 30%;
+}
+
+.large {
+  font-size: 40px;
 }
 
 .border {  

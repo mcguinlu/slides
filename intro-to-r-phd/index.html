@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>How to Wow with R</title>
+    <title>How to Wow with R: A brief introduction to advanced topics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Twitter: @mcguinlu" />
     <script src="libs/header-attrs/header-attrs.js"></script>
@@ -17,11 +17,11 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# How to Wow with R
+# How to Wow with R:<br>A brief introduction to advanced topics
 ## Luke McGuinness
 ### Twitter: <span class="citation">@mcguinlu</span>
 ### Department of Population Health Sciences, <br> Bristol Medical School
-### 16th March, 2021
+### 2nd November, 2021
 
 ---
 
@@ -48,22 +48,21 @@ code.r.hljs.remark-code:hover {
 
 --
 
-## - Build interactive apps with `shiny`
+## - Literate programming with `Rmarkdown`
 
 --
 
-## - Literate programming with `Rmarkdown`
+## - Build interactive apps with `shiny`
 
 --
 
 ## - Share your work as a package
 
-
 ???
 
 Just to note that this is a jumping off point for reference. 
 
-Slides are available from the link in your folders - lots of elements in this presentation are hyperlinked, so might be worth having a look.
+Slides are available from the link in your folders - lots of elements in this presentation are hyper-linked, so might be worth having a look.
 
 ---
 
@@ -199,7 +198,7 @@ df &lt;- read.csv("http://bit.ly/phd-intro-bmi2")
 
 ???
 
-So we're going to jump right in and start making plots:
+So we're going to jump right in and make a plot:
 
 ---
 
@@ -220,7 +219,7 @@ count: false
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_1-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_1-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -234,7 +233,7 @@ ggplot(data = df) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_2-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_2-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -249,7 +248,7 @@ aes(x = age) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_3-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_3-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -265,7 +264,7 @@ aes(y = bmi) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_4-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_4-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -282,7 +281,7 @@ geom_point() +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_5-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_5-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -300,7 +299,7 @@ aes(colour = sex) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_6-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_6-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -320,7 +319,7 @@ geom_smooth(method = "lm", se = F) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_8-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_8-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -341,7 +340,7 @@ scale_color_manual(values =
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_9-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_9-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -365,7 +364,7 @@ ylim(c(15, 35)) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_12-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_12-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -390,7 +389,7 @@ labs(x = "Age",
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_13-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_13-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -416,13 +415,8 @@ labs(title = "BMI by Age") +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas_14-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas_14-1.png" width="100%" /&gt;
 ]]
-
-
-???
-
-So just to reinforce the idea that we are adding things sequentially:
 
 ---
 
@@ -440,114 +434,7 @@ count: false
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas7_1-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-* aes(x = diet)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas7_2-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-  aes(x = diet) + 
-* aes(y = bmi)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas7_3-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-  aes(x = diet) + 
-  aes(y = bmi) +
-* geom_boxplot()
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas7_4-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-  aes(x = diet) + 
-  aes(y = bmi) +
-  geom_boxplot() + 
-* geom_jitter(alpha = .5,
-*             height = 0,
-*             width = .25)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas7_7-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-  aes(x = diet) + 
-  aes(y = bmi) +
-  geom_boxplot() + 
-  geom_jitter(alpha = .5, 
-              height = 0, 
-              width = .25) +
-* geom_boxplot()
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas7_8-1.png" width="100%" /&gt;
-]]
-
-???
-
-Going to have a look at using predined themes:
-
----
-
-
-
-
-
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-*ggplot(data = df)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_1-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas8_1-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -561,7 +448,7 @@ ggplot(data = df) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_2-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas8_2-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -576,7 +463,7 @@ aes(x = age) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_3-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas8_3-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -592,7 +479,7 @@ aes(y = bmi) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_4-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas8_4-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -609,7 +496,7 @@ geom_point() +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_5-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas8_5-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -627,7 +514,7 @@ geom_smooth(method = "lm", se = F) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_6-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas8_6-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -646,7 +533,7 @@ theme_bw() +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_7-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas8_7-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -666,7 +553,7 @@ theme_void() +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_8-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas8_8-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -683,11 +570,33 @@ geom_smooth(method = "lm", se = F) +
 theme_bw() +
 theme_void() +
 theme_classic() +
-*theme_economist()
+*ggthemes::theme_economist()
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas8_9-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas8_9-1.png" width="100%" /&gt;
+]]
+---
+class: split-40
+count: false
+
+.pull-left[.content[
+
+```r
+ggplot(data = df) +
+aes(x = age) +
+aes(y = bmi) +
+geom_point() +
+geom_smooth(method = "lm", se = F) +
+theme_bw() +
+theme_void() +
+theme_classic() +
+ggthemes::theme_economist() +
+*ggthemes::theme_stata()
+```
+]]
+.pull-right[.content.center[
+&lt;img src="index_files/figure-html/output_christmas8_10-1.png" width="100%" /&gt;
 ]]
 
 ???
@@ -710,7 +619,7 @@ count: false
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_1-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_1-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -724,7 +633,7 @@ ggplot(data = df) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_2-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_2-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -739,7 +648,7 @@ aes(x = status) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_3-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_3-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -755,7 +664,7 @@ geom_histogram(stat = "count") +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_4-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_4-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -772,7 +681,7 @@ aes(fill = diet) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_5-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_5-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -793,7 +702,7 @@ labs(fill = "Diet status") +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_9-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_9-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -815,7 +724,7 @@ labs(title = "Number of people by status",
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_10-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_10-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -838,7 +747,7 @@ theme(axis.title=element_text(colour="red"))+
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_11-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_11-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -862,7 +771,7 @@ theme(legend.position = "bottom") +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_12-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_12-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -887,7 +796,7 @@ theme(panel.grid = element_blank()) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_13-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_13-1.png" width="100%" /&gt;
 ]]
 ---
 class: split-40
@@ -913,152 +822,14 @@ theme(panel.background=element_rect(fill="black")) +
 ```
 ]]
 .pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas2_14-1.png" width="100%" /&gt;
+&lt;img src="index_files/figure-html/output_christmas2_14-1.png" width="100%" /&gt;
 ]]
 
 ---
 
-
-
-
-
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-*ggplot(data = df)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_1-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-*aes(x = age)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_2-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-aes(x = age) +
-*aes(y = bmi)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_3-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-aes(x = age) +
-aes(y = bmi) +
-*geom_point()
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_4-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-aes(x = age) +
-aes(y = bmi) +
-geom_point() +
-*aes(colour = sex)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_5-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-aes(x = age) +
-aes(y = bmi) +
-geom_point() +
-aes(colour = sex) +
-*geom_smooth(method = "lm")
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_6-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-aes(x = age) +
-aes(y = bmi) +
-geom_point() +
-aes(colour = sex) +
-geom_smooth(method = "lm") +
-*facet_grid(diet ~ .)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_7-1.png" width="100%" /&gt;
-]]
----
-class: split-40
-count: false
-
-.pull-left[.content[
-
-```r
-ggplot(data = df) +
-aes(x = age) +
-aes(y = bmi) +
-geom_point() +
-aes(colour = sex) +
-geom_smooth(method = "lm") +
-facet_grid(diet ~ .) + 
-*facet_grid(. ~ diet)
-```
-]]
-.pull-right[.content.center[
-&lt;img src="teaching-shiny-slides_files/figure-html/output_christmas3_8-1.png" width="100%" /&gt;
-]]
-
----
+class: large
 
 # Virtually endless customisability
-
-.Large[
 
 Plots on previous slides are only a taster
 
@@ -1071,8 +842,6 @@ Key resources, both open-source:
 * ["Data visualisation"](https://socviz.co/) by Kieran Healy - great introductory text on the science of data visualization, with examples in R.
 
 * [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday) - weekly community-run visualization exercise
-
-]
 
 ---
 
@@ -1149,13 +918,13 @@ Can be converted to multiple formats:
 **Code chunks: R code chunks surrounded by backticks (`) **
 
 * This is where the core computation happens
-* Can choose to reproduce these verbatim not, using the `echo` argument
+* Can choose to show the underlying code or just the results
 
 ** Text with inline code** 
 
 * Great for presenting results as part of a sentence
 * E.g. The mean of the age variable was `` `r
-mean(age)` `` 
+mean(age)` ``
 
 
 ]
@@ -1168,17 +937,25 @@ class: middle, center
 
 ---
 
+class: large
+
 # Why bother?
 
-.Large[
-
-Avoids errors in copying numerical results into a manuscript
 
 Improves reproducibility and transparency, as the origin of every single result in the paper can be examined
 
+--
+
 Makes updating a paper with new data really straightforward
 
-]
+--
+
+Citations/figure placement/cross-reference all straightforward.
+
+
+???
+
+Avoids errors in copying numerical results into a manuscript
 
 ---
 
@@ -1198,16 +975,14 @@ Makes updating a paper with new data really straightforward
 
 ---
 
-# Resources
+class: large
 
-.Large[
+# Resources
 
 [R Markdown tutorial](https://rmarkdown.rstudio.com/lesson-1.html) from RStudio
 
 [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/) by 
 Yihui Xie 
-
-]
 
 ---
 
@@ -1359,13 +1134,13 @@ Benefits:
 
 * Official repository  
 * Strict submission process to guarantee quality
-* `install.packages("packgename")`
+* `install.packages("packagename")`
 
 **Bioconductor**
 
 * Topic specific repository, with a focus on bioinformatics  
 * Strict submission requirements, similar to CRAN
-* `BiocManager::install("GenomicFeatures")`
+* `BiocManager::install("packagename")`
 
 **GitHub**
 
@@ -1387,44 +1162,21 @@ Benefits:
 
 ---
 
+class: large
+
 # Wrapping up
 
-.Large[
 Final points:
 
-
-
 * Can do an awful lot with R, once you have a good grasp of the basics
-]
 
 --
 
-.Large[
-
-* There is an R package for everything ([even making memes!](https://github.com/sctyner/memer))
-]
+* There is an R package for pretty much everything you may want to do.
 
 --
-
-.Large[
 
 * Best way to learn is to find a problem you want to solve and try and use R to do so.
-]
-
---
-
-.Large[
-
-* Don't be afraid to Google!
-]
-
---
-
-.Large[
-
-* Ugly working code &gt;&gt; perfect broken code
-
-]
 
 ---
 
@@ -1446,6 +1198,30 @@ Artwork by @allison_horst
 
 ---
 
+# Why should I use R rather than STATA/SPSS/etc.
+
+R is open-source and free to use
+
+Future-proofing for a career outside academia
+
+Better interface
+
+More resources
+
+???
+
+Acknowledge that I am v.v. biased!
+
+Employers are much more likely to want R/Python that STATA
+
+However, acknowledge different learning curves with different programs.
+
+STATA is designed to get you up and running quickly, but is then limited for more complex tasks
+
+R has a steep initial learning curve, but really comes into it's own once you have a good grasp of the basics.
+
+---
+
 ## R Community
 
 Please do get in touch if I can be of help:
@@ -1458,7 +1234,7 @@ Luke McGuinness
 
 Slides:
 
-[https://mcguinlu.github.io/slides/intro-to-r-phd/teaching-shiny-slides.html](https://mcguinlu.github.io/slides/intro-to-r-phd/teaching-shiny-slides.html#1)
+[https://mcguinlu.github.io/slides/intro-to-r-phd/index.html](https://mcguinlu.github.io/slides/intro-to-r-phd/index.html#1)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -1,9 +1,9 @@
 ---
-title: "How to Wow with R"
+title: "How to Wow with R:<br>A brief introduction to advanced topics"
 subtitle: "Luke McGuinness"
 author: "Twitter: @mcguinlu"
 institute: "Department of Population Health Sciences, <br> Bristol Medical School"
-date: "16th March, 2021"
+date: "2nd November, 2021"
 output:
   xaringan::moon_reader:
     css: [default, hygge, custom.css]
@@ -31,8 +31,13 @@ library(BristolVis)
 library(printr)
 library(ggthemes)
 library(tufte)
+library(dplyr)
 knitr::opts_chunk$set(warning = F, message = F)
 knitr::opts_chunk$set(fig.height = 8, out.width = "100%", comment = " ", cache = F, dpi = 700)
+
+htmltools::includeCSS("https://raw.githubusercontent.com/malcolmbarrett/kakashi/master/kakashi.css")
+
+xaringanExtra::use_xaringan_extra(c("tile_view", "webcam"))
 
 source("https://raw.githubusercontent.com/EvaMaeRey/little_flipbooks_library/master/xaringan_reveal_parentheses_balanced.R")
 
@@ -59,22 +64,21 @@ code.r.hljs.remark-code:hover {
 
 --
 
-## - Build interactive apps with `shiny`
+## - Literate programming with `Rmarkdown`
 
 --
 
-## - Literate programming with `Rmarkdown`
+## - Build interactive apps with `shiny`
 
 --
 
 ## - Share your work as a package
 
-
 ???
 
 Just to note that this is a jumping off point for reference. 
 
-Slides are available from the link in your folders - lots of elements in this presentation are hyperlinked, so might be worth having a look.
+Slides are available from the link in your folders - lots of elements in this presentation are hyper-linked, so might be worth having a look.
 
 ---
 
@@ -175,7 +179,7 @@ df <- read.csv("http://bit.ly/phd-intro-bmi2")
 
 ???
 
-So we're going to jump right in and start making plots:
+So we're going to jump right in and make a plot:
 
 ---
 
@@ -209,36 +213,6 @@ ggsave(paste0("figures/", get_what_save_what, ".png"), dpi = 700)
 
 `r apply_reveal("christmas")`
 
-
-???
-
-So just to reinforce the idea that we are adding things sequentially:
-
----
-
-```{r christmas7, eval=F, echo=F}
-ggplot(data = df) +
-  aes(x = diet) + 
-  aes(y = bmi) +
-  geom_boxplot() + 
-  geom_jitter(alpha = .5, 
-              height = 0, 
-              width = .25) +
-  geom_boxplot()
-```
-
-```{r, echo = F, warning=F, message=F, eval = T, fig.show='hide'}
-get_what_save_what <- "christmas7"
-eval(parse(text = paste(knitr:::knit_code$get(get_what_save_what), collapse = "")))
-ggsave(paste0("figures/", get_what_save_what, ".png"), dpi = 700)
-```
-
-`r apply_reveal("christmas7")`
-
-???
-
-Going to have a look at using predined themes:
-
 ---
 
 ```{r christmas8, eval=F, echo=F}
@@ -250,7 +224,8 @@ geom_smooth(method = "lm", se = F) +
 theme_bw() +
 theme_void() +
 theme_classic() +
-theme_economist()
+ggthemes::theme_economist() +
+ggthemes::theme_stata()
 ```
 
 ```{r, echo = F, warning=F, message=F, eval = T, fig.show='hide'}
@@ -282,7 +257,6 @@ theme(legend.position = "bottom") +
 theme(panel.grid = element_blank()) +
 theme(panel.background=element_rect(fill="black")) +
 theme(title = element_text(size = 20)) 
-
 ```
 
 ```{r, echo = F, warning=F, message=F, eval = T, fig.show='hide'}
@@ -295,31 +269,9 @@ ggsave(paste0("figures/", get_what_save_what, ".png"), dpi = 700)
 
 ---
 
-```{r christmas3, eval=F, echo=F}
-ggplot(data = df) +
-aes(x = age) +
-aes(y = bmi) +
-geom_point() +
-aes(colour = sex) +
-geom_smooth(method = "lm") +
-facet_grid(diet ~ .) + 
-facet_grid(. ~ diet) +
-facet_grid(status ~ diet)  
-```
-
-```{r, echo = F, warning=F, message=F, eval = T, fig.show='hide'}
-get_what_save_what <- "christmas3"
-eval(parse(text = paste(knitr:::knit_code$get(get_what_save_what), collapse = "")))
-ggsave(paste0("figures/", get_what_save_what, ".png"), dpi = 700)
-```
-
-`r apply_reveal("christmas3")`
-
----
+class: large
 
 # Virtually endless customisability
-
-.Large[
 
 Plots on previous slides are only a taster
 
@@ -332,8 +284,6 @@ Key resources, both open-source:
 * ["Data visualisation"](https://socviz.co/) by Kieran Healy - great introductory text on the science of data visualization, with examples in R.
 
 * [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday) - weekly community-run visualization exercise
-
-]
 
 ---
 
@@ -410,13 +360,13 @@ Can be converted to multiple formats:
 **Code chunks: R code chunks surrounded by backticks (`) **
 
 * This is where the core computation happens
-* Can choose to reproduce these verbatim not, using the `echo` argument
+* Can choose to show the underlying code or just the results
 
 ** Text with inline code** 
 
 * Great for presenting results as part of a sentence
 * E.g. The mean of the age variable was `` `r
-mean(age)` `` 
+mean(age)` ``
 
 
 ]
@@ -429,17 +379,25 @@ class: middle, center
 
 ---
 
+class: large
+
 # Why bother?
 
-.Large[
-
-Avoids errors in copying numerical results into a manuscript
 
 Improves reproducibility and transparency, as the origin of every single result in the paper can be examined
 
+--
+
 Makes updating a paper with new data really straightforward
 
-]
+--
+
+Citations/figure placement/cross-reference all straightforward.
+
+
+???
+
+Avoids errors in copying numerical results into a manuscript
 
 ---
 
@@ -459,16 +417,14 @@ Makes updating a paper with new data really straightforward
 
 ---
 
-# Resources
+class: large
 
-.Large[
+# Resources
 
 [R Markdown tutorial](https://rmarkdown.rstudio.com/lesson-1.html) from RStudio
 
 [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/) by 
 Yihui Xie 
-
-]
 
 ---
 
@@ -620,13 +576,13 @@ Benefits:
 
 * Official repository  
 * Strict submission process to guarantee quality
-* `install.packages("packgename")`
+* `install.packages("packagename")`
 
 **Bioconductor**
 
 * Topic specific repository, with a focus on bioinformatics  
 * Strict submission requirements, similar to CRAN
-* `BiocManager::install("GenomicFeatures")`
+* `BiocManager::install("packagename")`
 
 **GitHub**
 
@@ -648,44 +604,21 @@ Benefits:
 
 ---
 
+class: large
+
 # Wrapping up
 
-.Large[
 Final points:
 
-
-
 * Can do an awful lot with R, once you have a good grasp of the basics
-]
 
 --
 
-.Large[
-
-* There is an R package for everything ([even making memes!](https://github.com/sctyner/memer))
-]
+* There is an R package for pretty much everything you may want to do.
 
 --
-
-.Large[
 
 * Best way to learn is to find a problem you want to solve and try and use R to do so.
-]
-
---
-
-.Large[
-
-* Don't be afraid to Google!
-]
-
---
-
-.Large[
-
-* Ugly working code >> perfect broken code
-
-]
 
 ---
 
@@ -707,6 +640,30 @@ Artwork by @allison_horst
 
 ---
 
+# Why should I use R rather than STATA/SPSS/etc.
+
+R is open-source and free to use
+
+Future-proofing for a career outside academia
+
+Better interface
+
+More resources
+
+???
+
+Acknowledge that I am v.v. biased!
+
+Employers are much more likely to want R/Python that STATA
+
+However, acknowledge different learning curves with different programs.
+
+STATA is designed to get you up and running quickly, but is then limited for more complex tasks
+
+R has a steep initial learning curve, but really comes into it's own once you have a good grasp of the basics.
+
+---
+
 ## R Community
 
 Please do get in touch if I can be of help:
@@ -719,4 +676,4 @@ Luke McGuinness
 
 Slides:
 
-[https://mcguinlu.github.io/slides/intro-to-r-phd/teaching-shiny-slides.html](https://mcguinlu.github.io/slides/intro-to-r-phd/teaching-shiny-slides.html#1)
+[https://mcguinlu.github.io/slides/intro-to-r-phd/index.html](https://mcguinlu.github.io/slides/intro-to-r-phd/index.html#1)
