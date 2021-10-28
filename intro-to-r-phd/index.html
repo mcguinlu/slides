@@ -41,28 +41,34 @@ code.r.hljs.remark-code:hover {
 }
 &lt;/style&gt;
 
-# A brief intro to advanced topics
+# Intro to advanced topics
 
 
-## - Create beautiful plots with `ggplot2`
-
---
-
-## - Literate programming with `Rmarkdown`
-
---
-
-## - Build interactive apps with `shiny`
-
---
-
-## - Share your work as a package
+- Create __beautiful plots__ with `ggplot2`
 
 ???
+
+__Don't forget to introduce yourself__
+
+* NIHR DRF/PhD Student
+* Working aross the IE/BARR, primary with Julian Higgins
+* Work mainly on evidence synthesis methods
 
 Just to note that this is a jumping off point for reference. 
 
 Slides are available from the link in your folders - lots of elements in this presentation are hyper-linked, so might be worth having a look.
+
+--
+
+- __Literate programming__ with `Rmarkdown`
+
+--
+
+- Build __interactive apps__ with `shiny`
+
+--
+
+- __Share your work__ as a package
 
 ---
 
@@ -108,7 +114,7 @@ class: inverse, middle, center
 
 .Large[
 
-A package to create highly customisable publication-ready plots
+A package to create __highly customisable publication-ready plots__
 
 Key elements:
 
@@ -827,7 +833,7 @@ theme(panel.background=element_rect(fill="black")) +
 
 ---
 
-class: large
+class: Large
 
 # Virtually endless customisability
 
@@ -937,35 +943,41 @@ class: middle, center
 
 ---
 
-class: large
+class: Large
 
 # Why bother?
 
 
-Improves reproducibility and transparency, as the origin of every single result in the paper can be examined
-
---
-
-Makes updating a paper with new data really straightforward
-
---
-
-Citations/figure placement/cross-reference all straightforward.
+Improves __reproducibility__ and __transparency__, as the origin of every single result in the paper can be examined
 
 
 ???
 
 Avoids errors in copying numerical results into a manuscript
 
+--
+
+Makes a lot of tasks more straightforward:
+
+* Updating a manuscript with new __data/analyses__
+
+* __Citing__ other work 
+
+* Controlling __figure placement__
+
+???
+
+Prevents against the hell of word reshuffling everything if you move a figure
+
 ---
 
-# Things you can produce using `R Markdown`
+# Things you can produce using `RMarkdown`
 
 .Large[
 
-* Academic papers
+* Academic papers ([example](https://github.com/mcguinlu/data-availability-impact))
 
-* Theses
+* Theses ([`bristolthesis`](https://github.com/mattlee821/bristolthesis))
 
 * Supervisory reports (great if format is similar each time)
 
@@ -973,9 +985,15 @@ Avoids errors in copying numerical results into a manuscript
 
 ]
 
+???
+
+My github has examples of papers written using RMarkdown
+
+Matt Lee bristolthesis template.
+
 ---
 
-class: large
+class: Large
 
 # Resources
 
@@ -1029,15 +1047,15 @@ class: inverse, middle, center
 
 A .cb[`shiny`] app is a special type of `R` file that has three component:
 
-* .Large[.bold[User interface]]]
+* User interface
   
 --
 
-* .Large[.Large[.bold[Server]]]
+* Server
 
 --
 
-* .Large[.Large[.bold[Call to the .cb[`shinyApp`] function]]]
+* Call to the .cb[`shinyApp`]
 
 
 ???
@@ -1054,7 +1072,7 @@ Server
 
 ## How it works
 
-.Large[.bold[Essentially using a webpage rather than command line to instruct R]]
+.Large[Essentially using a __webpage__ rather than __console__ to instruct R]
 
 .center[
 &lt;img src="figs/uiserver.png" width = 600 height=420&gt;
@@ -1066,11 +1084,11 @@ Server
 
 .Large[
 
-* R has a high barrier to entry for new users
+* R has a __high barrier to entry__ for new users
 
-* Turning your script into an app and hosting it online means even those without any experience of R can explore and benefit from your work
+* Apps allow those without any experience of R to __explore__ and __benefit__ from your work
 
-* From a self-promotion point of view - the more people who can use it, the better known/cited it will be!
+* The more people who can use it, the __better known/cited__ it will be!
 
 ]
 
@@ -1080,7 +1098,7 @@ class: center, middle
 
 .Large[
 
-[Demo of LSHTM COVID Tracker App](https://vac-lshtm.shinyapps.io/ncov_tracker/)
+[Demo](https://mcguinlu.shinyapps.io/robvis/)
 
 ]
 
@@ -1090,11 +1108,11 @@ class: center, middle
 
 .Large[
 
-[`shiny` gallery](https://shiny.rstudio.com/gallery/) - collection of example apps, presented beside the code that powers them
+[`shiny` gallery](https://shiny.rstudio.com/gallery/) - collection of example apps, with the underlying R code
 
-[`shiny` cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+[`shiny` cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf) - 2-page summary of functions
 
-[`shiny contest`](https://community.rstudio.com/tag/shiny-contest) - annual competition with prizes for the most impressive/most imaginative app. Previous winners are good for learning new techniques.
+[`shiny contest`](https://community.rstudio.com/tag/shiny-contest) - annual competition with prizes for the most impressive/most imaginative app
 
 [Bristol short course on data visualisation and web applications](https://www.bristol.ac.uk/medical-school/study/short-courses/2020-21-courses/introduction-to-data-visualisation-and-web-applications-using-r/) has a half-day dedicated to building `shiny` apps
 
@@ -1116,13 +1134,13 @@ class: inverse, middle, center
 
 &lt;br&gt;
 
-Benefits:
+__Benefits:__
 
-* Reliable and universal way to share code/data
+* __Reliable__ and __universal__ way to share code/data
 
-* Makes it possible for others to cite your work 
+* Makes it possible for others to __cite your work__
 
-* Well developed testing framework - benefits your own work!
+* Well-developed __testing framework__
 
 ]
 
@@ -1161,22 +1179,55 @@ Benefits:
 ]
 
 ---
+class: Large
 
-class: large
+# Wrapping up
+
+__Common q: Why should I use R rather than STATA/SPSS/etc.__
+
+R is open-source and free to use
+
+--
+
+Better interface
+
+--
+
+More resources
+
+--
+
+Future-proofing for a career outside academia
+
+???
+
+Acknowledge that I am v.v. biased!
+
+Employers are much more likely to want R/Python that STATA
+
+However, acknowledge different learning curves with different programs.
+
+STATA is designed to get you up and running quickly, but is then limited for more complex tasks
+
+R has a steep initial learning curve, but really comes into it's own once you have a good grasp of the basics.
+
+---
+
+class: Large
 
 # Wrapping up
 
 Final points:
 
-* Can do an awful lot with R, once you have a good grasp of the basics
+* Can do a __lot with R__, once you have a good grasp of the basics
 
 --
 
-* There is an R package for pretty much everything you may want to do.
+* There is an __R package__ for pretty much everything you may want to do.
 
 --
 
-* Best way to learn is to find a problem you want to solve and try and use R to do so.
+* Best way to learn is to __find a problem__ and try to __use R to solve it__.
 
 ---
 
@@ -1195,30 +1246,6 @@ Final points:
 Artwork by @allison_horst
 
 ]
-
----
-
-# Why should I use R rather than STATA/SPSS/etc.
-
-R is open-source and free to use
-
-Future-proofing for a career outside academia
-
-Better interface
-
-More resources
-
-???
-
-Acknowledge that I am v.v. biased!
-
-Employers are much more likely to want R/Python that STATA
-
-However, acknowledge different learning curves with different programs.
-
-STATA is designed to get you up and running quickly, but is then limited for more complex tasks
-
-R has a steep initial learning curve, but really comes into it's own once you have a good grasp of the basics.
 
 ---
 
