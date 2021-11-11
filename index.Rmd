@@ -59,7 +59,8 @@ Slides for the MESS introducing `medrxivr`
 
 * [Presentation](https://mcguinlu.github.io/slides/21-04-06-IEU-medrxivr/intro-to-medrxivr.html)
 
+<br>
 
 #### Triangulation IEU presentation
 
-* [Presentation](https://mcguinlu.github.io/slides/21-11-10-IEU-triangulation/index.html)
+* [Presentation](https://mcguinlu.github.io/slides/21-10-11-IEU-triangulation/index.html)
