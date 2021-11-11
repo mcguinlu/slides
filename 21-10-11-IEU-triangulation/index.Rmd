@@ -637,11 +637,3 @@ __Proposed method:__
 1. Assess (and visualise) extent and direction of bias
 1. Define modifying terms for bias and indirectness ⚠️
 1. Perform bias-adjusted meta-analysis
-
-<br>
-
-.center[__Feedback welcome!__
-]
-
-
-
