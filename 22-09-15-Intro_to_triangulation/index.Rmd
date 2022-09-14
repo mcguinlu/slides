@@ -70,6 +70,8 @@ class: largest
 
 ## Evidence synthesis in healthcare research
 
+<br>
+
 Systematic reviews (with/without meta-analysis) considered gold standard in health care research
 
 <br>
@@ -111,11 +113,11 @@ class: largest
 
 ## Problem statement
 
-Risk of bias data is under-utilised
+__Risk of bias data is under-utilised__
 
 <br>
 
-```{r, fig.align='center',out.width='110%'}
+```{r, fig.align='center',out.width='100%'}
 
 knitr::include_graphics("figs/bias_papers.png")
 ```
@@ -152,9 +154,9 @@ Two approaches suggested:
 
 ## Simple: Stratify meta-analyses by risk of bias
 
-```{r, fig.align='center',out.width='90%'}
+```{r, fig.align='center',out.width='80%'}
 
-knitr::include_graphics("figs/ivermectin.jpg")
+knitr::include_graphics("figs/ivermectin2.png")
 
 ```
 
@@ -245,7 +247,7 @@ class: largest
 
 ## .center[Triangulation]
 
-.left-column[.center[Or <br><br> __"How I learned to stop worrying and love the ambiguity"__]]
+.left-column[.center[Or <br><br><br> __"How I learned to stop worrying and love the ambiguity"__]]
 
 ```{r, fig.align='center',out.width='70%'}
 
@@ -415,11 +417,9 @@ Proportional: changes magnitude of effect
 
 --
 
-Maps to options in risk of bias tools:
-
 ```{r, fig.align='center',out.width='80%'}
 
-knitr::include_graphics("figs/bias_direction.jpg")
+knitr::include_graphics("figs/types_of_modifiers.jpg")
 
 ```
 

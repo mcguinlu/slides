@@ -68,4 +68,4 @@ Slides for the MESS introducing `medrxivr`
 
 #### Intro to triangulation
 
-* [Presentation](https://mcguinlu.github.io/slides/22-09-15-Intro-to-triangulation/index.html)
+* [Presentation](https://mcguinlu.github.io/slides/22-09-15-Intro_to_triangulation/index.html)
