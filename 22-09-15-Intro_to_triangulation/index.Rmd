@@ -40,27 +40,16 @@ class: largest
 
 ## Overview
 
---
 
 Evidence synthesis in healthcare research 🏥
 
---
-
 Problem statement ⚠
-
---
 
 Incorporating risk-of-bias assessments into analyses ✔️❔❌
 
---
-
 Triangulating across study designs 🔺
 
---
-
 Limitations ✋
-
---
 
 Takeaways 🔭
 
@@ -160,7 +149,7 @@ Risk of bias data is __under-utilized__ in systematic reviews
 
 ```{r, fig.align='center',out.width='100%'}
 
-knitr::include_graphics("figs/bias_papers.png")
+knitr::include_graphics("figs/bias_papers2.png")
 ```
 
 ???
@@ -291,7 +280,7 @@ Bias-adjusted meta-analysis
 
 =
 
-Quantitative triangulation?
+Triangulation?
 ]
 
 ???
@@ -380,6 +369,8 @@ class: largest
 ## Step 3a: Assess extent and direction of bias
 
 Use domain-based tools to assess bias in __each numerical result__
+
+<br>
 
 Assess both **extent** and **direction** of bias
 
@@ -487,6 +478,24 @@ knitr::include_graphics("figs/biama_1.png")
 
 ---
 
+## Case study: Cholesterol (LDL) on Alzheimer's risk
+
+```{r, fig.align='center',out.width='80%'}
+knitr::include_graphics("figs/biama_2.png")
+```
+
+---
+
+## Step 3b: Visualise the extent and direction of bias
+
+```{r, fig.align='center',out.width='80%'}
+
+knitr::include_graphics("figs/triangulation_example_LDL_AD_highlight.png")
+
+```
+
+---
+
 class: largest
 
 ## Embrace the ambiguity (_AKA_ Limitations)
@@ -535,11 +544,17 @@ class: largest
 
 Meta-epidemiological studies of __impact of bias__ on effect estimate
 
+```{r, fig.align='center',out.width='90%'}
+
+knitr::include_graphics("figs/blinding_paper.jpg")
+
+```
+
 --
 
-Will require careful design for each risk-of-bias domain 
+<br>
 
-__Example:__ text-mining to compare unadjusted and fully-adjusted results to obtain impact of insufficient control of confounding
+But not available for all study types/domains of bias
 
 ---
 
@@ -547,7 +562,7 @@ class: largest
 
 ## Takeaways
 
-Triangulation = extension of evidence synthesis
+Triangulation __=__ extension of evidence synthesis
 
 ???
 
@@ -559,7 +574,10 @@ Base triangulation on systematic review - try to fill in gaps with new evidence
 
 --
 
-Predicting __extent and direction of bias__ can be difficult
+Challenging to accurately define:
+
+* extent and direction of bias
+* modifying distributions for each level of bias
 
 ???
 
@@ -569,13 +587,9 @@ Give example of different effect confounders working against each other
 
 --
 
-Substantial further work needed to define __reasonable modifying distributions__ for bias terms
-
---
-
 <br>
 
-.center[**Need to move away from treating results included in a meta-analysis as if they were unbiased**]
+.center[**BUT need to move away from treating results included in a meta-analysis as if they were unbiased**]
 
 ---
 
@@ -583,7 +597,7 @@ class: largest
 
 ## Summary
 
-__Proposed method:__
+__Proposed triangulation method:__
 1. Define causal question
 1. Identify related evidence
 1. Assess (and visualise) extent and direction of bias
