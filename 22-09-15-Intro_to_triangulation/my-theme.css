@@ -13,6 +13,14 @@ code {
   color: darkred;
 }
 
+.red {
+  color: black;
+}
+
+.grey{
+  color: lightgrey;
+}
+
 .remark-slide-content {
   color: #474747;
   font-weight: 300;
