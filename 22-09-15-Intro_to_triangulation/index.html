@@ -84,27 +84,57 @@ Systematic reviews (with/without meta-analysis) considered gold standard in heal
 
 ???
 
-Two things to know about:
-- Forest plots
-- Risk of bias tools
-
----
-
-## Introduction to forest plots (or blobbograms)
+Going to focus on two areas:
+- Critical assessment/appraisals
+- Synthesis of results
 
 ---
 
 class: largest
 
-## Domain-based risk of bias tools
+## Evidence synthesis in healthcare research
 
-ROB 2 for randomised controlled trials:
+&lt;br&gt;
 
+Systematic reviews (with/without meta-analysis) considered gold standard in health care research
+
+&lt;br&gt;
+
+&lt;img src="figs/steps_in_review_2.png" width="110%" style="display: block; margin: auto;" /&gt;
+
+.footer[https://kib.ki.se/en/search-evaluate/systematic-reviews]
+
+
+---
+
+class: largest
+
+## Critical assessment/appraisal tools
+
+E.g. ROB 2 for randomised controlled trials:
+
+.larger[
 1. bias arising from the __randomization__ process;
 1. bias due to __deviations__ from __intended interventions__;
 1. bias due to __missing outcome data__;
 1. bias in __measurement of the outcome__;
 1. bias in __selection__ of the __reported result__.
+]
+
+--
+
+&lt;img src="figs/single_rob.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Meta-analysis (via forest plot)
+
+
+&lt;img src="figs/simple_ma.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+???
+
+Meta-analysis
 
 ---
 
@@ -269,7 +299,7 @@ class: largest
 
 ## Step 1: Define causal question of interest
 
-__Case study:__ effect of LDL-c on Alzheimer's disease risk
+__Case study:__ effect of LDL-c ("bad cholesterol") on Alzheimer's disease risk
 
 *	_Population of interest_: __General population__
 *	_Exposure of interest_: __Cholesterol__
@@ -306,7 +336,7 @@ class: largest
 
 Use domain-based tools to assess bias in __each numerical result__
 
-Assess both extent and direction of bias
+Assess both **extent** and **direction** of bias
 
 &lt;img src="figs/bias_direction.jpg" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -341,21 +371,25 @@ While this is not as important for the proposed quantitative method, as it is st
 
 class: larger
 
-## Step 4: Define modifying terms (bias and indirectness)
+## Step 4a: Define modifying terms (bias)
 
-Each level of bias assigned mean + variance 
+Each level of bias (high, moderate, low) gets a distribution:
 
-E.g. high (red) mean = 0.2, moderate (yellow) mean = 0.1 
+.center[
+| **Bias level** | **Modifying distributions** |
+|----------------|-----------------------------|
+| Low            |              -              |
+| Moderate       |         N(0.1, 0.05)        |
+| High           |         N(0.2, 0.09)        |
+]
 
-Sign is determined by predicted direction
-
-&lt;img src="figs/competing_directions.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 &lt;br&gt;
 
-Adjusted point estimate = 0.91 + 0.2 + 0.2 - 0.1 + 0.1 = 1.31
+Mean is used to adjust point estimate, while variance is used to reduce precision
 
-Variances of each bias are then used to reduce precision of estimate
+&lt;img src="figs/competing_directions.png" width="80%" style="display: block; margin: auto;" /&gt;
+
 
 ???
 Variance of each bias is used to reduce precision of effect estimate
@@ -374,54 +408,33 @@ How do we know these
 
 class: largest
 
-## Step 4: Define modifying terms (bias and indirectness)
-
-Modifying terms can be __additive__ or __proportional__
-
-
-
-
-???
-
-Example on previous page is simple one - all additive biases
-
-Additive: shifts effect up/down. Can induce inverse effect
-
-Proportional: changes magnitude of effect
-
---
-
-&lt;img src="figs/types_of_modifiers.jpg" width="80%" style="display: block; margin: auto;" /&gt;
-
-???
-
-Favours comparator/experiment -&gt; additive bias
-
-Towards/ away from null -&gt; proportional bias
-
---
-
-Apply similar approach to __indirectness__
-
-???
-
-Downweighting less-relevant studies. 
-
----
-
-class: largest
-
 ## Step 5: Preform bias-adjusted meta-analyses
 
-* Calculate bias adjusted estimates for each study
+* Calculate bias-adjusted estimate for each result
 
 * Combine in a standard random-effects meta-analysis
 
 ---
 
+## Case study: Cholesterol (LDL) on Alzheimer's risk
+
+&lt;img src="figs/biama_0.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Case study: Cholesterol (LDL) on Alzheimer's risk
+
+&lt;img src="figs/biama_1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
 class: largest
 
-## Assumptions
+## Embrace the ambiguity
+
+How do we know...
+
+* Risk-of-bias assessments are **accurate**?
 
 ???
 
@@ -429,7 +442,7 @@ I haven't presented results of the bias-adjusted analyses, because it's meant to
 
 --
 
-Direction of bias is __predictable__
+* Direction of bias is __predictable__?
 
 ???
 
@@ -437,7 +450,7 @@ Often not the case
 
 --
 
-Impact of bias is __equal across domains__
+* Impact of bias is __equal across domains__?
 
 ???
 
@@ -447,9 +460,7 @@ However, this might not be true
 
 --
 
-Modifying values assigned to bias and indirectness are __accurate__
-
-&lt;img src="figs/competing_directions.png" width="80%" style="display: block; margin: auto;" /&gt;
+* Modifying values assigned to bias are __accurate__?
 
 ???
 
@@ -461,7 +472,7 @@ How should the relationship between them be modelled?
 
 class: largest
 
-## Identifying informative priors
+## Identifying informative modifying distibutions
 
 Meta-epidemiological studies of __impact of bias__ uncommon for NRS
 
@@ -495,7 +506,7 @@ Base triangulation on systematic review - try to fill in gaps with new evidence
 
 --
 
-Predicting __direction of bias__ in domains can be difficult
+Predicting __extent and direction of bias__ can be difficult
 
 ???
 
@@ -505,47 +516,9 @@ Give example of different effect confounders working against each other
 
 --
 
-Substantial further work needed to define __reasonable priors__ for bias/indirectness terms
+Substantial further work needed to define __reasonable modifying distributions__ for bias terms
 
 ???
-
----
-
-class: largest
-
-## Projects outputs
-
-Generalised tools to:
-
-* produce the bias direction plots (`robvis`)
-* perform the bias-adjusted triangulation (`triangulate`)
-
-???
-
-In contrast to previous example-specific code, I've developed a generalised method for conducting these analyses
-
-Allows flexibility in terms of 
-* Number of domains of bias (e.g. Risk of bias vs )
-* Different prior for each domain
-
---
-
-&lt;br&gt;
-
-Example dataset for use with future methods
-
-&lt;img src="figs/example_data.jpg" width="80%" style="display: block; margin: auto;" /&gt;
-
-???
-
-Will enable rapid testing of new methods
-
-&lt;!-- --- --&gt;
-
-&lt;!-- ## Future work: --&gt;
-
-&lt;!-- * Sensitivity analyses exploring the relationships between bias-levels --&gt;
-&lt;!-- *  --&gt;
 
 ---
 

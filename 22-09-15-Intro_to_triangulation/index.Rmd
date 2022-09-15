@@ -85,27 +85,66 @@ knitr::include_graphics("figs/steps_in_review.png")
 
 ???
 
-Two things to know about:
-- Forest plots
-- Risk of bias tools
-
----
-
-## Introduction to forest plots (or blobbograms)
+Going to focus on two areas:
+- Critical assessment/appraisals
+- Synthesis of results
 
 ---
 
 class: largest
 
-## Domain-based risk of bias tools
+## Evidence synthesis in healthcare research
 
-ROB 2 for randomised controlled trials:
+<br>
 
+Systematic reviews (with/without meta-analysis) considered gold standard in health care research
+
+<br>
+
+```{r, fig.align='center',out.width='110%'}
+
+knitr::include_graphics("figs/steps_in_review_2.png")
+```
+
+.footer[https://kib.ki.se/en/search-evaluate/systematic-reviews]
+
+
+---
+
+class: largest
+
+## Critical assessment/appraisal tools
+
+E.g. ROB 2 for randomised controlled trials:
+
+.larger[
 1. bias arising from the __randomization__ process;
 1. bias due to __deviations__ from __intended interventions__;
 1. bias due to __missing outcome data__;
 1. bias in __measurement of the outcome__;
 1. bias in __selection__ of the __reported result__.
+]
+
+--
+
+```{r, fig.align='center',out.width='70%'}
+
+knitr::include_graphics("figs/single_rob.png")
+```
+
+---
+
+## Meta-analysis (via forest plot)
+
+
+```{r, fig.align='center',out.width='70%'}
+
+knitr::include_graphics("figs/simple_ma.png")
+```
+
+???
+
+Meta-analysis
 
 ---
 
@@ -281,7 +320,7 @@ class: largest
 
 ## Step 1: Define causal question of interest
 
-__Case study:__ effect of LDL-c on Alzheimer's disease risk
+__Case study:__ effect of LDL-c ("bad cholesterol") on Alzheimer's disease risk
 
 *	_Population of interest_: __General population__
 *	_Exposure of interest_: __Cholesterol__
@@ -322,7 +361,7 @@ class: largest
 
 Use domain-based tools to assess bias in __each numerical result__
 
-Assess both extent and direction of bias
+Assess both **extent** and **direction** of bias
 
 ```{r, fig.align='center',out.width='80%'}
 
@@ -365,23 +404,27 @@ While this is not as important for the proposed quantitative method, as it is st
 
 class: larger
 
-## Step 4: Define modifying terms (bias and indirectness)
+## Step 4a: Define modifying terms (bias)
 
-Each level of bias assigned mean + variance 
+Each level of bias (high, moderate, low) gets a distribution:
 
-E.g. high (red) mean = 0.2, moderate (yellow) mean = 0.1 
+.center[
+| **Bias level** | **Modifying distributions** |
+|----------------|-----------------------------|
+| Low            |              -              |
+| Moderate       |         N(0.1, 0.05)        |
+| High           |         N(0.2, 0.09)        |
+]
 
-Sign is determined by predicted direction
+
+<br>
+
+Mean is used to adjust point estimate, while variance is used to reduce precision
 
 ```{r, fig.align='center',out.width='80%'}
 knitr::include_graphics("figs/competing_directions.png")
 ```
 
-<br>
-
-Adjusted point estimate = 0.91 + 0.2 + 0.2 - 0.1 + 0.1 = 1.31
-
-Variances of each bias are then used to reduce precision of estimate
 
 ???
 Variance of each bias is used to reduce precision of effect estimate
@@ -400,58 +443,37 @@ How do we know these
 
 class: largest
 
-## Step 4: Define modifying terms (bias and indirectness)
-
-Modifying terms can be __additive__ or __proportional__
-
-
-
-
-???
-
-Example on previous page is simple one - all additive biases
-
-Additive: shifts effect up/down. Can induce inverse effect
-
-Proportional: changes magnitude of effect
-
---
-
-```{r, fig.align='center',out.width='80%'}
-
-knitr::include_graphics("figs/types_of_modifiers.jpg")
-
-```
-
-???
-
-Favours comparator/experiment -> additive bias
-
-Towards/ away from null -> proportional bias
-
---
-
-Apply similar approach to __indirectness__
-
-???
-
-Downweighting less-relevant studies. 
-
----
-
-class: largest
-
 ## Step 5: Preform bias-adjusted meta-analyses
 
-* Calculate bias adjusted estimates for each study
+* Calculate bias-adjusted estimate for each result
 
 * Combine in a standard random-effects meta-analysis
 
 ---
 
+## Case study: Cholesterol (LDL) on Alzheimer's risk
+
+```{r, fig.align='center',out.width='80%'}
+knitr::include_graphics("figs/biama_0.png")
+```
+
+---
+
+## Case study: Cholesterol (LDL) on Alzheimer's risk
+
+```{r, fig.align='center',out.width='80%'}
+knitr::include_graphics("figs/biama_1.png")
+```
+
+---
+
 class: largest
 
-## Assumptions
+## Embrace the ambiguity
+
+How do we know...
+
+* Risk-of-bias assessments are **accurate**?
 
 ???
 
@@ -459,7 +481,7 @@ I haven't presented results of the bias-adjusted analyses, because it's meant to
 
 --
 
-Direction of bias is __predictable__
+* Direction of bias is __predictable__?
 
 ???
 
@@ -467,7 +489,7 @@ Often not the case
 
 --
 
-Impact of bias is __equal across domains__
+* Impact of bias is __equal across domains__?
 
 ???
 
@@ -477,13 +499,7 @@ However, this might not be true
 
 --
 
-Modifying values assigned to bias and indirectness are __accurate__
-
-```{r, fig.align='center',out.width='80%'}
-
-knitr::include_graphics("figs/competing_directions.png")
-
-```
+* Modifying values assigned to bias are __accurate__?
 
 ???
 
@@ -495,7 +511,7 @@ How should the relationship between them be modelled?
 
 class: largest
 
-## Identifying informative priors
+## Identifying informative modifying distibutions
 
 Meta-epidemiological studies of __impact of bias__ uncommon for NRS
 
@@ -529,7 +545,7 @@ Base triangulation on systematic review - try to fill in gaps with new evidence
 
 --
 
-Predicting __direction of bias__ in domains can be difficult
+Predicting __extent and direction of bias__ can be difficult
 
 ???
 
@@ -539,51 +555,9 @@ Give example of different effect confounders working against each other
 
 --
 
-Substantial further work needed to define __reasonable priors__ for bias/indirectness terms
+Substantial further work needed to define __reasonable modifying distributions__ for bias terms
 
 ???
-
----
-
-class: largest
-
-## Projects outputs
-
-Generalised tools to:
-
-* produce the bias direction plots (`robvis`)
-* perform the bias-adjusted triangulation (`triangulate`)
-
-???
-
-In contrast to previous example-specific code, I've developed a generalised method for conducting these analyses
-
-Allows flexibility in terms of 
-* Number of domains of bias (e.g. Risk of bias vs )
-* Different prior for each domain
-
---
-
-<br>
-
-Example dataset for use with future methods
-
-```{r, fig.align='center',out.width='80%'}
-
-knitr::include_graphics("figs/example_data.jpg")
-
-```
-
-???
-
-Will enable rapid testing of new methods
-
-<!-- --- -->
-
-<!-- ## Future work: -->
-
-<!-- * Sensitivity analyses exploring the relationships between bias-levels -->
-<!-- *  -->
 
 ---
 
